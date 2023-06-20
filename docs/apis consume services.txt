@@ -1,0 +1,49 @@
+auth api:
+
+	admin & customer service:
+	- register (customer)
+	- login (admin/customer)
+
+admin api:
+
+	admin service:
+	- get admins
+	- add admin
+	- update admin
+	- delete admin
+
+	customer service:
+	- get customers
+
+	notification service:
+	- get notifications (admin)
+	- add notification (customer)
+
+	product service:
+	- get products
+	- add product
+	- update product
+	- delete product
+	- produce product
+
+	order service:
+	- get all orders
+
+customer api:
+
+	customer service:
+	- get customer
+	- update customer
+	- delete customer
+
+	notification service:
+	- get notifications (customer)
+
+	product service:
+	- get products
+
+	order service:
+	- get customer's orders
+	- add order
+	- cancel order
+

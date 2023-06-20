@@ -1,0 +1,31 @@
+admin service:
+- crud admins
+
+customer service:
+- crud customers
+- crud customer addresses
+- inc/dec customer points
+
+notification service:
+- get notifications (admin/customer)
+- add notification (admin/customer)
+
+product service:
+- crud products
+- produce product
+- take product
+
+order service:
+- get all orders
+- get customer's orders
+- add order
+- cancel order
+- update order status
+
+payment service:
+- process customer payment
+- refund customer payment
+
+delivery service:
+- process delivery
+

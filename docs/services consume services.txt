@@ -1,0 +1,27 @@
+admin service:
+
+customer service:
+
+notification service:
+
+product service:
+
+order service:
+
+	notification service:
+	- add notification (admin/customer)
+
+	product service:
+	- take product
+
+	payment service:
+	- process customer payment
+	- refund customer payment
+
+	delivery service:
+	- process delivery
+
+payment service:
+
+delivery service:
+

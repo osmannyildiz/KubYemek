@@ -1,0 +1,17 @@
+all:
+- typescript
+
+frontends:
+- nextjs
+- bootstrap
+
+apis:
+- express
+- cors
+- jwt
+
+services:
+- express
+- prisma
+- agenda
+

@@ -1,0 +1,15 @@
+admin:
+- admin added
+- admin updated
+- admin deleted
+- customer deleted
+- product has low stock
+- order delivery failed
+
+customer:
+- order payment failed
+- order in delivery
+- order delivery failed
+- order fulfilled
+- refund fulfilled
+
