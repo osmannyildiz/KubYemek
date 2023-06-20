@@ -1,7 +1,7 @@
-export default function HomePage() {
+export default function NotificationsPage() {
 	return (
 		<>
-			<h1>Ana Sayfa</h1>
+			<h1>Bildirimler</h1>
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi est quasi
 				nostrum quisquam iste, explicabo quis suscipit iure saepe odio nobis sit
