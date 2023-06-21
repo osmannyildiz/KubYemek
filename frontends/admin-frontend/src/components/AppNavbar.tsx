@@ -7,7 +7,9 @@ export default function AppNavbar() {
 	return (
 		<Navbar bg="primary" variant="dark">
 			<Container fluid>
-				<Navbar.Brand href="#home">KubYemek Yönetim Paneli</Navbar.Brand>
+				<Navbar.Brand>
+					<strong>KubYemek</strong> Yönetim Paneli
+				</Navbar.Brand>
 				<Nav>
 					<Nav.Link as={Link} href="/">
 						Ana Sayfa
