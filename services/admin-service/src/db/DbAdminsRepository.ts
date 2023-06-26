@@ -1,8 +1,8 @@
-import { DbTableRepositoryBase } from "../../lib/dbpkg/repository";
-import type { DbconnGetter } from "../../lib/dbpkg/types";
-import type { DbAdmin } from "../models/db/DbAdmin";
+import { Admin_Private } from "@core/common/models/entity/backend";
+import { DbTableRepositoryBase } from "@core/services/lib/dbpkg/repository";
+import type { DbconnGetter } from "@core/services/lib/dbpkg/types";
 
-export class DbAdminsRepository extends DbTableRepositoryBase<DbAdmin> {
+export class DbAdminsRepository extends DbTableRepositoryBase<Admin_Private> {
 	constructor(getDbconn: DbconnGetter) {
 		super("admins", getDbconn);
 	}

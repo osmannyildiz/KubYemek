@@ -1,40 +1,82 @@
+import { db } from "@/db";
+import { ErrorType } from "@core/common/models/errors";
+import {
+	HttpBadRequestResponse,
+	HttpCreatedResponse,
+	HttpNotFoundResponse,
+	HttpOkResponse,
+} from "@core/common/models/httpResponse";
+import { sendHttpResp } from "@core/common/utils";
+import {
+	ServiceAddAdminRequestBody,
+	ServiceUpdateAdminRequestBody,
+} from "@core/services/models/requestBody";
+import {
+	ServiceAddAdminResponseBody,
+	ServiceDeleteAdminResponseBody,
+	ServiceErrorResponseBody,
+	ServiceGetAdminResponseBody,
+	ServiceGetAdminsResponseBody,
+	ServiceSuccessResponseBody,
+	ServiceUpdateAdminResponseBody,
+} from "@core/services/models/responseBody";
+import { generateSetClauseAndValuesForDbUpdate } from "@core/services/utils";
 import type { RequestHandler } from "express";
-import { db } from "../db";
-import { DbAdmin } from "../models/db/DbAdmin";
-import { AddAdminRequestBody } from "../models/requestBody/admins/AddAdminRequestBody";
-import { UpdateAdminRequestBody } from "../models/requestBody/admins/UpdateAdminRequestBody";
-import { generateSetClauseAndValuesForDbUpdate } from "../utils";
 
 export const getAdmins: RequestHandler<
 	undefined,
-	DbAdmin[],
+	ServiceGetAdminsResponseBody,
+	undefined,
 	undefined
 > = async (req, res) => {
 	const adminRepo = db.admins();
 
 	const admins = await adminRepo.getAll();
-	return res.json(admins);
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ServiceSuccessResponseBody(admins))
+	);
 };
 
 export const addAdmin: RequestHandler<
 	undefined,
-	undefined,
-	AddAdminRequestBody
+	ServiceAddAdminResponseBody,
+	ServiceAddAdminRequestBody,
+	undefined
 > = async (req, res) => {
 	const { email, password } = req.body;
 	const adminRepo = db.admins();
 
 	if (!email || !password) {
-		return res.sendStatus(400);
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.requiredFieldEmpty)
+			)
+		);
+	}
+
+	const existingAdmin = await adminRepo.getOne("email=?", [email]);
+	if (existingAdmin) {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.emailAlreadyExists)
+			)
+		);
 	}
 
 	await adminRepo.insert(email, password);
-	return res.sendStatus(201);
+	return sendHttpResp(
+		res,
+		new HttpCreatedResponse(new ServiceSuccessResponseBody())
+	);
 };
 
 export const getAdmin: RequestHandler<
 	{ adminId: string },
-	DbAdmin,
+	ServiceGetAdminResponseBody,
+	undefined,
 	undefined
 > = async (req, res) => {
 	const { adminId } = req.params;
@@ -42,16 +84,23 @@ export const getAdmin: RequestHandler<
 
 	const admin = await adminRepo.getById(+adminId);
 	if (!admin) {
-		return res.sendStatus(404);
+		return sendHttpResp(
+			res,
+			new HttpNotFoundResponse(new ServiceErrorResponseBody(ErrorType.notFound))
+		);
 	}
 
-	return res.json(admin);
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ServiceSuccessResponseBody(admin))
+	);
 };
 
 export const updateAdmin: RequestHandler<
 	{ adminId: string },
-	undefined,
-	UpdateAdminRequestBody
+	ServiceUpdateAdminResponseBody,
+	ServiceUpdateAdminRequestBody,
+	undefined
 > = async (req, res) => {
 	const { adminId } = req.params;
 	const adminRepo = db.admins();
@@ -61,11 +110,15 @@ export const updateAdmin: RequestHandler<
 		"id=?",
 		[adminId]
 	);
-	return res.sendStatus(200);
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ServiceSuccessResponseBody())
+	);
 };
 
 export const deleteAdmin: RequestHandler<
 	{ adminId: string },
+	ServiceDeleteAdminResponseBody,
 	undefined,
 	undefined
 > = async (req, res) => {
@@ -73,5 +126,8 @@ export const deleteAdmin: RequestHandler<
 	const adminRepo = db.admins();
 
 	await adminRepo.deleteById(+adminId);
-	return res.sendStatus(200);
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ServiceSuccessResponseBody())
+	);
 };

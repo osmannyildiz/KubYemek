@@ -12,7 +12,7 @@
 		"declarationMap": true,
 		"incremental": true,
 		"paths": {
-			"@/*": ["./src/*"]
+			"@core/*": ["./src/*"]
 		}
 	},
 	"references": [],

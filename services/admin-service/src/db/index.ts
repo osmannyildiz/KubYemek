@@ -1,5 +1,5 @@
-import { CONFIG } from "../config";
-import { MysqlDbconnFactory } from "./../../lib/dbpkg/databases/mysql";
+import { CONFIG } from "@/config";
+import { MysqlDbconnFactory } from "@core/services/lib/dbpkg/databases/mysql";
 import { DbAdminsRepository } from "./DbAdminsRepository";
 
 export const dbconnFactory = new MysqlDbconnFactory({

@@ -5,8 +5,8 @@ dependencies:
     specifier: ^4.18.2
     version: 4.18.2
   mysql2:
-    specifier: ^3.4.0
-    version: 3.4.0
+    specifier: ^3.4.1
+    version: 3.4.1
 
 devDependencies:
   '@types/express':
@@ -599,8 +599,8 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  /mysql2@3.4.0:
-    resolution: {integrity: sha512-l952dVcdWVfEIIxMQ1PNSPHYY2htylG7H9ahrQe9lIgDpEMg3hB0S88OhC/loNSZpV8OcywSjgOzjSjEUiuwiQ==}
+  /mysql2@3.4.1:
+    resolution: {integrity: sha512-1VBrTIjDacTgcQ3/jUnMlix7twU3VfQtlAcBFPn5524AnBZcENRnpmdFt6oZaiYu4yGkAWXu0InNMg/LQs4daQ==}
     engines: {node: '>= 8.0'}
     dependencies:
       denque: 2.1.0

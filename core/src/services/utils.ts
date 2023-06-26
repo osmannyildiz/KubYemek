@@ -1,11 +1,9 @@
-import { Value } from "../lib/dbpkg/types";
-import { UpdateEntityRequestBody } from "./models/requestBody/UpdateEntityRequestBody";
-
-export const snakeToCamel = (str: string) =>
-	str.replace(/([_][a-z])/g, (group) => group.replace("_", "").toUpperCase());
+import { snakeToCamel } from "@core/common/utils";
+import { Value } from "@core/services/lib/dbpkg/types";
+import { ServiceUpdateEntityRequestBody } from "@core/services/models/requestBody";
 
 export const generateSetClauseAndValuesForDbUpdate = (
-	updates: UpdateEntityRequestBody
+	updates: ServiceUpdateEntityRequestBody
 ): [string, Value[]] => {
 	let setClause = "";
 	const setValues: Value[] = [];
