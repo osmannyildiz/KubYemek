@@ -9,6 +9,10 @@ import {
 	ApiSuccessResponseBody,
 	ApiUpdateAdminResponseBody,
 } from "@core/apis/models/responseBody";
+import {
+	ApiDeleteAdminResponseBody,
+	ApiGetAdminResponseBody,
+} from "@core/apis/models/responseBody/admins";
 import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ErrorType } from "@core/common/models/errors";
 import {
@@ -20,6 +24,8 @@ import {
 import { sendHttpResp } from "@core/common/utils";
 import {
 	ServiceAddAdminResponseBody,
+	ServiceDeleteAdminResponseBody,
+	ServiceGetAdminResponseBody,
 	ServiceGetAdminsResponseBody,
 	ServiceUpdateAdminResponseBody,
 } from "@core/services/models/responseBody";
@@ -32,6 +38,7 @@ export const getAdmins: RequestHandler<
 	undefined,
 	undefined
 > = async (req, res) => {
+	let admins;
 	try {
 		const resp = await fetch("http://localhost:8000/admins");
 		const respBody: ServiceGetAdminsResponseBody = await resp.json();
@@ -40,16 +47,12 @@ export const getAdmins: RequestHandler<
 			return sendHttpResp(
 				res,
 				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(respBody.type)
+					new ApiErrorResponseBody(respBody.errorType)
 				)
 			);
 		}
 
-		const admins = respBody.data;
-		return sendHttpResp(
-			res,
-			new HttpOkResponse(new ApiSuccessResponseBody(admins))
-		);
+		admins = respBody.data;
 	} catch (error) {
 		return sendHttpResp(
 			res,
@@ -58,6 +61,11 @@ export const getAdmins: RequestHandler<
 			)
 		);
 	}
+
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ApiSuccessResponseBody(admins))
+	);
 };
 
 export const addAdmin: RequestHandler<
@@ -91,15 +99,10 @@ export const addAdmin: RequestHandler<
 			return sendHttpResp(
 				res,
 				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(respBody.type)
+					new ApiErrorResponseBody(respBody.errorType)
 				)
 			);
 		}
-
-		return sendHttpResp(
-			res,
-			new HttpCreatedResponse(new ApiSuccessResponseBody())
-		);
 	} catch (error) {
 		return sendHttpResp(
 			res,
@@ -108,6 +111,49 @@ export const addAdmin: RequestHandler<
 			)
 		);
 	}
+
+	return sendHttpResp(
+		res,
+		new HttpCreatedResponse(new ApiSuccessResponseBody(undefined))
+	);
+};
+
+export const getAdmin: RequestHandler<
+	{ adminId: string },
+	ApiGetAdminResponseBody,
+	undefined,
+	undefined
+> = async (req, res) => {
+	const { adminId } = req.params;
+
+	let admin;
+	try {
+		const resp = await fetch(`http://localhost:8000/admins/${adminId}`);
+		const respBody: ServiceGetAdminResponseBody = await resp.json();
+
+		if (serviceRespBodyIsNotOk(respBody)) {
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ApiErrorResponseBody(respBody.errorType)
+				)
+			);
+		}
+
+		admin = respBody.data;
+	} catch (error) {
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ApiErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ApiSuccessResponseBody(admin))
+	);
 };
 
 export const updateAdmin: RequestHandler<
@@ -132,12 +178,10 @@ export const updateAdmin: RequestHandler<
 			return sendHttpResp(
 				res,
 				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(respBody.type)
+					new ApiErrorResponseBody(respBody.errorType)
 				)
 			);
 		}
-
-		return sendHttpResp(res, new HttpOkResponse(new ApiSuccessResponseBody()));
 	} catch (error) {
 		return sendHttpResp(
 			res,
@@ -146,4 +190,47 @@ export const updateAdmin: RequestHandler<
 			)
 		);
 	}
+
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ApiSuccessResponseBody(undefined))
+	);
+};
+
+export const deleteAdmin: RequestHandler<
+	{ adminId: string },
+	ApiDeleteAdminResponseBody,
+	undefined,
+	undefined
+> = async (req, res) => {
+	const { adminId } = req.params;
+
+	let admin;
+	try {
+		const resp = await fetch(`http://localhost:8000/admins/${adminId}`, {
+			method: "DELETE",
+		});
+		const respBody: ServiceDeleteAdminResponseBody = await resp.json();
+
+		if (serviceRespBodyIsNotOk(respBody)) {
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ApiErrorResponseBody(respBody.errorType)
+				)
+			);
+		}
+	} catch (error) {
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ApiErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ApiSuccessResponseBody(undefined))
+	);
 };

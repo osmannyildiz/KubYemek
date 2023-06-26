@@ -4,9 +4,10 @@ import EntityDeleteModal from "@/components/form/EntityDeleteModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import AppPage from "@/components/layout/AppPage";
 import { getAdmins } from "@/query/fetchers/admins";
-import { addAdmin, updateAdmin } from "@/query/mutations/admins";
+import { addAdmin, deleteAdmin, updateAdmin } from "@/query/mutations/admins";
 import { Admin } from "@core/common/models/entity/frontend";
-import { apiRespBodyIsNotOk } from "@core/frontends/utils";
+import { ErrorType } from "@core/common/models/errors";
+import { apiRespBodyIsNotOk, getErrMsg } from "@core/frontends/utils";
 import { mdiLoading } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
@@ -18,6 +19,7 @@ export default function AdminsPage() {
 	const adminsQuery = useQuery("admins", getAdmins);
 	const addAdminMutation = useMutation("addAdmin", addAdmin);
 	const updateAdminMutation = useMutation("updateAdmin", updateAdmin);
+	const deleteAdminMutation = useMutation("deleteAdmin", deleteAdmin);
 
 	const [showAdminAddForm, setShowAdminAddForm] = useState(false);
 	const [adminToEdit, setAdminToEdit] = useState<Admin | undefined>();
@@ -26,6 +28,9 @@ export default function AdminsPage() {
 		string | undefined
 	>();
 	const [adminEditFormError, setAdminEditFormError] = useState<
+		string | undefined
+	>();
+	const [adminDeleteModalError, setAdminDeleteModalError] = useState<
 		string | undefined
 	>();
 
@@ -38,25 +43,27 @@ export default function AdminsPage() {
 		const passwordRepeat = formData.get("passwordRepeat");
 
 		if (!email || !password || !passwordRepeat) {
-			setAdminAddFormError("Lütfen tüm zorunlu alanları doldurun.");
+			setAdminAddFormError(getErrMsg(ErrorType.requiredFieldEmpty));
 			return;
 		}
 
 		if (password.length < 6) {
-			setAdminAddFormError("Şifre en az 6 karakter uzunluğunda olmalıdır.");
+			setAdminAddFormError(
+				getErrMsg(ErrorType.passwordShouldSatisfyMinimumLength)
+			);
 			return;
 		}
 
 		if (password !== passwordRepeat) {
-			setAdminAddFormError("Girilen şifreler uyuşmuyor.");
+			setAdminAddFormError(getErrMsg(ErrorType.passwordsDoNotMatch));
 			return;
 		}
 
 		try {
 			const respData = await addAdminMutation.mutateAsync({
 				body: {
-					email: email as string,
-					password: password as string,
+					email: email.toString(),
+					password: password.toString(),
 				},
 			});
 
@@ -68,34 +75,38 @@ export default function AdminsPage() {
 			queryClient.invalidateQueries("admins");
 			closeAdminAddForm();
 		} catch (error: any) {
-			setAdminAddFormError(error?.message || "Beklenmedik bir hata oluştu.");
+			setAdminAddFormError(error?.message || getErrMsg(ErrorType.default));
 		}
 	};
 
 	const handleAdminEditFormSubmit = async (
 		event: React.FormEvent<HTMLFormElement>
 	) => {
+		if (!adminToEdit) return;
+
 		const formData = new FormData(event.target as HTMLFormElement);
 		const email = formData.get("email");
 		const password = formData.get("password");
 		const passwordRepeat = formData.get("passwordRepeat");
 
 		if (password && password.length < 6) {
-			setAdminEditFormError("Şifre en az 6 karakter uzunluğunda olmalıdır.");
+			setAdminAddFormError(
+				getErrMsg(ErrorType.passwordShouldSatisfyMinimumLength)
+			);
 			return;
 		}
 
 		if (password && password !== passwordRepeat) {
-			setAdminEditFormError("Girilen şifreler uyuşmuyor.");
+			setAdminAddFormError(getErrMsg(ErrorType.passwordsDoNotMatch));
 			return;
 		}
 
 		try {
 			const respData = await updateAdminMutation.mutateAsync({
-				id: +adminToEdit!.id,
+				id: +adminToEdit.id,
 				body: {
-					email: email as string,
-					password: password as string,
+					email: email?.toString(),
+					password: password?.toString(),
 				},
 			});
 
@@ -107,12 +118,28 @@ export default function AdminsPage() {
 			queryClient.invalidateQueries("admins");
 			closeAdminEditForm();
 		} catch (error: any) {
-			setAdminEditFormError(error?.message || "Beklenmedik bir hata oluştu.");
+			setAdminEditFormError(error?.message || getErrMsg(ErrorType.default));
 		}
 	};
 
-	const handleAdminDeleteModalConfirm = () => {
-		setAdminToDelete(undefined);
+	const handleAdminDeleteModalConfirm = async () => {
+		if (!adminToDelete) return;
+
+		try {
+			const respData = await deleteAdminMutation.mutateAsync({
+				id: +adminToDelete.id,
+			});
+
+			if (apiRespBodyIsNotOk(respData)) {
+				setAdminDeleteModalError(respData.message);
+				return;
+			}
+
+			queryClient.invalidateQueries("admins");
+			closeAdminDeleteModal();
+		} catch (error: any) {
+			setAdminDeleteModalError(error?.message || getErrMsg(ErrorType.default));
+		}
 	};
 
 	const closeAdminAddForm = () => {
@@ -127,6 +154,7 @@ export default function AdminsPage() {
 
 	const closeAdminDeleteModal = () => {
 		setAdminToDelete(undefined);
+		setAdminDeleteModalError(undefined);
 	};
 
 	return (
@@ -141,7 +169,6 @@ export default function AdminsPage() {
 			<table className="table table-striped table-hover">
 				<thead>
 					<tr>
-						{/* <th scope="col">#</th> */}
 						<th scope="col">E-posta</th>
 						<th scope="col">Şifre</th>
 						<th scope="col" style={{ width: "200px" }}>
@@ -151,33 +178,33 @@ export default function AdminsPage() {
 				</thead>
 				<tbody className="table-group-divider">
 					{adminsQuery.isSuccess &&
-						!apiRespBodyIsNotOk(adminsQuery.data) &&
-						adminsQuery.data.data &&
-						adminsQuery.data.data.map((admin: any) => (
-							<tr key={admin.id}>
-								{/* <th scope="row">{admin.id}</th> */}
-								<td>{admin.email}</td>
-								<td>********</td>
-								<td>
-									<Stack direction="horizontal" gap={2}>
-										<Button
-											variant="primary"
-											size="sm"
-											onClick={() => setAdminToEdit(admin)}
-										>
-											Düzenle
-										</Button>
-										<Button
-											variant="danger"
-											size="sm"
-											onClick={() => setAdminToDelete(admin)}
-										>
-											Sil
-										</Button>
-									</Stack>
-								</td>
-							</tr>
-						))}
+					!apiRespBodyIsNotOk(adminsQuery.data) &&
+					adminsQuery.data.data
+						? adminsQuery.data.data.map((admin: any) => (
+								<tr key={admin.id}>
+									<td>{admin.email}</td>
+									<td>******</td>
+									<td>
+										<Stack direction="horizontal" gap={2}>
+											<Button
+												variant="primary"
+												size="sm"
+												onClick={() => setAdminToEdit(admin)}
+											>
+												Düzenle
+											</Button>
+											<Button
+												variant="danger"
+												size="sm"
+												onClick={() => setAdminToDelete(admin)}
+											>
+												Sil
+											</Button>
+										</Stack>
+									</td>
+								</tr>
+						  ))
+						: undefined}
 				</tbody>
 			</table>
 
@@ -202,7 +229,9 @@ export default function AdminsPage() {
 					<Form.Control type="password" name="passwordRepeat" />
 				</Form.Group>
 
-				<div className="text-danger">{adminAddFormError}</div>
+				{adminAddFormError ? (
+					<div className="text-danger">{adminAddFormError}</div>
+				) : undefined}
 
 				<Stack direction="horizontal" gap={2}>
 					<Button
@@ -243,7 +272,9 @@ export default function AdminsPage() {
 					<Form.Control type="password" name="passwordRepeat" />
 				</Form.Group>
 
-				<div className="text-danger">{adminEditFormError}</div>
+				{adminEditFormError ? (
+					<div className="text-danger">{adminEditFormError}</div>
+				) : undefined}
 
 				<Stack direction="horizontal" gap={2}>
 					<Button
@@ -262,6 +293,8 @@ export default function AdminsPage() {
 			<EntityDeleteModal
 				show={!!adminToDelete}
 				title="Yöneticiyi Sil"
+				error={adminDeleteModalError}
+				mutation={deleteAdminMutation}
 				onConfirm={handleAdminDeleteModalConfirm}
 				onCancel={closeAdminDeleteModal}
 			>

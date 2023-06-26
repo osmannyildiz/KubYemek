@@ -1,5 +1,7 @@
 export {
 	ApiAddAdminResponseBody,
+	ApiDeleteAdminResponseBody,
+	ApiGetAdminResponseBody,
 	ApiGetAdminsResponseBody,
 	ApiUpdateAdminResponseBody,
 } from "./admins";

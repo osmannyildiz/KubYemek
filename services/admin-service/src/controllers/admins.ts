@@ -56,6 +56,17 @@ export const addAdmin: RequestHandler<
 		);
 	}
 
+	if (password.length < 6) {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(
+					ErrorType.passwordShouldSatisfyMinimumLength
+				)
+			)
+		);
+	}
+
 	const existingAdmin = await adminRepo.getOne("email=?", [email]);
 	if (existingAdmin) {
 		return sendHttpResp(
@@ -69,7 +80,7 @@ export const addAdmin: RequestHandler<
 	await adminRepo.insert(email, password);
 	return sendHttpResp(
 		res,
-		new HttpCreatedResponse(new ServiceSuccessResponseBody())
+		new HttpCreatedResponse(new ServiceSuccessResponseBody(undefined))
 	);
 };
 
@@ -112,7 +123,7 @@ export const updateAdmin: RequestHandler<
 	);
 	return sendHttpResp(
 		res,
-		new HttpOkResponse(new ServiceSuccessResponseBody())
+		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))
 	);
 };
 
@@ -128,6 +139,6 @@ export const deleteAdmin: RequestHandler<
 	await adminRepo.deleteById(+adminId);
 	return sendHttpResp(
 		res,
-		new HttpOkResponse(new ServiceSuccessResponseBody())
+		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))
 	);
 };

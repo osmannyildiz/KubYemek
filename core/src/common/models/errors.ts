@@ -1,10 +1,12 @@
 import { LangId } from "./localization";
 
 export enum ErrorType {
-	default,
-	emailAlreadyExists,
-	notFound,
-	requiredFieldEmpty,
+	default = "default",
+	emailAlreadyExists = "emailAlreadyExists",
+	notFound = "notFound",
+	passwordShouldSatisfyMinimumLength = "passwordShouldSatisfyMinimumLength",
+	passwordsDoNotMatch = "passwordsDoNotMatch",
+	requiredFieldEmpty = "requiredFieldEmpty",
 }
 
 export type ErrorMessages = Record<ErrorType, LocalizedErrorMessageGroup>;

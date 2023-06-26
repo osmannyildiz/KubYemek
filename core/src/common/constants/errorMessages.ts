@@ -13,6 +13,14 @@ export const errorMessages: ErrorMessages = {
 		en: "Data not found.",
 		tr: "Veri bulunamadı.",
 	},
+	[ErrorType.passwordShouldSatisfyMinimumLength]: {
+		en: "Password should be at least 6 characters long.",
+		tr: "Şifre en az 6 karakter uzunluğunda olmalıdır.",
+	},
+	[ErrorType.passwordsDoNotMatch]: {
+		en: "Entered passwords do not match.",
+		tr: "Girilen şifreler uyuşmuyor.",
+	},
 	[ErrorType.requiredFieldEmpty]: {
 		en: "Please fill all required fields.",
 		tr: "Lütfen tüm zorunlu alanları doldurun.",

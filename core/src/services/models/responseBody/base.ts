@@ -7,13 +7,13 @@ export class ServiceResponseBody {
 export class ServiceSuccessResponseBody<
 	T = undefined
 > extends ServiceResponseBody {
-	constructor(public data?: T) {
+	constructor(public data: T) {
 		super(true);
 	}
 }
 
 export class ServiceErrorResponseBody extends ServiceResponseBody {
-	constructor(public type: ErrorType) {
+	constructor(public errorType: ErrorType) {
 		super(false);
 	}
 }

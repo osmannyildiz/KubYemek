@@ -6,7 +6,7 @@ export class ApiResponseBody {
 }
 
 export class ApiSuccessResponseBody<T = undefined> extends ApiResponseBody {
-	constructor(public data?: T) {
+	constructor(public data: T) {
 		super(true);
 	}
 }
@@ -14,8 +14,8 @@ export class ApiSuccessResponseBody<T = undefined> extends ApiResponseBody {
 export class ApiErrorResponseBody extends ApiResponseBody {
 	public message: string;
 
-	constructor(public type: ErrorType) {
+	constructor(public errorType: ErrorType) {
 		super(false);
-		this.message = getErrMsg(type);
+		this.message = getErrMsg(errorType);
 	}
 }

@@ -12,14 +12,14 @@ export type ApiAddAdminResponseBody =
 	| ApiSuccessResponseBody
 	| ApiErrorResponseBody;
 
-// export type ApiGetAdminResponseBody =
-// 	| ApiSuccessResponseBody<Admin>
-// 	| ApiErrorResponseBody;
+export type ApiGetAdminResponseBody =
+	| ApiSuccessResponseBody<Admin>
+	| ApiErrorResponseBody;
 
 export type ApiUpdateAdminResponseBody =
 	| ApiSuccessResponseBody
 	| ApiErrorResponseBody;
 
-// export type ApiDeleteAdminResponseBody =
-// 	| ApiSuccessResponseBody
-// 	| ApiErrorResponseBody;
+export type ApiDeleteAdminResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;
