@@ -1,3 +1,4 @@
+import { AdminAdapter } from "@/adapters/AdminAdapter";
 import {
 	ApiAddAdminRequestBody,
 	ApiUpdateAdminRequestBody,
@@ -52,7 +53,7 @@ export const getAdmins: RequestHandler<
 			);
 		}
 
-		admins = respBody.data;
+		admins = respBody.data.map((a) => AdminAdapter.privateToPublic(a));
 	} catch (error) {
 		return sendHttpResp(
 			res,
@@ -140,7 +141,7 @@ export const getAdmin: RequestHandler<
 			);
 		}
 
-		admin = respBody.data;
+		admin = AdminAdapter.privateToPublic(respBody.data);
 	} catch (error) {
 		return sendHttpResp(
 			res,

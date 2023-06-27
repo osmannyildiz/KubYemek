@@ -1,2 +1,6 @@
+- pagination
+- input validation
 - show unseen notification count
 - visually differentiate unseen notifications
+- parameterized error messages
+- frontend error alert (like swal)
