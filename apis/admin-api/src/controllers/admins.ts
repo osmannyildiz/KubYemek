@@ -55,6 +55,7 @@ export const getAdmins: RequestHandler<
 
 		admins = respBody.data.map((a) => AdminAdapter.privateToPublic(a));
 	} catch (error) {
+		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
@@ -105,6 +106,7 @@ export const addAdmin: RequestHandler<
 			);
 		}
 	} catch (error) {
+		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
@@ -143,6 +145,7 @@ export const getAdmin: RequestHandler<
 
 		admin = AdminAdapter.privateToPublic(respBody.data);
 	} catch (error) {
+		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
@@ -184,6 +187,7 @@ export const updateAdmin: RequestHandler<
 			);
 		}
 	} catch (error) {
+		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
@@ -222,6 +226,7 @@ export const deleteAdmin: RequestHandler<
 			);
 		}
 	} catch (error) {
+		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(

@@ -6,7 +6,12 @@ export {
 	ApiUpdateAdminResponseBody,
 } from "./admins";
 export {
+	ApiAddEntityResponseBody,
+	ApiDeleteEntityResponseBody,
 	ApiErrorResponseBody,
+	ApiGetEntitiesResponseBody,
+	ApiGetEntityResponseBody,
 	ApiResponseBody,
 	ApiSuccessResponseBody,
+	ApiUpdateEntityResponseBody,
 } from "./base";

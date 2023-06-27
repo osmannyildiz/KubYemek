@@ -75,6 +75,7 @@ export default function AdminsPage() {
 			queryClient.invalidateQueries("admins");
 			closeAdminAddForm();
 		} catch (error: any) {
+			console.error(error);
 			setAdminAddFormError(error?.message || getErrMsg(ErrorType.default));
 		}
 	};
@@ -118,6 +119,7 @@ export default function AdminsPage() {
 			queryClient.invalidateQueries("admins");
 			closeAdminEditForm();
 		} catch (error: any) {
+			console.error(error);
 			setAdminEditFormError(error?.message || getErrMsg(ErrorType.default));
 		}
 	};
@@ -138,6 +140,7 @@ export default function AdminsPage() {
 			queryClient.invalidateQueries("admins");
 			closeAdminDeleteModal();
 		} catch (error: any) {
+			console.error(error);
 			setAdminDeleteModalError(error?.message || getErrMsg(ErrorType.default));
 		}
 	};

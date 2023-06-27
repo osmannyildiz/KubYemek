@@ -1,4 +1,5 @@
 import { getErrMsg } from "@core/apis/utils";
+import { Entity } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
 
 export class ApiResponseBody {
@@ -19,3 +20,23 @@ export class ApiErrorResponseBody extends ApiResponseBody {
 		this.message = getErrMsg(errorType);
 	}
 }
+
+export type ApiGetEntitiesResponseBody<TEntity extends Entity> =
+	| ApiSuccessResponseBody<TEntity[]>
+	| ApiErrorResponseBody;
+
+export type ApiAddEntityResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;
+
+export type ApiGetEntityResponseBody<TEntity extends Entity> =
+	| ApiSuccessResponseBody<TEntity>
+	| ApiErrorResponseBody;
+
+export type ApiUpdateEntityResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;
+
+export type ApiDeleteEntityResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;

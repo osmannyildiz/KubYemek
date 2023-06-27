@@ -6,3 +6,7 @@ export {
 	ServiceAddEntityRequestBody,
 	ServiceUpdateEntityRequestBody,
 } from "./base";
+export {
+	ServiceAddProductRequestBody,
+	ServiceUpdateProductRequestBody,
+} from "./products";

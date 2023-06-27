@@ -1,3 +1,4 @@
+import { Entity_Private } from "@core/common/models/entity/backend";
 import { ErrorType } from "@core/common/models/errors";
 
 export class ServiceResponseBody {
@@ -17,3 +18,22 @@ export class ServiceErrorResponseBody extends ServiceResponseBody {
 		super(false);
 	}
 }
+
+export type ServiceGetEntitiesResponseBody<TPrivEntity extends Entity_Private> =
+	ServiceSuccessResponseBody<TPrivEntity[]> | ServiceErrorResponseBody;
+
+export type ServiceAddEntityResponseBody =
+	| ServiceSuccessResponseBody
+	| ServiceErrorResponseBody;
+
+export type ServiceGetEntityResponseBody<TPrivEntity extends Entity_Private> =
+	| ServiceSuccessResponseBody<TPrivEntity>
+	| ServiceErrorResponseBody;
+
+export type ServiceUpdateEntityResponseBody =
+	| ServiceSuccessResponseBody
+	| ServiceErrorResponseBody;
+
+export type ServiceDeleteEntityResponseBody =
+	| ServiceSuccessResponseBody
+	| ServiceErrorResponseBody;

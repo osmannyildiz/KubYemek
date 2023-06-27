@@ -3,6 +3,7 @@ import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
 	HttpCreatedResponse,
+	HttpInternalServerErrorResponse,
 	HttpNotFoundResponse,
 	HttpOkResponse,
 } from "@core/common/models/httpResponse";
@@ -29,9 +30,9 @@ export const getAdmins: RequestHandler<
 	undefined,
 	undefined
 > = async (req, res) => {
-	const adminRepo = db.admins();
+	const adminsRepo = db.admins();
 
-	const admins = await adminRepo.getAll();
+	const admins = await adminsRepo.getAll();
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(admins))
@@ -45,7 +46,7 @@ export const addAdmin: RequestHandler<
 	undefined
 > = async (req, res) => {
 	const { email, password } = req.body;
-	const adminRepo = db.admins();
+	const adminsRepo = db.admins();
 
 	if (!email || !password) {
 		return sendHttpResp(
@@ -67,7 +68,7 @@ export const addAdmin: RequestHandler<
 		);
 	}
 
-	const existingAdmin = await adminRepo.getOne("email=?", [email]);
+	const existingAdmin = await adminsRepo.getOne("email=?", [email]);
 	if (existingAdmin) {
 		return sendHttpResp(
 			res,
@@ -77,7 +78,18 @@ export const addAdmin: RequestHandler<
 		);
 	}
 
-	await adminRepo.insert(email, password);
+	try {
+		await adminsRepo.insert(email, password);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
 	return sendHttpResp(
 		res,
 		new HttpCreatedResponse(new ServiceSuccessResponseBody(undefined))
@@ -91,9 +103,9 @@ export const getAdmin: RequestHandler<
 	undefined
 > = async (req, res) => {
 	const { adminId } = req.params;
-	const adminRepo = db.admins();
+	const adminsRepo = db.admins();
 
-	const admin = await adminRepo.getById(+adminId);
+	const admin = await adminsRepo.getById(+adminId);
 	if (!admin) {
 		return sendHttpResp(
 			res,
@@ -114,9 +126,9 @@ export const updateAdmin: RequestHandler<
 	undefined
 > = async (req, res) => {
 	const { adminId } = req.params;
-	const adminRepo = db.admins();
+	const adminsRepo = db.admins();
 
-	await adminRepo.update(
+	await adminsRepo.update(
 		...generateSetClauseAndValuesForDbUpdate(req.body),
 		"id=?",
 		[adminId]
@@ -134,9 +146,9 @@ export const deleteAdmin: RequestHandler<
 	undefined
 > = async (req, res) => {
 	const { adminId } = req.params;
-	const adminRepo = db.admins();
+	const adminsRepo = db.admins();
 
-	await adminRepo.deleteById(+adminId);
+	await adminsRepo.deleteById(+adminId);
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))

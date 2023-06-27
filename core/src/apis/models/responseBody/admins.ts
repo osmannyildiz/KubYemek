@@ -1,25 +1,18 @@
 import {
-	ApiErrorResponseBody,
-	ApiSuccessResponseBody,
+	ApiAddEntityResponseBody,
+	ApiDeleteEntityResponseBody,
+	ApiGetEntitiesResponseBody,
+	ApiGetEntityResponseBody,
+	ApiUpdateEntityResponseBody,
 } from "@core/apis/models/responseBody";
 import { Admin } from "@core/common/models/entity/frontend";
 
-export type ApiGetAdminsResponseBody =
-	| ApiSuccessResponseBody<Admin[]>
-	| ApiErrorResponseBody;
+export type ApiGetAdminsResponseBody = ApiGetEntitiesResponseBody<Admin>;
 
-export type ApiAddAdminResponseBody =
-	| ApiSuccessResponseBody
-	| ApiErrorResponseBody;
+export type ApiAddAdminResponseBody = ApiAddEntityResponseBody;
 
-export type ApiGetAdminResponseBody =
-	| ApiSuccessResponseBody<Admin>
-	| ApiErrorResponseBody;
+export type ApiGetAdminResponseBody = ApiGetEntityResponseBody<Admin>;
 
-export type ApiUpdateAdminResponseBody =
-	| ApiSuccessResponseBody
-	| ApiErrorResponseBody;
+export type ApiUpdateAdminResponseBody = ApiUpdateEntityResponseBody;
 
-export type ApiDeleteAdminResponseBody =
-	| ApiSuccessResponseBody
-	| ApiErrorResponseBody;
+export type ApiDeleteAdminResponseBody = ApiDeleteEntityResponseBody;
