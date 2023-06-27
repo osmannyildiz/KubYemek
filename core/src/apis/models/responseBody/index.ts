@@ -15,3 +15,10 @@ export {
 	ApiSuccessResponseBody,
 	ApiUpdateEntityResponseBody,
 } from "./base";
+export {
+	ApiAddProductResponseBody,
+	ApiDeleteProductResponseBody,
+	ApiGetProductResponseBody,
+	ApiGetProductsResponseBody,
+	ApiUpdateProductResponseBody,
+} from "./products";

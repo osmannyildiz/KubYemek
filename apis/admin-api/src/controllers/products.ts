@@ -1,16 +1,16 @@
-import { AdminAdapter } from "@/adapters/AdminAdapter";
+import { ProductAdapter } from "@/adapters/ProductAdapter";
 import {
-	ApiAddAdminRequestBody,
-	ApiUpdateAdminRequestBody,
+	ApiAddProductRequestBody,
+	ApiUpdateProductRequestBody,
 } from "@core/apis/models/requestBody";
 import {
-	ApiAddAdminResponseBody,
-	ApiDeleteAdminResponseBody,
+	ApiAddProductResponseBody,
+	ApiDeleteProductResponseBody,
 	ApiErrorResponseBody,
-	ApiGetAdminResponseBody,
-	ApiGetAdminsResponseBody,
+	ApiGetProductResponseBody,
+	ApiGetProductsResponseBody,
 	ApiSuccessResponseBody,
-	ApiUpdateAdminResponseBody,
+	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
 import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ErrorType } from "@core/common/models/errors";
@@ -22,29 +22,29 @@ import {
 } from "@core/common/models/httpResponse";
 import { sendHttpResp } from "@core/common/utils";
 import {
-	ServiceAddAdminRequestBody,
-	ServiceUpdateAdminRequestBody,
+	ServiceAddProductRequestBody,
+	ServiceUpdateProductRequestBody,
 } from "@core/services/models/requestBody";
 import {
-	ServiceAddAdminResponseBody,
-	ServiceDeleteAdminResponseBody,
-	ServiceGetAdminResponseBody,
-	ServiceGetAdminsResponseBody,
-	ServiceUpdateAdminResponseBody,
+	ServiceAddProductResponseBody,
+	ServiceDeleteProductResponseBody,
+	ServiceGetProductResponseBody,
+	ServiceGetProductsResponseBody,
+	ServiceUpdateProductResponseBody,
 } from "@core/services/models/responseBody";
 import type { RequestHandler } from "express";
 import fetch from "node-fetch";
 
-export const getAdmins: RequestHandler<
+export const getProducts: RequestHandler<
 	undefined,
-	ApiGetAdminsResponseBody,
+	ApiGetProductsResponseBody,
 	undefined,
 	undefined
 > = async (req, res) => {
-	let admins;
+	let products;
 	try {
-		const svcResp = await fetch("http://localhost:8000/admins");
-		const svcRespBody: ServiceGetAdminsResponseBody = await svcResp.json();
+		const svcResp = await fetch("http://localhost:8001/products");
+		const svcRespBody: ServiceGetProductsResponseBody = await svcResp.json();
 
 		if (serviceRespBodyIsNotOk(svcRespBody)) {
 			return sendHttpResp(
@@ -55,7 +55,7 @@ export const getAdmins: RequestHandler<
 			);
 		}
 
-		admins = svcRespBody.data.map((a) => AdminAdapter.privateToPublic(a));
+		products = svcRespBody.data.map((a) => ProductAdapter.privateToPublic(a));
 	} catch (error) {
 		console.error(error);
 		return sendHttpResp(
@@ -68,19 +68,19 @@ export const getAdmins: RequestHandler<
 
 	return sendHttpResp(
 		res,
-		new HttpOkResponse(new ApiSuccessResponseBody(admins))
+		new HttpOkResponse(new ApiSuccessResponseBody(products))
 	);
 };
 
-export const addAdmin: RequestHandler<
+export const addProduct: RequestHandler<
 	undefined,
-	ApiAddAdminResponseBody,
-	ApiAddAdminRequestBody,
+	ApiAddProductResponseBody,
+	ApiAddProductRequestBody,
 	undefined
 > = async (req, res) => {
-	const { email, password } = req.body;
+	const { name, unitOfSale, price, imageUrl } = req.body;
 
-	if (!email || !password) {
+	if (!name || !unitOfSale || !price) {
 		return sendHttpResp(
 			res,
 			new HttpBadRequestResponse(
@@ -90,15 +90,20 @@ export const addAdmin: RequestHandler<
 	}
 
 	try {
-		const svcReqBody: ServiceAddAdminRequestBody = { email, password };
-		const svcResp = await fetch("http://localhost:8000/admins", {
+		const svcReqBody: ServiceAddProductRequestBody = {
+			name,
+			unitOfSale,
+			price,
+			imageUrl,
+		};
+		const svcResp = await fetch("http://localhost:8001/products", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(svcReqBody),
 		});
-		const svcRespBody: ServiceAddAdminResponseBody = await svcResp.json();
+		const svcRespBody: ServiceAddProductResponseBody = await svcResp.json();
 
 		if (serviceRespBodyIsNotOk(svcRespBody)) {
 			return sendHttpResp(
@@ -124,18 +129,18 @@ export const addAdmin: RequestHandler<
 	);
 };
 
-export const getAdmin: RequestHandler<
-	{ adminId: string },
-	ApiGetAdminResponseBody,
+export const getProduct: RequestHandler<
+	{ productId: string },
+	ApiGetProductResponseBody,
 	undefined,
 	undefined
 > = async (req, res) => {
-	const { adminId } = req.params;
+	const { productId } = req.params;
 
-	let admin;
+	let product;
 	try {
-		const svcResp = await fetch(`http://localhost:8000/admins/${adminId}`);
-		const svcRespBody: ServiceGetAdminResponseBody = await svcResp.json();
+		const svcResp = await fetch(`http://localhost:8001/products/${productId}`);
+		const svcRespBody: ServiceGetProductResponseBody = await svcResp.json();
 
 		if (serviceRespBodyIsNotOk(svcRespBody)) {
 			return sendHttpResp(
@@ -146,7 +151,7 @@ export const getAdmin: RequestHandler<
 			);
 		}
 
-		admin = AdminAdapter.privateToPublic(svcRespBody.data);
+		product = ProductAdapter.privateToPublic(svcRespBody.data);
 	} catch (error) {
 		console.error(error);
 		return sendHttpResp(
@@ -159,28 +164,28 @@ export const getAdmin: RequestHandler<
 
 	return sendHttpResp(
 		res,
-		new HttpOkResponse(new ApiSuccessResponseBody(admin))
+		new HttpOkResponse(new ApiSuccessResponseBody(product))
 	);
 };
 
-export const updateAdmin: RequestHandler<
-	{ adminId: string },
-	ApiUpdateAdminResponseBody,
-	ApiUpdateAdminRequestBody,
+export const updateProduct: RequestHandler<
+	{ productId: string },
+	ApiUpdateProductResponseBody,
+	ApiUpdateProductRequestBody,
 	undefined
 > = async (req, res) => {
-	const { adminId } = req.params;
+	const { productId } = req.params;
 
 	try {
-		const svcReqBody: ServiceUpdateAdminRequestBody = req.body;
-		const svcResp = await fetch(`http://localhost:8000/admins/${adminId}`, {
+		const svcReqBody: ServiceUpdateProductRequestBody = req.body;
+		const svcResp = await fetch(`http://localhost:8001/products/${productId}`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(svcReqBody),
 		});
-		const svcRespBody: ServiceUpdateAdminResponseBody = await svcResp.json();
+		const svcRespBody: ServiceUpdateProductResponseBody = await svcResp.json();
 
 		if (serviceRespBodyIsNotOk(svcRespBody)) {
 			return sendHttpResp(
@@ -206,20 +211,20 @@ export const updateAdmin: RequestHandler<
 	);
 };
 
-export const deleteAdmin: RequestHandler<
-	{ adminId: string },
-	ApiDeleteAdminResponseBody,
+export const deleteProduct: RequestHandler<
+	{ productId: string },
+	ApiDeleteProductResponseBody,
 	undefined,
 	undefined
 > = async (req, res) => {
-	const { adminId } = req.params;
+	const { productId } = req.params;
 
-	let admin;
+	let product;
 	try {
-		const svcResp = await fetch(`http://localhost:8000/admins/${adminId}`, {
+		const svcResp = await fetch(`http://localhost:8001/products/${productId}`, {
 			method: "DELETE",
 		});
-		const svcRespBody: ServiceDeleteAdminResponseBody = await svcResp.json();
+		const svcRespBody: ServiceDeleteProductResponseBody = await svcResp.json();
 
 		if (serviceRespBodyIsNotOk(svcRespBody)) {
 			return sendHttpResp(
