@@ -12,7 +12,7 @@ import {
 } from "@/query/mutations/products";
 import { Product } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
-import { getErrMsg } from "@core/frontends/utils";
+import { formatPriceForDisplay, getErrMsg } from "@core/frontends/utils";
 import { mdiLoading } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
@@ -154,7 +154,7 @@ export default function ProductsPage() {
 						<th scope="col">Ürün Adı</th>
 						<th scope="col">Takma Ad</th>
 						<th scope="col">Satış Birimi</th>
-						<th scope="col">Fiyat (Kuruş)</th>
+						<th scope="col">Fiyat</th>
 						<th scope="col">Stok Sayısı</th>
 						<th scope="col" style={{ width: "200px" }}>
 							İşlemler
@@ -168,7 +168,7 @@ export default function ProductsPage() {
 									<td>{product.name}</td>
 									<td>{product.slug}</td>
 									<td>{product.unitOfSale}</td>
-									<td>{product.price}</td>
+									<td>{formatPriceForDisplay(product.price)}</td>
 									<td>{product.unitsInStock}</td>
 									<td>
 										<Stack direction="horizontal" gap={2}>

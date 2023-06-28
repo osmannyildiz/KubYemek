@@ -6,3 +6,4 @@
 - frontend error alert (like swal)
 - handle slug collision
 - db entities (separate from priv entities)
+- admin frontend: product price decimal input
