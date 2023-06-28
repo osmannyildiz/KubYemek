@@ -2,6 +2,7 @@
 
 import EntityDeleteModal from "@/components/form/EntityDeleteModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
+import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import AppPage from "@/components/layout/AppPage";
 import { getAdmins } from "@/query/fetchers/admins";
 import { addAdmin, deleteAdmin, updateAdmin } from "@/query/mutations/admins";
@@ -218,17 +219,23 @@ export default function AdminsPage() {
 				onCancel={closeAdminAddForm}
 			>
 				<Form.Group controlId="email">
-					<Form.Label>E-posta adresi</Form.Label>
+					<Form.Label>
+						E-posta adresi <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="email" name="email" />
 				</Form.Group>
 
 				<Form.Group controlId="password">
-					<Form.Label>Şifre</Form.Label>
+					<Form.Label>
+						Şifre <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="password" name="password" />
 				</Form.Group>
 
 				<Form.Group controlId="passwordRepeat">
-					<Form.Label>Şifre (tekrar)</Form.Label>
+					<Form.Label>
+						Şifre (tekrar) <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="password" name="passwordRepeat" />
 				</Form.Group>
 
@@ -257,7 +264,9 @@ export default function AdminsPage() {
 				onCancel={closeAdminEditForm}
 			>
 				<Form.Group controlId="email">
-					<Form.Label>E-posta adresi</Form.Label>
+					<Form.Label>
+						E-posta adresi <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control
 						type="email"
 						name="email"
@@ -266,12 +275,16 @@ export default function AdminsPage() {
 				</Form.Group>
 
 				<Form.Group controlId="password">
-					<Form.Label>Şifre</Form.Label>
+					<Form.Label>
+						Şifre <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="password" name="password" />
 				</Form.Group>
 
 				<Form.Group controlId="passwordRepeat">
-					<Form.Label>Şifre (tekrar)</Form.Label>
+					<Form.Label>
+						Şifre (tekrar) <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="password" name="passwordRepeat" />
 				</Form.Group>
 

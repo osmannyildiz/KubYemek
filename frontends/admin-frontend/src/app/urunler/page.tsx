@@ -2,6 +2,7 @@
 
 import EntityDeleteModal from "@/components/form/EntityDeleteModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
+import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import AppPage from "@/components/layout/AppPage";
 import { getProducts } from "@/query/fetchers/products";
 import {
@@ -214,17 +215,23 @@ export default function ProductsPage() {
 				onCancel={closeProductAddForm}
 			>
 				<Form.Group controlId="name">
-					<Form.Label>Ürün Adı</Form.Label>
+					<Form.Label>
+						Ürün Adı <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="text" name="name" />
 				</Form.Group>
 
 				<Form.Group controlId="unitOfSale">
-					<Form.Label>Satış Birimi</Form.Label>
+					<Form.Label>
+						Satış Birimi <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="text" name="unitOfSale" />
 				</Form.Group>
 
 				<Form.Group controlId="price">
-					<Form.Label>Fiyat (Kuruş)</Form.Label>
+					<Form.Label>
+						Fiyat (Kuruş) <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control type="number" name="price" min={1} />
 				</Form.Group>
 
@@ -253,7 +260,9 @@ export default function ProductsPage() {
 				onCancel={closeProductEditForm}
 			>
 				<Form.Group controlId="name">
-					<Form.Label>Ürün Adı</Form.Label>
+					<Form.Label>
+						Ürün Adı <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control
 						type="text"
 						name="name"
@@ -262,7 +271,9 @@ export default function ProductsPage() {
 				</Form.Group>
 
 				<Form.Group controlId="slug">
-					<Form.Label>Takma Ad</Form.Label>
+					<Form.Label>
+						Takma Ad <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control
 						type="text"
 						name="slug"
@@ -271,7 +282,9 @@ export default function ProductsPage() {
 				</Form.Group>
 
 				<Form.Group controlId="unitOfSale">
-					<Form.Label>Satış Birimi</Form.Label>
+					<Form.Label>
+						Satış Birimi <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control
 						type="text"
 						name="unitOfSale"
@@ -280,7 +293,9 @@ export default function ProductsPage() {
 				</Form.Group>
 
 				<Form.Group controlId="price">
-					<Form.Label>Fiyat (Kuruş)</Form.Label>
+					<Form.Label>
+						Fiyat (Kuruş) <FormFieldRequiredIndicator />
+					</Form.Label>
 					<Form.Control
 						type="number"
 						name="price"
