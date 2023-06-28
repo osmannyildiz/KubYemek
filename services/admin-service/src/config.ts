@@ -1,7 +1,6 @@
-import { SECRETS } from "./secrets";
+import { CONFIG as CORE_SERVICES_CONFIG } from "@core/services/config";
 
 export const CONFIG = {
-	...SECRETS,
-	PORT: process.env.PORT || 8000,
-	DB_NAME: "kubyemek",
+	...CORE_SERVICES_CONFIG,
+	PORT: process.env.PORT || 8001,
 };
