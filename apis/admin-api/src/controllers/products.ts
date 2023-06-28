@@ -12,7 +12,6 @@ import {
 	ApiSuccessResponseBody,
 	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
-import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
@@ -20,20 +19,9 @@ import {
 	HttpInternalServerErrorResponse,
 	HttpOkResponse,
 } from "@core/common/models/httpResponse";
+import { ProductServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
-import {
-	ServiceAddProductRequestBody,
-	ServiceUpdateProductRequestBody,
-} from "@core/services/models/requestBody";
-import {
-	ServiceAddProductResponseBody,
-	ServiceDeleteProductResponseBody,
-	ServiceGetProductResponseBody,
-	ServiceGetProductsResponseBody,
-	ServiceUpdateProductResponseBody,
-} from "@core/services/models/responseBody";
 import type { RequestHandler } from "express";
-import fetch from "node-fetch";
 
 export const getProducts: RequestHandler<
 	undefined,
@@ -43,28 +31,18 @@ export const getProducts: RequestHandler<
 > = async (req, res) => {
 	let products;
 	try {
-		const svcResp = await fetch("http://localhost:8001/products");
-		const svcRespBody: ServiceGetProductsResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-
-		products = svcRespBody.data.map((a) => ProductAdapter.privateToPublic(a));
-	} catch (error) {
+		products = await ProductServiceClient.getProducts();
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
+
+	products = products.map((p) => ProductAdapter.privateToPublic(p));
 
 	return sendHttpResp(
 		res,
@@ -90,35 +68,18 @@ export const addProduct: RequestHandler<
 	}
 
 	try {
-		const svcReqBody: ServiceAddProductRequestBody = {
+		await ProductServiceClient.addProduct({
 			name,
 			unitOfSale,
 			price,
 			imageUrl,
-		};
-		const svcResp = await fetch("http://localhost:8001/products", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(svcReqBody),
 		});
-		const svcRespBody: ServiceAddProductResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-	} catch (error) {
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
@@ -139,28 +100,18 @@ export const getProduct: RequestHandler<
 
 	let product;
 	try {
-		const svcResp = await fetch(`http://localhost:8001/products/${productId}`);
-		const svcRespBody: ServiceGetProductResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-
-		product = ProductAdapter.privateToPublic(svcRespBody.data);
-	} catch (error) {
+		product = await ProductServiceClient.getProduct(+productId);
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
+
+	product = ProductAdapter.privateToPublic(product);
 
 	return sendHttpResp(
 		res,
@@ -177,30 +128,13 @@ export const updateProduct: RequestHandler<
 	const { productId } = req.params;
 
 	try {
-		const svcReqBody: ServiceUpdateProductRequestBody = req.body;
-		const svcResp = await fetch(`http://localhost:8001/products/${productId}`, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(svcReqBody),
-		});
-		const svcRespBody: ServiceUpdateProductResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-	} catch (error) {
+		await ProductServiceClient.updateProduct(+productId, req.body);
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
@@ -219,27 +153,14 @@ export const deleteProduct: RequestHandler<
 > = async (req, res) => {
 	const { productId } = req.params;
 
-	let product;
 	try {
-		const svcResp = await fetch(`http://localhost:8001/products/${productId}`, {
-			method: "DELETE",
-		});
-		const svcRespBody: ServiceDeleteProductResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-	} catch (error) {
+		await ProductServiceClient.deleteProduct(+productId);
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}

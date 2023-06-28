@@ -12,7 +12,6 @@ import {
 	ApiSuccessResponseBody,
 	ApiUpdateAdminResponseBody,
 } from "@core/apis/models/responseBody";
-import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
@@ -20,20 +19,9 @@ import {
 	HttpInternalServerErrorResponse,
 	HttpOkResponse,
 } from "@core/common/models/httpResponse";
+import { AdminServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
-import {
-	ServiceAddAdminRequestBody,
-	ServiceUpdateAdminRequestBody,
-} from "@core/services/models/requestBody";
-import {
-	ServiceAddAdminResponseBody,
-	ServiceDeleteAdminResponseBody,
-	ServiceGetAdminResponseBody,
-	ServiceGetAdminsResponseBody,
-	ServiceUpdateAdminResponseBody,
-} from "@core/services/models/responseBody";
 import type { RequestHandler } from "express";
-import fetch from "node-fetch";
 
 export const getAdmins: RequestHandler<
 	undefined,
@@ -43,28 +31,18 @@ export const getAdmins: RequestHandler<
 > = async (req, res) => {
 	let admins;
 	try {
-		const svcResp = await fetch("http://localhost:8000/admins");
-		const svcRespBody: ServiceGetAdminsResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-
-		admins = svcRespBody.data.map((a) => AdminAdapter.privateToPublic(a));
-	} catch (error) {
+		admins = await AdminServiceClient.getAdmins();
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
+
+	admins = admins.map((a) => AdminAdapter.privateToPublic(a));
 
 	return sendHttpResp(
 		res,
@@ -90,30 +68,13 @@ export const addAdmin: RequestHandler<
 	}
 
 	try {
-		const svcReqBody: ServiceAddAdminRequestBody = { email, password };
-		const svcResp = await fetch("http://localhost:8000/admins", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(svcReqBody),
-		});
-		const svcRespBody: ServiceAddAdminResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-	} catch (error) {
+		await AdminServiceClient.addAdmin({ email, password });
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
@@ -134,28 +95,18 @@ export const getAdmin: RequestHandler<
 
 	let admin;
 	try {
-		const svcResp = await fetch(`http://localhost:8000/admins/${adminId}`);
-		const svcRespBody: ServiceGetAdminResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-
-		admin = AdminAdapter.privateToPublic(svcRespBody.data);
-	} catch (error) {
+		admin = await AdminServiceClient.getAdmin(+adminId);
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
+
+	admin = AdminAdapter.privateToPublic(admin);
 
 	return sendHttpResp(
 		res,
@@ -172,30 +123,13 @@ export const updateAdmin: RequestHandler<
 	const { adminId } = req.params;
 
 	try {
-		const svcReqBody: ServiceUpdateAdminRequestBody = req.body;
-		const svcResp = await fetch(`http://localhost:8000/admins/${adminId}`, {
-			method: "PATCH",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(svcReqBody),
-		});
-		const svcRespBody: ServiceUpdateAdminResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-	} catch (error) {
+		await AdminServiceClient.updateAdmin(+adminId, req.body);
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}
@@ -214,27 +148,14 @@ export const deleteAdmin: RequestHandler<
 > = async (req, res) => {
 	const { adminId } = req.params;
 
-	let admin;
 	try {
-		const svcResp = await fetch(`http://localhost:8000/admins/${adminId}`, {
-			method: "DELETE",
-		});
-		const svcRespBody: ServiceDeleteAdminResponseBody = await svcResp.json();
-
-		if (serviceRespBodyIsNotOk(svcRespBody)) {
-			return sendHttpResp(
-				res,
-				new HttpInternalServerErrorResponse(
-					new ApiErrorResponseBody(svcRespBody.errorType)
-				)
-			);
-		}
-	} catch (error) {
+		await AdminServiceClient.deleteAdmin(+adminId);
+	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
 			res,
 			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(ErrorType.default)
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
 	}

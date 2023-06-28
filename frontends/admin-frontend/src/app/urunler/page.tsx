@@ -12,7 +12,7 @@ import {
 } from "@/query/mutations/products";
 import { Product } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
-import { apiRespBodyIsNotOk, getErrMsg } from "@core/frontends/utils";
+import { getErrMsg } from "@core/frontends/utils";
 import { mdiLoading } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
@@ -54,26 +54,22 @@ export default function ProductsPage() {
 		}
 
 		try {
-			const respData = await addProductMutation.mutateAsync({
-				body: {
+			await addProductMutation.mutateAsync({
+				data: {
 					name: name.toString(),
 					unitOfSale: unitOfSale.toString(),
 					price: +price.toString(),
 					imageUrl: imageUrl?.toString(),
 				},
 			});
-
-			if (apiRespBodyIsNotOk(respData)) {
-				setProductAddFormError(respData.message);
-				return;
-			}
-
-			queryClient.invalidateQueries("products");
-			closeProductAddForm();
 		} catch (error: any) {
 			console.error(error);
 			setProductAddFormError(error?.message || getErrMsg(ErrorType.default));
+			return;
 		}
+
+		queryClient.invalidateQueries("products");
+		closeProductAddForm();
 	};
 
 	const handleProductEditFormSubmit = async (
@@ -89,9 +85,9 @@ export default function ProductsPage() {
 		const imageUrl = formData.get("imageUrl");
 
 		try {
-			const respData = await updateProductMutation.mutateAsync({
+			await updateProductMutation.mutateAsync({
 				id: +productToEdit.id,
-				body: {
+				data: {
 					name: name?.toString(),
 					slug: slug?.toString(),
 					unitOfSale: unitOfSale?.toString(),
@@ -99,41 +95,33 @@ export default function ProductsPage() {
 					imageUrl: imageUrl?.toString(),
 				},
 			});
-
-			if (apiRespBodyIsNotOk(respData)) {
-				setProductEditFormError(respData.message);
-				return;
-			}
-
-			queryClient.invalidateQueries("products");
-			closeProductEditForm();
 		} catch (error: any) {
 			console.error(error);
 			setProductEditFormError(error?.message || getErrMsg(ErrorType.default));
+			return;
 		}
+
+		queryClient.invalidateQueries("products");
+		closeProductEditForm();
 	};
 
 	const handleProductDeleteModalConfirm = async () => {
 		if (!productToDelete) return;
 
 		try {
-			const respData = await deleteProductMutation.mutateAsync({
+			await deleteProductMutation.mutateAsync({
 				id: +productToDelete.id,
 			});
-
-			if (apiRespBodyIsNotOk(respData)) {
-				setProductDeleteModalError(respData.message);
-				return;
-			}
-
-			queryClient.invalidateQueries("products");
-			closeProductDeleteModal();
 		} catch (error: any) {
 			console.error(error);
 			setProductDeleteModalError(
 				error?.message || getErrMsg(ErrorType.default)
 			);
+			return;
 		}
+
+		queryClient.invalidateQueries("products");
+		closeProductDeleteModal();
 	};
 
 	const closeProductAddForm = () => {
@@ -166,7 +154,7 @@ export default function ProductsPage() {
 						<th scope="col">Ürün Adı</th>
 						<th scope="col">Takma Ad</th>
 						<th scope="col">Satış Birimi</th>
-						<th scope="col">Fiyat</th>
+						<th scope="col">Fiyat (Kuruş)</th>
 						<th scope="col">Stok Sayısı</th>
 						<th scope="col" style={{ width: "200px" }}>
 							İşlemler
@@ -174,10 +162,8 @@ export default function ProductsPage() {
 					</tr>
 				</thead>
 				<tbody className="table-group-divider">
-					{productsQuery.isSuccess &&
-					!apiRespBodyIsNotOk(productsQuery.data) &&
-					productsQuery.data.data
-						? productsQuery.data.data.map((product: any) => (
+					{productsQuery.isSuccess && productsQuery.data
+						? productsQuery.data.map((product) => (
 								<tr key={product.id}>
 									<td>{product.name}</td>
 									<td>{product.slug}</td>

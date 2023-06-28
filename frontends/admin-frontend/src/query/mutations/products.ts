@@ -2,50 +2,25 @@ import {
 	ApiAddProductRequestBody,
 	ApiUpdateProductRequestBody,
 } from "@core/apis/models/requestBody";
-import {
-	ApiAddProductResponseBody,
-	ApiDeleteProductResponseBody,
-	ApiUpdateProductResponseBody,
-} from "@core/apis/models/responseBody";
+import { AdminApiClient } from "@core/frontends/apiClients";
 import { MutationFunction } from "react-query";
 
 export const addProduct: MutationFunction<
-	ApiAddProductResponseBody,
-	{ body: ApiAddProductRequestBody }
+	void,
+	{ data: ApiAddProductRequestBody }
 > = async (payload) => {
-	const resp = await fetch("http://localhost:8080/products", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(payload.body),
-	});
-	const respData = await resp.json();
-	return respData;
+	await AdminApiClient.addProduct(payload.data);
 };
 
 export const updateProduct: MutationFunction<
-	ApiUpdateProductResponseBody,
-	{ id: number; body: ApiUpdateProductRequestBody }
+	void,
+	{ id: number; data: ApiUpdateProductRequestBody }
 > = async (payload) => {
-	const resp = await fetch(`http://localhost:8080/products/${payload.id}`, {
-		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(payload.body),
-	});
-	const respData = await resp.json();
-	return respData;
+	await AdminApiClient.updateProduct(payload.id, payload.data);
 };
 
-export const deleteProduct: MutationFunction<
-	ApiDeleteProductResponseBody,
-	{ id: number }
-> = async (payload) => {
-	const resp = await fetch(`http://localhost:8080/products/${payload.id}`, {
-		method: "DELETE",
-	});
-	const respData = await resp.json();
-	return respData;
+export const deleteProduct: MutationFunction<void, { id: number }> = async (
+	payload
+) => {
+	await AdminApiClient.deleteProduct(payload.id);
 };

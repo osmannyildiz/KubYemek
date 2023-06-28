@@ -8,7 +8,7 @@ import { getAdmins } from "@/query/fetchers/admins";
 import { addAdmin, deleteAdmin, updateAdmin } from "@/query/mutations/admins";
 import { Admin } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
-import { apiRespBodyIsNotOk, getErrMsg } from "@core/frontends/utils";
+import { getErrMsg } from "@core/frontends/utils";
 import { mdiLoading } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
@@ -61,24 +61,20 @@ export default function AdminsPage() {
 		}
 
 		try {
-			const respData = await addAdminMutation.mutateAsync({
-				body: {
+			await addAdminMutation.mutateAsync({
+				data: {
 					email: email.toString(),
 					password: password.toString(),
 				},
 			});
-
-			if (apiRespBodyIsNotOk(respData)) {
-				setAdminAddFormError(respData.message);
-				return;
-			}
-
-			queryClient.invalidateQueries("admins");
-			closeAdminAddForm();
 		} catch (error: any) {
 			console.error(error);
 			setAdminAddFormError(error?.message || getErrMsg(ErrorType.default));
+			return;
 		}
+
+		queryClient.invalidateQueries("admins");
+		closeAdminAddForm();
 	};
 
 	const handleAdminEditFormSubmit = async (
@@ -104,46 +100,38 @@ export default function AdminsPage() {
 		}
 
 		try {
-			const respData = await updateAdminMutation.mutateAsync({
+			await updateAdminMutation.mutateAsync({
 				id: +adminToEdit.id,
-				body: {
+				data: {
 					email: email?.toString(),
 					password: password?.toString(),
 				},
 			});
-
-			if (apiRespBodyIsNotOk(respData)) {
-				setAdminEditFormError(respData.message);
-				return;
-			}
-
-			queryClient.invalidateQueries("admins");
-			closeAdminEditForm();
 		} catch (error: any) {
 			console.error(error);
 			setAdminEditFormError(error?.message || getErrMsg(ErrorType.default));
+			return;
 		}
+
+		queryClient.invalidateQueries("admins");
+		closeAdminEditForm();
 	};
 
 	const handleAdminDeleteModalConfirm = async () => {
 		if (!adminToDelete) return;
 
 		try {
-			const respData = await deleteAdminMutation.mutateAsync({
+			await deleteAdminMutation.mutateAsync({
 				id: +adminToDelete.id,
 			});
-
-			if (apiRespBodyIsNotOk(respData)) {
-				setAdminDeleteModalError(respData.message);
-				return;
-			}
-
-			queryClient.invalidateQueries("admins");
-			closeAdminDeleteModal();
 		} catch (error: any) {
 			console.error(error);
 			setAdminDeleteModalError(error?.message || getErrMsg(ErrorType.default));
+			return;
 		}
+
+		queryClient.invalidateQueries("admins");
+		closeAdminDeleteModal();
 	};
 
 	const closeAdminAddForm = () => {
@@ -181,10 +169,8 @@ export default function AdminsPage() {
 					</tr>
 				</thead>
 				<tbody className="table-group-divider">
-					{adminsQuery.isSuccess &&
-					!apiRespBodyIsNotOk(adminsQuery.data) &&
-					adminsQuery.data.data
-						? adminsQuery.data.data.map((admin: any) => (
+					{adminsQuery.isSuccess && adminsQuery.data
+						? adminsQuery.data.map((admin: any) => (
 								<tr key={admin.id}>
 									<td>{admin.email}</td>
 									<td>******</td>
