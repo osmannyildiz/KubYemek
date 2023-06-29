@@ -88,14 +88,14 @@ export default function AdminsPage() {
 		const passwordRepeat = formData.get("passwordRepeat");
 
 		if (password && password.length < 6) {
-			setAdminAddFormError(
+			setAdminEditFormError(
 				getErrMsg(ErrorType.passwordShouldSatisfyMinimumLength)
 			);
 			return;
 		}
 
 		if (password && password !== passwordRepeat) {
-			setAdminAddFormError(getErrMsg(ErrorType.passwordsDoNotMatch));
+			setAdminEditFormError(getErrMsg(ErrorType.passwordsDoNotMatch));
 			return;
 		}
 
@@ -208,21 +208,31 @@ export default function AdminsPage() {
 					<Form.Label>
 						E-posta adresi <FormFieldRequiredIndicator />
 					</Form.Label>
-					<Form.Control type="email" name="email" />
+					<Form.Control type="email" name="email" required />
 				</Form.Group>
 
 				<Form.Group controlId="password">
 					<Form.Label>
 						Şifre <FormFieldRequiredIndicator />
 					</Form.Label>
-					<Form.Control type="password" name="password" />
+					<Form.Control
+						type="password"
+						name="password"
+						required
+						minLength={6}
+					/>
 				</Form.Group>
 
 				<Form.Group controlId="passwordRepeat">
 					<Form.Label>
 						Şifre (tekrar) <FormFieldRequiredIndicator />
 					</Form.Label>
-					<Form.Control type="password" name="passwordRepeat" />
+					<Form.Control
+						type="password"
+						name="passwordRepeat"
+						required
+						minLength={6}
+					/>
 				</Form.Group>
 
 				{adminAddFormError ? (
@@ -250,28 +260,23 @@ export default function AdminsPage() {
 				onCancel={closeAdminEditForm}
 			>
 				<Form.Group controlId="email">
-					<Form.Label>
-						E-posta adresi <FormFieldRequiredIndicator />
-					</Form.Label>
+					<Form.Label>E-posta adresi</Form.Label>
 					<Form.Control
 						type="email"
 						name="email"
 						defaultValue={adminToEdit?.email}
+						required
 					/>
 				</Form.Group>
 
 				<Form.Group controlId="password">
-					<Form.Label>
-						Şifre <FormFieldRequiredIndicator />
-					</Form.Label>
-					<Form.Control type="password" name="password" />
+					<Form.Label>Şifre</Form.Label>
+					<Form.Control type="password" name="password" minLength={6} />
 				</Form.Group>
 
 				<Form.Group controlId="passwordRepeat">
-					<Form.Label>
-						Şifre (tekrar) <FormFieldRequiredIndicator />
-					</Form.Label>
-					<Form.Control type="password" name="passwordRepeat" />
+					<Form.Label>Şifre (tekrar)</Form.Label>
+					<Form.Control type="password" name="passwordRepeat" minLength={6} />
 				</Form.Group>
 
 				{adminEditFormError ? (

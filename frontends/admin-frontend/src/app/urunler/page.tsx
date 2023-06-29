@@ -195,21 +195,21 @@ export default function ProductsPage() {
 					<Form.Label>
 						Ürün Adı <FormFieldRequiredIndicator />
 					</Form.Label>
-					<Form.Control type="text" name="name" />
+					<Form.Control type="text" name="name" required />
 				</Form.Group>
 
 				<Form.Group controlId="unitOfSale">
 					<Form.Label>
 						Satış Birimi <FormFieldRequiredIndicator />
 					</Form.Label>
-					<Form.Control type="text" name="unitOfSale" />
+					<Form.Control type="text" name="unitOfSale" required />
 				</Form.Group>
 
 				<Form.Group controlId="price">
 					<Form.Label>
 						Fiyat (Kuruş) <FormFieldRequiredIndicator />
 					</Form.Label>
-					<Form.Control type="number" name="price" min={1} />
+					<Form.Control type="number" name="price" required min={1} />
 				</Form.Group>
 
 				<Form.Group controlId="image">
@@ -244,54 +244,48 @@ export default function ProductsPage() {
 				onCancel={closeProductEditForm}
 			>
 				<Form.Group controlId="name">
-					<Form.Label>
-						Ürün Adı <FormFieldRequiredIndicator />
-					</Form.Label>
+					<Form.Label>Ürün Adı</Form.Label>
 					<Form.Control
 						type="text"
 						name="name"
 						defaultValue={productToEdit?.name}
+						required
 					/>
 				</Form.Group>
 
 				<Form.Group controlId="slug">
-					<Form.Label>
-						Takma Ad <FormFieldRequiredIndicator />
-					</Form.Label>
+					<Form.Label>Takma Ad</Form.Label>
 					<Form.Control
 						type="text"
 						name="slug"
 						defaultValue={productToEdit?.slug}
+						required
 					/>
 				</Form.Group>
 
 				<Form.Group controlId="unitOfSale">
-					<Form.Label>
-						Satış Birimi <FormFieldRequiredIndicator />
-					</Form.Label>
+					<Form.Label>Satış Birimi</Form.Label>
 					<Form.Control
 						type="text"
 						name="unitOfSale"
 						defaultValue={productToEdit?.unitOfSale}
+						required
 					/>
 				</Form.Group>
 
 				<Form.Group controlId="price">
-					<Form.Label>
-						Fiyat (Kuruş) <FormFieldRequiredIndicator />
-					</Form.Label>
+					<Form.Label>Fiyat (Kuruş)</Form.Label>
 					<Form.Control
 						type="number"
 						name="price"
-						min={1}
 						defaultValue={productToEdit?.price}
+						required
+						min={1}
 					/>
 				</Form.Group>
 
 				<Form.Group controlId="image">
-					<Form.Label>
-						Ürün Resmi <FormFieldRequiredIndicator />
-					</Form.Label>
+					<Form.Label>Ürün Resmi</Form.Label>
 					<ImagePicker name="image" defaultImageUrl={productToEdit?.imageUrl} />
 				</Form.Group>
 
