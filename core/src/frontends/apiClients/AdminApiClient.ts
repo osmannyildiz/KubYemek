@@ -1,8 +1,6 @@
 import {
 	ApiAddAdminRequestBody,
-	ApiAddProductRequestBody,
 	ApiUpdateAdminRequestBody,
-	ApiUpdateProductRequestBody,
 } from "@core/apis/models/requestBody";
 import {
 	ApiAddAdminResponseBody,
@@ -96,13 +94,10 @@ export class AdminApiClient {
 		return respBody.data;
 	}
 
-	static async addProduct(data: ApiAddProductRequestBody) {
+	static async addProduct(formData: FormData) {
 		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/products`, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
+			body: formData,
 		});
 		const respBody: ApiAddProductResponseBody = await resp.json();
 
@@ -124,18 +119,12 @@ export class AdminApiClient {
 		return respBody.data;
 	}
 
-	static async updateProduct(
-		productId: number,
-		data: ApiUpdateProductRequestBody
-	) {
+	static async updateProduct(productId: number, formData: FormData) {
 		const resp = await fetch(
 			`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`,
 			{
 				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
+				body: formData,
 			}
 		);
 		const respBody: ApiUpdateProductResponseBody = await resp.json();

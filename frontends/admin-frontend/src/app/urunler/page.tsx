@@ -3,6 +3,7 @@
 import EntityDeleteModal from "@/components/form/EntityDeleteModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
+import ImagePicker from "@/components/form/ImagePicker";
 import AppPage from "@/components/layout/AppPage";
 import { getProducts } from "@/query/fetchers/products";
 import {
@@ -46,21 +47,22 @@ export default function ProductsPage() {
 		const name = formData.get("name");
 		const unitOfSale = formData.get("unitOfSale");
 		const price = formData.get("price");
-		const imageUrl = formData.get("imageUrl");
+		const image = formData.get("image");
 
-		if (!name || !unitOfSale || !price) {
+		if (
+			!name ||
+			!unitOfSale ||
+			!price ||
+			!image ||
+			(image as File).size === 0
+		) {
 			setProductAddFormError(getErrMsg(ErrorType.requiredFieldEmpty));
 			return;
 		}
 
 		try {
 			await addProductMutation.mutateAsync({
-				data: {
-					name: name.toString(),
-					unitOfSale: unitOfSale.toString(),
-					price: +price.toString(),
-					imageUrl: imageUrl?.toString(),
-				},
+				data: formData,
 			});
 		} catch (error: any) {
 			console.error(error);
@@ -78,22 +80,11 @@ export default function ProductsPage() {
 		if (!productToEdit) return;
 
 		const formData = new FormData(event.target as HTMLFormElement);
-		const name = formData.get("name");
-		const slug = formData.get("slug");
-		const unitOfSale = formData.get("unitOfSale");
-		const price = formData.get("price");
-		const imageUrl = formData.get("imageUrl");
 
 		try {
 			await updateProductMutation.mutateAsync({
 				id: +productToEdit.id,
-				data: {
-					name: name?.toString(),
-					slug: slug?.toString(),
-					unitOfSale: unitOfSale?.toString(),
-					price: price ? +price.toString() : undefined,
-					imageUrl: imageUrl?.toString(),
-				},
+				data: formData,
 			});
 		} catch (error: any) {
 			console.error(error);
@@ -221,6 +212,13 @@ export default function ProductsPage() {
 					<Form.Control type="number" name="price" min={1} />
 				</Form.Group>
 
+				<Form.Group controlId="image">
+					<Form.Label>
+						Ürün Resmi <FormFieldRequiredIndicator />
+					</Form.Label>
+					<ImagePicker name="image" />
+				</Form.Group>
+
 				{productAddFormError ? (
 					<div className="text-danger">{productAddFormError}</div>
 				) : undefined}
@@ -288,6 +286,13 @@ export default function ProductsPage() {
 						min={1}
 						defaultValue={productToEdit?.price}
 					/>
+				</Form.Group>
+
+				<Form.Group controlId="image">
+					<Form.Label>
+						Ürün Resmi <FormFieldRequiredIndicator />
+					</Form.Label>
+					<ImagePicker name="image" defaultImageUrl={productToEdit?.imageUrl} />
 				</Form.Group>
 
 				{productEditFormError ? (
