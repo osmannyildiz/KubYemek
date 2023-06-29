@@ -142,6 +142,7 @@ export default function ProductsPage() {
 			<table className="table table-striped table-hover">
 				<thead>
 					<tr>
+						<th scope="col">Ürün Resmi</th>
 						<th scope="col">Ürün Adı</th>
 						<th scope="col">Takma Ad</th>
 						<th scope="col">Satış Birimi</th>
@@ -156,6 +157,22 @@ export default function ProductsPage() {
 					{productsQuery.isSuccess && productsQuery.data
 						? productsQuery.data.map((product) => (
 								<tr key={product.id}>
+									<td
+										style={{
+											width: "200px",
+											height: "150px",
+										}}
+									>
+										<img
+											src={product.imageUrl}
+											alt="Ürün resmi"
+											style={{
+												width: "100%",
+												height: "100%",
+												objectFit: "cover",
+											}}
+										/>
+									</td>
 									<td>{product.name}</td>
 									<td>{product.slug}</td>
 									<td>{product.unitOfSale}</td>
