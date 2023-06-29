@@ -6,6 +6,11 @@ import { errorMessages } from "@core/common/constants/errorMessages";
 import { ErrorType } from "@core/common/models/errors";
 import { CONFIG } from "@core/frontends/config";
 
+const moneyFormatter = new Intl.NumberFormat("tr", {
+	style: "currency",
+	currency: "TRY",
+});
+
 export function apiRespBodyIsNotOk(
 	respBody: ApiResponseBody
 ): respBody is ApiErrorResponseBody {
@@ -17,5 +22,5 @@ export function getErrMsg(errorType: ErrorType) {
 }
 
 export function formatPriceForDisplay(priceRaw: number | string) {
-	return `₺${(+priceRaw / 100).toFixed(2)}`;
+	return moneyFormatter.format(+priceRaw / 100);
 }
