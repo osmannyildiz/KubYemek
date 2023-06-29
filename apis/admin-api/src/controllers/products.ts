@@ -25,6 +25,8 @@ import {
 } from "@core/common/models/httpResponse";
 import { ProductServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
+import { ServiceErrorResponseBody } from "@core/services/models/responseBody";
+import FormData from "form-data";
 
 export const getProducts: ApiRequestHandler<
 	null,
@@ -55,7 +57,7 @@ export const addProduct: ApiRequestHandler<
 	ApiAddProductRequestBody,
 	ApiAddProductResponseBody
 > = async (req, res) => {
-	const { name, unitOfSale, price, imageUrl } = req.body;
+	const { name, unitOfSale, price } = req.body;
 
 	if (!name || !unitOfSale || !price) {
 		return sendHttpResp(
@@ -66,13 +68,24 @@ export const addProduct: ApiRequestHandler<
 		);
 	}
 
+	const formData = new FormData();
+	formData.append("name", name);
+	formData.append("unitOfSale", unitOfSale);
+	formData.append("price", price);
+
+	if (req.file) {
+		formData.append("image", req.file.buffer, req.file.originalname);
+	} else {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.requiredFieldEmpty)
+			)
+		);
+	}
+
 	try {
-		await ProductServiceClient.addProduct({
-			name,
-			unitOfSale,
-			price,
-			imageUrl,
-		});
+		await ProductServiceClient.addProduct(formData);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -124,8 +137,24 @@ export const updateProduct: ApiRequestHandlerWithParams<
 > = async (req, res) => {
 	const { productId } = req.params;
 
+	const updates = req.body;
+
+	const formData = new FormData();
+	if (updates.name) {
+		formData.append("name", updates.name);
+	}
+	if (updates.unitOfSale) {
+		formData.append("unitOfSale", updates.unitOfSale);
+	}
+	if (updates.price) {
+		formData.append("price", updates.price);
+	}
+	if (req.file) {
+		formData.append("image", req.file.buffer, req.file.originalname);
+	}
+
 	try {
-		await ProductServiceClient.updateProduct(+productId, req.body);
+		await ProductServiceClient.updateProduct(+productId, formData);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(

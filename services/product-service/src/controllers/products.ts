@@ -57,13 +57,20 @@ export const addProduct: ServiceRequestHandler<
 		);
 	}
 
-	const productSlug = slug(name);
-
-	let imageUrl = undefined;
+	let imageUrl;
 	if (req.file) {
 		const file = req.file as Express.MulterS3.File;
 		imageUrl = file.location;
+	} else {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.requiredFieldEmpty)
+			)
+		);
 	}
+
+	const productSlug = slug(name);
 
 	try {
 		await productsRepo.insert(name, productSlug, unitOfSale, price, imageUrl);

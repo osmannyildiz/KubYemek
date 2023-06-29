@@ -3,16 +3,13 @@ import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ServiceRespBodyIsNotOkError } from "@core/common/models/ServiceRespBodyIsNotOkError";
 import { Product_Private } from "@core/common/models/entity/backend";
 import {
-	ServiceAddProductRequestBody,
-	ServiceUpdateProductRequestBody,
-} from "@core/services/models/requestBody";
-import {
 	ServiceAddProductResponseBody,
 	ServiceDeleteProductResponseBody,
 	ServiceGetProductResponseBody,
 	ServiceGetProductsResponseBody,
 	ServiceUpdateProductResponseBody,
 } from "@core/services/models/responseBody";
+import FormData from "form-data";
 import fetch from "node-fetch";
 
 export class ProductServiceClient {
@@ -27,13 +24,13 @@ export class ProductServiceClient {
 		return respBody.data;
 	}
 
-	static async addProduct(data: ServiceAddProductRequestBody) {
+	static async addProduct(formData: FormData) {
 		const resp = await fetch(`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products`, {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
+				...formData.getHeaders(),
 			},
-			body: JSON.stringify(data),
+			body: formData,
 		});
 		const respBody: ServiceAddProductResponseBody = await resp.json();
 
@@ -55,18 +52,15 @@ export class ProductServiceClient {
 		return respBody.data;
 	}
 
-	static async updateProduct(
-		productId: number,
-		data: ServiceUpdateProductRequestBody
-	) {
+	static async updateProduct(productId: number, formData: FormData) {
 		const resp = await fetch(
 			`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
 			{
 				method: "PATCH",
 				headers: {
-					"Content-Type": "application/json",
+					...formData.getHeaders(),
 				},
-				body: JSON.stringify(data),
+				body: formData,
 			}
 		);
 		const respBody: ServiceUpdateProductResponseBody = await resp.json();

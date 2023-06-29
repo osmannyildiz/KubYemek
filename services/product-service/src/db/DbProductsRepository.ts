@@ -12,12 +12,12 @@ export class DbProductsRepository extends DbTableRepositoryBase<Product_Private>
 		slug: string,
 		unitOfSale: string,
 		price: number,
-		imageUrl?: string
+		imageUrl: string
 	): Promise<number> {
 		return await this._insert(
 			"name,slug,unit_of_sale,price,image_url",
 			"?,?,?,?,?",
-			[name, slug, unitOfSale, price, imageUrl || null]
+			[name, slug, unitOfSale, price, imageUrl]
 		);
 	}
 }
