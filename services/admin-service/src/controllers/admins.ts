@@ -13,6 +13,10 @@ import {
 	ServiceUpdateAdminRequestBody,
 } from "@core/services/models/requestBody";
 import {
+	ServiceRequestHandler,
+	ServiceRequestHandlerWithParams,
+} from "@core/services/models/requestHandlers";
+import {
 	ServiceAddAdminResponseBody,
 	ServiceDeleteAdminResponseBody,
 	ServiceErrorResponseBody,
@@ -22,13 +26,10 @@ import {
 	ServiceUpdateAdminResponseBody,
 } from "@core/services/models/responseBody";
 import { generateSetClauseAndValuesForDbUpdate } from "@core/services/utils";
-import type { RequestHandler } from "express";
 
-export const getAdmins: RequestHandler<
-	undefined,
-	ServiceGetAdminsResponseBody,
-	undefined,
-	undefined
+export const getAdmins: ServiceRequestHandler<
+	null,
+	ServiceGetAdminsResponseBody
 > = async (req, res) => {
 	const adminsRepo = db.admins();
 
@@ -39,11 +40,9 @@ export const getAdmins: RequestHandler<
 	);
 };
 
-export const addAdmin: RequestHandler<
-	undefined,
-	ServiceAddAdminResponseBody,
+export const addAdmin: ServiceRequestHandler<
 	ServiceAddAdminRequestBody,
-	undefined
+	ServiceAddAdminResponseBody
 > = async (req, res) => {
 	const { email, password } = req.body;
 	const adminsRepo = db.admins();
@@ -96,11 +95,10 @@ export const addAdmin: RequestHandler<
 	);
 };
 
-export const getAdmin: RequestHandler<
-	{ adminId: string },
+export const getAdmin: ServiceRequestHandlerWithParams<
+	null,
 	ServiceGetAdminResponseBody,
-	undefined,
-	undefined
+	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();
@@ -119,11 +117,10 @@ export const getAdmin: RequestHandler<
 	);
 };
 
-export const updateAdmin: RequestHandler<
-	{ adminId: string },
-	ServiceUpdateAdminResponseBody,
+export const updateAdmin: ServiceRequestHandlerWithParams<
 	ServiceUpdateAdminRequestBody,
-	undefined
+	ServiceUpdateAdminResponseBody,
+	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();
@@ -139,11 +136,10 @@ export const updateAdmin: RequestHandler<
 	);
 };
 
-export const deleteAdmin: RequestHandler<
-	{ adminId: string },
+export const deleteAdmin: ServiceRequestHandlerWithParams<
+	null,
 	ServiceDeleteAdminResponseBody,
-	undefined,
-	undefined
+	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();

@@ -1,3 +1,5 @@
-export interface ServiceAddEntityRequestBody {}
+export interface ServiceRequestBody {}
 
-export interface ServiceUpdateEntityRequestBody {}
+export interface ServiceAddEntityRequestBody extends ServiceRequestBody {}
+
+export interface ServiceUpdateEntityRequestBody extends ServiceRequestBody {}

@@ -4,6 +4,10 @@ import {
 	ApiUpdateAdminRequestBody,
 } from "@core/apis/models/requestBody";
 import {
+	ApiRequestHandler,
+	ApiRequestHandlerWithParams,
+} from "@core/apis/models/requestHandlers";
+import {
 	ApiAddAdminResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiErrorResponseBody,
@@ -21,13 +25,10 @@ import {
 } from "@core/common/models/httpResponse";
 import { AdminServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
-import type { RequestHandler } from "express";
 
-export const getAdmins: RequestHandler<
-	undefined,
-	ApiGetAdminsResponseBody,
-	undefined,
-	undefined
+export const getAdmins: ApiRequestHandler<
+	null,
+	ApiGetAdminsResponseBody
 > = async (req, res) => {
 	let admins;
 	try {
@@ -50,11 +51,9 @@ export const getAdmins: RequestHandler<
 	);
 };
 
-export const addAdmin: RequestHandler<
-	undefined,
-	ApiAddAdminResponseBody,
+export const addAdmin: ApiRequestHandler<
 	ApiAddAdminRequestBody,
-	undefined
+	ApiAddAdminResponseBody
 > = async (req, res) => {
 	const { email, password } = req.body;
 
@@ -85,11 +84,10 @@ export const addAdmin: RequestHandler<
 	);
 };
 
-export const getAdmin: RequestHandler<
-	{ adminId: string },
+export const getAdmin: ApiRequestHandlerWithParams<
+	null,
 	ApiGetAdminResponseBody,
-	undefined,
-	undefined
+	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
 
@@ -114,11 +112,10 @@ export const getAdmin: RequestHandler<
 	);
 };
 
-export const updateAdmin: RequestHandler<
-	{ adminId: string },
-	ApiUpdateAdminResponseBody,
+export const updateAdmin: ApiRequestHandlerWithParams<
 	ApiUpdateAdminRequestBody,
-	undefined
+	ApiUpdateAdminResponseBody,
+	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
 
@@ -140,11 +137,10 @@ export const updateAdmin: RequestHandler<
 	);
 };
 
-export const deleteAdmin: RequestHandler<
-	{ adminId: string },
+export const deleteAdmin: ApiRequestHandlerWithParams<
+	null,
 	ApiDeleteAdminResponseBody,
-	undefined,
-	undefined
+	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
 

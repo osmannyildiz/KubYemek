@@ -1,3 +1,5 @@
-export interface ApiAddEntityRequestBody {}
+export interface ApiRequestBody {}
 
-export interface ApiUpdateEntityRequestBody {}
+export interface ApiAddEntityRequestBody extends ApiRequestBody {}
+
+export interface ApiUpdateEntityRequestBody extends ApiRequestBody {}

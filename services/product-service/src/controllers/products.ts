@@ -13,6 +13,10 @@ import {
 	ServiceUpdateProductRequestBody,
 } from "@core/services/models/requestBody";
 import {
+	ServiceRequestHandler,
+	ServiceRequestHandlerWithParams,
+} from "@core/services/models/requestHandlers";
+import {
 	ServiceAddProductResponseBody,
 	ServiceDeleteProductResponseBody,
 	ServiceErrorResponseBody,
@@ -22,14 +26,11 @@ import {
 	ServiceUpdateProductResponseBody,
 } from "@core/services/models/responseBody";
 import { generateSetClauseAndValuesForDbUpdate } from "@core/services/utils";
-import type { RequestHandler } from "express";
 import slug from "slug";
 
-export const getProducts: RequestHandler<
-	undefined,
-	ServiceGetProductsResponseBody,
-	undefined,
-	undefined
+export const getProducts: ServiceRequestHandler<
+	null,
+	ServiceGetProductsResponseBody
 > = async (req, res) => {
 	const productsRepo = db.products();
 
@@ -40,11 +41,9 @@ export const getProducts: RequestHandler<
 	);
 };
 
-export const addProduct: RequestHandler<
-	undefined,
-	ServiceAddProductResponseBody,
+export const addProduct: ServiceRequestHandler<
 	ServiceAddProductRequestBody,
-	undefined
+	ServiceAddProductResponseBody
 > = async (req, res) => {
 	const { name, unitOfSale, price, imageUrl } = req.body;
 	const productsRepo = db.products();
@@ -78,11 +77,10 @@ export const addProduct: RequestHandler<
 	);
 };
 
-export const getProduct: RequestHandler<
-	{ productId: string },
+export const getProduct: ServiceRequestHandlerWithParams<
+	null,
 	ServiceGetProductResponseBody,
-	undefined,
-	undefined
+	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
 	const productsRepo = db.products();
@@ -101,11 +99,10 @@ export const getProduct: RequestHandler<
 	);
 };
 
-export const updateProduct: RequestHandler<
-	{ productId: string },
-	ServiceUpdateProductResponseBody,
+export const updateProduct: ServiceRequestHandlerWithParams<
 	ServiceUpdateProductRequestBody,
-	undefined
+	ServiceUpdateProductResponseBody,
+	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
 	const productsRepo = db.products();
@@ -121,11 +118,10 @@ export const updateProduct: RequestHandler<
 	);
 };
 
-export const deleteProduct: RequestHandler<
-	{ productId: string },
+export const deleteProduct: ServiceRequestHandlerWithParams<
+	null,
 	ServiceDeleteProductResponseBody,
-	undefined,
-	undefined
+	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
 	const productsRepo = db.products();

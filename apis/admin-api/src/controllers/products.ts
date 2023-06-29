@@ -4,6 +4,10 @@ import {
 	ApiUpdateProductRequestBody,
 } from "@core/apis/models/requestBody";
 import {
+	ApiRequestHandler,
+	ApiRequestHandlerWithParams,
+} from "@core/apis/models/requestHandlers";
+import {
 	ApiAddProductResponseBody,
 	ApiDeleteProductResponseBody,
 	ApiErrorResponseBody,
@@ -21,13 +25,10 @@ import {
 } from "@core/common/models/httpResponse";
 import { ProductServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
-import type { RequestHandler } from "express";
 
-export const getProducts: RequestHandler<
-	undefined,
-	ApiGetProductsResponseBody,
-	undefined,
-	undefined
+export const getProducts: ApiRequestHandler<
+	null,
+	ApiGetProductsResponseBody
 > = async (req, res) => {
 	let products;
 	try {
@@ -50,11 +51,9 @@ export const getProducts: RequestHandler<
 	);
 };
 
-export const addProduct: RequestHandler<
-	undefined,
-	ApiAddProductResponseBody,
+export const addProduct: ApiRequestHandler<
 	ApiAddProductRequestBody,
-	undefined
+	ApiAddProductResponseBody
 > = async (req, res) => {
 	const { name, unitOfSale, price, imageUrl } = req.body;
 
@@ -90,11 +89,10 @@ export const addProduct: RequestHandler<
 	);
 };
 
-export const getProduct: RequestHandler<
-	{ productId: string },
+export const getProduct: ApiRequestHandlerWithParams<
+	null,
 	ApiGetProductResponseBody,
-	undefined,
-	undefined
+	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
 
@@ -119,11 +117,10 @@ export const getProduct: RequestHandler<
 	);
 };
 
-export const updateProduct: RequestHandler<
-	{ productId: string },
-	ApiUpdateProductResponseBody,
+export const updateProduct: ApiRequestHandlerWithParams<
 	ApiUpdateProductRequestBody,
-	undefined
+	ApiUpdateProductResponseBody,
+	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
 
@@ -145,11 +142,10 @@ export const updateProduct: RequestHandler<
 	);
 };
 
-export const deleteProduct: RequestHandler<
-	{ productId: string },
+export const deleteProduct: ApiRequestHandlerWithParams<
+	null,
 	ApiDeleteProductResponseBody,
-	undefined,
-	undefined
+	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
 

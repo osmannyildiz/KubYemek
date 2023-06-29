@@ -1,5 +1,9 @@
 export { ApiAddAdminRequestBody, ApiUpdateAdminRequestBody } from "./admins";
-export { ApiAddEntityRequestBody, ApiUpdateEntityRequestBody } from "./base";
+export {
+	ApiAddEntityRequestBody,
+	ApiRequestBody,
+	ApiUpdateEntityRequestBody,
+} from "./base";
 export {
 	ApiAddProductRequestBody,
 	ApiUpdateProductRequestBody,
