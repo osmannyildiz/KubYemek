@@ -8,7 +8,6 @@ export interface ServiceAddProductRequestBody
 	name: string;
 	unitOfSale: string;
 	price: number;
-	imageUrl?: string;
 }
 
 export interface ServiceUpdateProductRequestBody
@@ -17,5 +16,4 @@ export interface ServiceUpdateProductRequestBody
 	slug?: string;
 	unitOfSale?: string;
 	price?: number;
-	imageUrl?: string;
 }

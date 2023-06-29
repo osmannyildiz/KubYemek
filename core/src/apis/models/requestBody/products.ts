@@ -4,7 +4,6 @@ export interface ApiAddProductRequestBody extends ApiAddEntityRequestBody {
 	name: string;
 	unitOfSale: string;
 	price: number;
-	imageUrl?: string;
 }
 
 export interface ApiUpdateProductRequestBody
@@ -13,5 +12,4 @@ export interface ApiUpdateProductRequestBody
 	slug?: string;
 	unitOfSale?: string;
 	price?: number;
-	imageUrl?: string;
 }

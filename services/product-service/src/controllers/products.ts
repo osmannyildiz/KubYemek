@@ -45,7 +45,7 @@ export const addProduct: ServiceRequestHandler<
 	ServiceAddProductRequestBody,
 	ServiceAddProductResponseBody
 > = async (req, res) => {
-	const { name, unitOfSale, price, imageUrl } = req.body;
+	const { name, unitOfSale, price } = req.body;
 	const productsRepo = db.products();
 
 	if (!name || !unitOfSale || !price) {
@@ -58,6 +58,12 @@ export const addProduct: ServiceRequestHandler<
 	}
 
 	const productSlug = slug(name);
+
+	let imageUrl = undefined;
+	if (req.file) {
+		const file = req.file as Express.MulterS3.File;
+		imageUrl = file.location;
+	}
 
 	try {
 		await productsRepo.insert(name, productSlug, unitOfSale, price, imageUrl);
@@ -107,11 +113,20 @@ export const updateProduct: ServiceRequestHandlerWithParams<
 	const { productId } = req.params;
 	const productsRepo = db.products();
 
+	const updates: ServiceUpdateProductRequestBody & { imageUrl?: string } =
+		req.body;
+
+	if (req.file) {
+		const file = req.file as Express.MulterS3.File;
+		updates.imageUrl = file.location;
+	}
+
 	await productsRepo.update(
-		...generateSetClauseAndValuesForDbUpdate(req.body),
+		...generateSetClauseAndValuesForDbUpdate(updates),
 		"id=?",
 		[productId]
 	);
+
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))
