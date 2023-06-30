@@ -1,9 +1,8 @@
 admin service:
-- crud admins
++ crud admins
 
 customer service:
-- crud customers
-- crud customer addresses
++ crud customers
 - inc/dec customer points
 
 notification service:
@@ -11,8 +10,8 @@ notification service:
 - add notification (admin/customer)
 
 product service:
-- crud products
-- produce product
++ crud products
++ produce product
 - take product
 
 order service:

@@ -12,7 +12,6 @@ import {
 	ApiAddProductResponseBody,
 	ApiDeleteProductResponseBody,
 	ApiErrorResponseBody,
-	ApiGetProductResponseBody,
 	ApiGetProductsResponseBody,
 	ApiProduceProductResponseBody,
 	ApiSuccessResponseBody,
@@ -104,33 +103,33 @@ export const addProduct: ApiRequestHandler<
 	);
 };
 
-export const getProduct: ApiRequestHandlerWithParams<
-	null,
-	ApiGetProductResponseBody,
-	"productId"
-> = async (req, res) => {
-	const { productId } = req.params;
+// export const getProduct: ApiRequestHandlerWithParams<
+// 	null,
+// 	ApiGetProductResponseBody,
+// 	"productId"
+// > = async (req, res) => {
+// 	const { productId } = req.params;
 
-	let product;
-	try {
-		product = await ProductServiceClient.getProduct(+productId);
-	} catch (error: any) {
-		console.error(error);
-		return sendHttpResp(
-			res,
-			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
-			)
-		);
-	}
+// 	let product;
+// 	try {
+// 		product = await ProductServiceClient.getProduct(+productId);
+// 	} catch (error: any) {
+// 		console.error(error);
+// 		return sendHttpResp(
+// 			res,
+// 			new HttpInternalServerErrorResponse(
+// 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+// 			)
+// 		);
+// 	}
 
-	product = ProductAdapter.privateToPublic(product);
+// 	product = ProductAdapter.privateToPublic(product);
 
-	return sendHttpResp(
-		res,
-		new HttpOkResponse(new ApiSuccessResponseBody(product))
-	);
-};
+// 	return sendHttpResp(
+// 		res,
+// 		new HttpOkResponse(new ApiSuccessResponseBody(product))
+// 	);
+// };
 
 export const updateProduct: ApiRequestHandlerWithParams<
 	ApiUpdateProductRequestBody,

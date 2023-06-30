@@ -5,6 +5,6 @@ export const getAdmins = async (): Promise<Admin[]> => {
 	return await AdminApiClient.getAdmins();
 };
 
-export const getAdmin = async (adminId: number): Promise<Admin> => {
-	return await AdminApiClient.getAdmin(adminId);
-};
+// export const getAdmin = async (adminId: number): Promise<Admin> => {
+// 	return await AdminApiClient.getAdmin(adminId);
+// };

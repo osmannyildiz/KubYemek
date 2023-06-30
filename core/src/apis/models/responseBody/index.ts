@@ -1,7 +1,7 @@
 export {
 	ApiAddAdminResponseBody,
 	ApiDeleteAdminResponseBody,
-	ApiGetAdminResponseBody,
+	// ApiGetAdminResponseBody,
 	ApiGetAdminsResponseBody,
 	ApiUpdateAdminResponseBody,
 } from "./admins";
@@ -18,7 +18,7 @@ export {
 export {
 	ApiAddProductResponseBody,
 	ApiDeleteProductResponseBody,
-	ApiGetProductResponseBody,
+	// ApiGetProductResponseBody,
 	ApiGetProductsResponseBody,
 	ApiProduceProductResponseBody,
 	ApiUpdateProductResponseBody,

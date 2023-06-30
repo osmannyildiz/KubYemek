@@ -5,6 +5,6 @@ export const getProducts = async (): Promise<Product[]> => {
 	return await AdminApiClient.getProducts();
 };
 
-export const getProduct = async (productId: number): Promise<Product> => {
-	return await AdminApiClient.getProduct(productId);
-};
+// export const getProduct = async (productId: number): Promise<Product> => {
+// 	return await AdminApiClient.getProduct(productId);
+// };

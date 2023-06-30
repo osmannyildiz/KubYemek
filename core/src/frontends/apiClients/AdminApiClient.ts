@@ -8,9 +8,7 @@ import {
 	ApiAddProductResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiDeleteProductResponseBody,
-	ApiGetAdminResponseBody,
 	ApiGetAdminsResponseBody,
-	ApiGetProductResponseBody,
 	ApiGetProductsResponseBody,
 	ApiProduceProductResponseBody,
 	ApiUpdateAdminResponseBody,
@@ -48,16 +46,16 @@ export class AdminApiClient {
 		}
 	}
 
-	static async getAdmin(adminId: number): Promise<Admin> {
-		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`);
-		const respBody: ApiGetAdminResponseBody = await resp.json();
+	// static async getAdmin(adminId: number): Promise<Admin> {
+	// 	const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`);
+	// 	const respBody: ApiGetAdminResponseBody = await resp.json();
 
-		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
-		}
+	// 	if (apiRespBodyIsNotOk(respBody)) {
+	// 		throw new ApiRespBodyIsNotOkError(respBody.errorType);
+	// 	}
 
-		return respBody.data;
-	}
+	// 	return respBody.data;
+	// }
 
 	static async updateAdmin(adminId: number, data: ApiUpdateAdminRequestBody) {
 		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`, {
@@ -108,18 +106,18 @@ export class AdminApiClient {
 		}
 	}
 
-	static async getProduct(productId: number): Promise<Product> {
-		const resp = await fetch(
-			`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`
-		);
-		const respBody: ApiGetProductResponseBody = await resp.json();
+	// static async getProduct(productId: number): Promise<Product> {
+	// 	const resp = await fetch(
+	// 		`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`
+	// 	);
+	// 	const respBody: ApiGetProductResponseBody = await resp.json();
 
-		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
-		}
+	// 	if (apiRespBodyIsNotOk(respBody)) {
+	// 		throw new ApiRespBodyIsNotOkError(respBody.errorType);
+	// 	}
 
-		return respBody.data;
-	}
+	// 	return respBody.data;
+	// }
 
 	static async updateProduct(productId: number, formData: FormData) {
 		const resp = await fetch(

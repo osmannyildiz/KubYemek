@@ -3,7 +3,6 @@ import {
 	ApiDeleteEntityResponseBody,
 	ApiErrorResponseBody,
 	ApiGetEntitiesResponseBody,
-	ApiGetEntityResponseBody,
 	ApiSuccessResponseBody,
 	ApiUpdateEntityResponseBody,
 } from "@core/apis/models/responseBody";
@@ -13,7 +12,7 @@ export type ApiGetProductsResponseBody = ApiGetEntitiesResponseBody<Product>;
 
 export type ApiAddProductResponseBody = ApiAddEntityResponseBody;
 
-export type ApiGetProductResponseBody = ApiGetEntityResponseBody<Product>;
+// export type ApiGetProductResponseBody = ApiGetEntityResponseBody<Product>;
 
 export type ApiUpdateProductResponseBody = ApiUpdateEntityResponseBody;
 

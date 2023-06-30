@@ -11,7 +11,6 @@ import {
 	ApiAddAdminResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiErrorResponseBody,
-	ApiGetAdminResponseBody,
 	ApiGetAdminsResponseBody,
 	ApiSuccessResponseBody,
 	ApiUpdateAdminResponseBody,
@@ -84,33 +83,33 @@ export const addAdmin: ApiRequestHandler<
 	);
 };
 
-export const getAdmin: ApiRequestHandlerWithParams<
-	null,
-	ApiGetAdminResponseBody,
-	"adminId"
-> = async (req, res) => {
-	const { adminId } = req.params;
+// export const getAdmin: ApiRequestHandlerWithParams<
+// 	null,
+// 	ApiGetAdminResponseBody,
+// 	"adminId"
+// > = async (req, res) => {
+// 	const { adminId } = req.params;
 
-	let admin;
-	try {
-		admin = await AdminServiceClient.getAdmin(+adminId);
-	} catch (error: any) {
-		console.error(error);
-		return sendHttpResp(
-			res,
-			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
-			)
-		);
-	}
+// 	let admin;
+// 	try {
+// 		admin = await AdminServiceClient.getAdmin(+adminId);
+// 	} catch (error: any) {
+// 		console.error(error);
+// 		return sendHttpResp(
+// 			res,
+// 			new HttpInternalServerErrorResponse(
+// 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+// 			)
+// 		);
+// 	}
 
-	admin = AdminAdapter.privateToPublic(admin);
+// 	admin = AdminAdapter.privateToPublic(admin);
 
-	return sendHttpResp(
-		res,
-		new HttpOkResponse(new ApiSuccessResponseBody(admin))
-	);
-};
+// 	return sendHttpResp(
+// 		res,
+// 		new HttpOkResponse(new ApiSuccessResponseBody(admin))
+// 	);
+// };
 
 export const updateAdmin: ApiRequestHandlerWithParams<
 	ApiUpdateAdminRequestBody,
