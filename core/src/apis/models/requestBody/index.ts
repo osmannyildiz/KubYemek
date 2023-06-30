@@ -6,5 +6,6 @@ export {
 } from "./base";
 export {
 	ApiAddProductRequestBody,
+	ApiProduceProductRequestBody,
 	ApiUpdateProductRequestBody,
 } from "./products";

@@ -20,5 +20,6 @@ export {
 	ServiceDeleteProductResponseBody,
 	ServiceGetProductResponseBody,
 	ServiceGetProductsResponseBody,
+	ServiceProduceProductResponseBody,
 	ServiceUpdateProductResponseBody,
 } from "./products";

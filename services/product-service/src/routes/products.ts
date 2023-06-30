@@ -13,3 +13,4 @@ productsRouter
 	.get(controller.getProduct)
 	.patch(uploadProductImageToS3.single("image"), controller.updateProduct)
 	.delete(controller.deleteProduct);
+productsRouter.route("/:productId/produce").post(controller.produceProduct);

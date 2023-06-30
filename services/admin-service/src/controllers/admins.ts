@@ -127,7 +127,7 @@ export const updateAdmin: ServiceRequestHandlerWithParams<
 
 	await adminsRepo.update(
 		...generateSetClauseAndValuesForDbUpdate(req.body),
-		"id=?",
+		"id = ?",
 		[adminId]
 	);
 	return sendHttpResp(

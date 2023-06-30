@@ -1,5 +1,6 @@
 import {
 	ApiAddAdminRequestBody,
+	ApiProduceProductRequestBody,
 	ApiUpdateAdminRequestBody,
 } from "@core/apis/models/requestBody";
 import {
@@ -11,6 +12,7 @@ import {
 	ApiGetAdminsResponseBody,
 	ApiGetProductResponseBody,
 	ApiGetProductsResponseBody,
+	ApiProduceProductResponseBody,
 	ApiUpdateAdminResponseBody,
 	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
@@ -142,6 +144,27 @@ export class AdminApiClient {
 			}
 		);
 		const respBody: ApiDeleteProductResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+		}
+	}
+
+	static async produceProduct(
+		productId: number,
+		data: ApiProduceProductRequestBody
+	) {
+		const resp = await fetch(
+			`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}/produce`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+		const respBody: ApiProduceProductResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
 			throw new ApiRespBodyIsNotOkError(respBody.errorType);

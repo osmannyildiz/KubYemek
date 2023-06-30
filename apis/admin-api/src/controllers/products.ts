@@ -1,6 +1,7 @@
 import { ProductAdapter } from "@/adapters/ProductAdapter";
 import {
 	ApiAddProductRequestBody,
+	ApiProduceProductRequestBody,
 	ApiUpdateProductRequestBody,
 } from "@core/apis/models/requestBody";
 import {
@@ -13,6 +14,7 @@ import {
 	ApiErrorResponseBody,
 	ApiGetProductResponseBody,
 	ApiGetProductsResponseBody,
+	ApiProduceProductResponseBody,
 	ApiSuccessResponseBody,
 	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
@@ -180,6 +182,31 @@ export const deleteProduct: ApiRequestHandlerWithParams<
 
 	try {
 		await ProductServiceClient.deleteProduct(+productId);
+	} catch (error: any) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+			)
+		);
+	}
+
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ApiSuccessResponseBody(undefined))
+	);
+};
+
+export const produceProduct: ApiRequestHandlerWithParams<
+	ApiProduceProductRequestBody,
+	ApiProduceProductResponseBody,
+	"productId"
+> = async (req, res) => {
+	const { productId } = req.params;
+
+	try {
+		await ProductServiceClient.produceProduct(+productId, req.body);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(

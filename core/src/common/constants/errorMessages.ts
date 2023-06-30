@@ -9,6 +9,10 @@ export const errorMessages: ErrorMessages = {
 		en: "A user with this e-mail address already exists. Please enter a different e-mail address.",
 		tr: "Bu e-posta adresine sahip bir kullanıcı halihazırda mevcut. Lütfen farklı bir e-posta adresi girin.",
 	},
+	[ErrorType.fieldMustBeOneOrBigger]: {
+		en: "This field's value must be 1 or bigger.",
+		tr: "Bu alanın değeri 1 veya daha büyük olmalıdır.",
+	},
 	[ErrorType.notFound]: {
 		en: "Data not found.",
 		tr: "Veri bulunamadı.",

@@ -9,5 +9,6 @@ export {
 } from "./base";
 export {
 	ServiceAddProductRequestBody,
+	ServiceProduceProductRequestBody,
 	ServiceUpdateProductRequestBody,
 } from "./products";

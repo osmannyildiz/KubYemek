@@ -3,6 +3,7 @@ import { LangId } from "./localization";
 export enum ErrorType {
 	default = "default",
 	emailAlreadyExists = "emailAlreadyExists",
+	fieldMustBeOneOrBigger = "fieldMustBeOneOrBigger",
 	notFound = "notFound",
 	passwordShouldSatisfyMinimumLength = "passwordShouldSatisfyMinimumLength",
 	passwordsDoNotMatch = "passwordsDoNotMatch",

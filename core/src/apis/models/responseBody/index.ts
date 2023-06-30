@@ -20,5 +20,6 @@ export {
 	ApiDeleteProductResponseBody,
 	ApiGetProductResponseBody,
 	ApiGetProductsResponseBody,
+	ApiProduceProductResponseBody,
 	ApiUpdateProductResponseBody,
 } from "./products";

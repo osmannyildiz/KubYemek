@@ -1,4 +1,8 @@
-import { ApiAddEntityRequestBody, ApiUpdateEntityRequestBody } from "./base";
+import {
+	ApiAddEntityRequestBody,
+	ApiRequestBody,
+	ApiUpdateEntityRequestBody,
+} from "./base";
 
 export interface ApiAddProductRequestBody extends ApiAddEntityRequestBody {
 	name: string;
@@ -12,4 +16,8 @@ export interface ApiUpdateProductRequestBody
 	slug?: string;
 	unitOfSale?: string;
 	price?: number;
+}
+
+export interface ApiProduceProductRequestBody extends ApiRequestBody {
+	unitsCount: number;
 }

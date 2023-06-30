@@ -16,10 +16,10 @@ export const generateSetClauseAndValuesForDbUpdate = (
 	Object.entries(updates)
 		.filter((entry) => entry[1])
 		.forEach((entry) => {
-			setClause += `${camelToSnake(entry[0])}=?,`;
+			setClause += `${camelToSnake(entry[0])} = ?, `;
 			setValues.push(entry[1]!);
 		});
-	setClause = setClause.slice(0, -1);
+	setClause = setClause.slice(0, -2);
 
 	return [setClause, setValues];
 };

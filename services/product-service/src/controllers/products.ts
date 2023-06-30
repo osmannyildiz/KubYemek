@@ -7,9 +7,10 @@ import {
 	HttpNotFoundResponse,
 	HttpOkResponse,
 } from "@core/common/models/httpResponse";
-import { sendHttpResp } from "@core/common/utils";
+import { sendHttpResp, waitForMs } from "@core/common/utils";
 import {
 	ServiceAddProductRequestBody,
+	ServiceProduceProductRequestBody,
 	ServiceUpdateProductRequestBody,
 } from "@core/services/models/requestBody";
 import {
@@ -22,6 +23,7 @@ import {
 	ServiceErrorResponseBody,
 	ServiceGetProductResponseBody,
 	ServiceGetProductsResponseBody,
+	ServiceProduceProductResponseBody,
 	ServiceSuccessResponseBody,
 	ServiceUpdateProductResponseBody,
 } from "@core/services/models/responseBody";
@@ -130,7 +132,7 @@ export const updateProduct: ServiceRequestHandlerWithParams<
 
 	await productsRepo.update(
 		...generateSetClauseAndValuesForDbUpdate(updates),
-		"id=?",
+		"id = ?",
 		[productId]
 	);
 
@@ -152,5 +154,57 @@ export const deleteProduct: ServiceRequestHandlerWithParams<
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))
+	);
+};
+
+export const produceProduct: ServiceRequestHandlerWithParams<
+	ServiceProduceProductRequestBody,
+	ServiceProduceProductResponseBody,
+	"productId"
+> = async (req, res) => {
+	const { productId } = req.params;
+	const { unitsCount } = req.body;
+	const productsRepo = db.products();
+
+	if (!unitsCount) {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.requiredFieldEmpty)
+			)
+		);
+	}
+
+	if (unitsCount < 1) {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.fieldMustBeOneOrBigger)
+			)
+		);
+	}
+
+	try {
+		for (let i = 0; i < unitsCount; i++) {
+			// Simulate waiting
+			await waitForMs(1000);
+
+			await productsRepo.increaseColumn("units_in_stock", 1, "id = ?", [
+				productId,
+			]);
+		}
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
+	return sendHttpResp(
+		res,
+		new HttpCreatedResponse(new ServiceSuccessResponseBody(undefined))
 	);
 };

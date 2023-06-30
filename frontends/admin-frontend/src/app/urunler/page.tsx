@@ -1,6 +1,7 @@
 "use client";
 
 import EntityDeleteModal from "@/components/form/EntityDeleteModal";
+import EntityFormModal from "@/components/form/EntityFormModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import ImagePicker from "@/components/form/ImagePicker";
@@ -9,6 +10,7 @@ import { getProducts } from "@/query/fetchers/products";
 import {
 	addProduct,
 	deleteProduct,
+	produceProduct,
 	updateProduct,
 } from "@/query/mutations/products";
 import { Product } from "@core/common/models/entity/frontend";
@@ -26,19 +28,19 @@ export default function ProductsPage() {
 	const addProductMutation = useMutation("addProduct", addProduct);
 	const updateProductMutation = useMutation("updateProduct", updateProduct);
 	const deleteProductMutation = useMutation("deleteProduct", deleteProduct);
+	const produceProductMutation = useMutation("produceProduct", produceProduct);
 
 	const [showProductAddForm, setShowProductAddForm] = useState(false);
-	const [productToEdit, setProductToEdit] = useState<Product | undefined>();
-	const [productToDelete, setProductToDelete] = useState<Product | undefined>();
-	const [productAddFormError, setProductAddFormError] = useState<
-		string | undefined
-	>();
-	const [productEditFormError, setProductEditFormError] = useState<
-		string | undefined
-	>();
-	const [productDeleteModalError, setProductDeleteModalError] = useState<
-		string | undefined
-	>();
+	const [productToEdit, setProductToEdit] = useState<Product>();
+	const [productToDelete, setProductToDelete] = useState<Product>();
+	const [productToProduce, setProductToProduce] = useState<Product>();
+
+	const [productAddFormError, setProductAddFormError] = useState<string>();
+	const [productEditFormError, setProductEditFormError] = useState<string>();
+	const [productDeleteModalError, setProductDeleteModalError] =
+		useState<string>();
+	const [productProduceModalError, setProductProduceModalError] =
+		useState<string>();
 
 	const handleProductAddFormSubmit = async (
 		event: React.FormEvent<HTMLFormElement>
@@ -115,6 +117,43 @@ export default function ProductsPage() {
 		closeProductDeleteModal();
 	};
 
+	const handleProductProduceModalConfirm = async (
+		event: React.FormEvent<HTMLFormElement>
+	) => {
+		if (!productToProduce) return;
+
+		const formData = new FormData(event.target as HTMLFormElement);
+		const unitsCount = formData.get("unitsCount");
+
+		if (!unitsCount) {
+			setProductProduceModalError(getErrMsg(ErrorType.requiredFieldEmpty));
+			return;
+		}
+
+		if (+unitsCount.toString() < 1) {
+			setProductProduceModalError(getErrMsg(ErrorType.fieldMustBeOneOrBigger));
+			return;
+		}
+
+		try {
+			await produceProductMutation.mutateAsync({
+				id: +productToProduce.id,
+				data: {
+					unitsCount: +unitsCount.toString(),
+				},
+			});
+		} catch (error: any) {
+			console.error(error);
+			setProductProduceModalError(
+				error?.message || getErrMsg(ErrorType.default)
+			);
+			return;
+		}
+
+		queryClient.invalidateQueries("products");
+		closeProductProduceModal();
+	};
+
 	const closeProductAddForm = () => {
 		setShowProductAddForm(false);
 		setProductAddFormError(undefined);
@@ -128,6 +167,11 @@ export default function ProductsPage() {
 	const closeProductDeleteModal = () => {
 		setProductToDelete(undefined);
 		setProductDeleteModalError(undefined);
+	};
+
+	const closeProductProduceModal = () => {
+		setProductToProduce(undefined);
+		setProductProduceModalError(undefined);
 	};
 
 	return (
@@ -180,6 +224,13 @@ export default function ProductsPage() {
 									<td>{product.unitsInStock}</td>
 									<td>
 										<Stack direction="horizontal" gap={2}>
+											<Button
+												variant="success"
+												size="sm"
+												onClick={() => setProductToProduce(product)}
+											>
+												Üret
+											</Button>
 											<Button
 												variant="primary"
 												size="sm"
@@ -335,6 +386,34 @@ export default function ProductsPage() {
 				<em>{productToDelete?.name}</em> adlı ürünü silmek istediğinize emin
 				misiniz?
 			</EntityDeleteModal>
+
+			<EntityFormModal
+				show={!!productToProduce}
+				title="Ürünü Üret"
+				error={productProduceModalError}
+				mutation={produceProductMutation}
+				confirmButtonVariant="success"
+				confirmButtonText="Üret"
+				onSubmit={handleProductProduceModalConfirm}
+				onCancel={closeProductProduceModal}
+			>
+				<p>
+					<em>{productToProduce?.name}</em> adlı üründen kaç birim üretmek
+					istersiniz?
+				</p>
+				<Form.Group controlId="unitsCount">
+					<Form.Control
+						type="number"
+						name="unitsCount"
+						defaultValue={1}
+						required
+						min={1}
+					/>
+					<Form.Label>
+						<em>{productToProduce?.unitOfSale}</em>
+					</Form.Label>
+				</Form.Group>
+			</EntityFormModal>
 		</AppPage>
 	);
 }

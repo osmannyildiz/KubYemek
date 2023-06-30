@@ -23,17 +23,12 @@ export default function AdminsPage() {
 	const deleteAdminMutation = useMutation("deleteAdmin", deleteAdmin);
 
 	const [showAdminAddForm, setShowAdminAddForm] = useState(false);
-	const [adminToEdit, setAdminToEdit] = useState<Admin | undefined>();
-	const [adminToDelete, setAdminToDelete] = useState<Admin | undefined>();
-	const [adminAddFormError, setAdminAddFormError] = useState<
-		string | undefined
-	>();
-	const [adminEditFormError, setAdminEditFormError] = useState<
-		string | undefined
-	>();
-	const [adminDeleteModalError, setAdminDeleteModalError] = useState<
-		string | undefined
-	>();
+	const [adminToEdit, setAdminToEdit] = useState<Admin>();
+	const [adminToDelete, setAdminToDelete] = useState<Admin>();
+
+	const [adminAddFormError, setAdminAddFormError] = useState<string>();
+	const [adminEditFormError, setAdminEditFormError] = useState<string>();
+	const [adminDeleteModalError, setAdminDeleteModalError] = useState<string>();
 
 	const handleAdminAddFormSubmit = async (
 		event: React.FormEvent<HTMLFormElement>

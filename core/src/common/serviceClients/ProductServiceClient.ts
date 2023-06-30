@@ -2,11 +2,13 @@ import { CONFIG } from "@core/apis/config";
 import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ServiceRespBodyIsNotOkError } from "@core/common/models/ServiceRespBodyIsNotOkError";
 import { Product_Private } from "@core/common/models/entity/backend";
+import { ServiceProduceProductRequestBody } from "@core/services/models/requestBody";
 import {
 	ServiceAddProductResponseBody,
 	ServiceDeleteProductResponseBody,
 	ServiceGetProductResponseBody,
 	ServiceGetProductsResponseBody,
+	ServiceProduceProductResponseBody,
 	ServiceUpdateProductResponseBody,
 } from "@core/services/models/responseBody";
 import FormData from "form-data";
@@ -78,6 +80,27 @@ export class ProductServiceClient {
 			}
 		);
 		const respBody: ServiceDeleteProductResponseBody = await resp.json();
+
+		if (serviceRespBodyIsNotOk(respBody)) {
+			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+		}
+	}
+
+	static async produceProduct(
+		productId: number,
+		data: ServiceProduceProductRequestBody
+	) {
+		const resp = await fetch(
+			`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}/produce`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+		const respBody: ServiceProduceProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
 			throw new ServiceRespBodyIsNotOkError(respBody.errorType);

@@ -1,5 +1,6 @@
 import {
 	ServiceAddEntityRequestBody,
+	ServiceRequestBody,
 	ServiceUpdateEntityRequestBody,
 } from "./base";
 
@@ -16,4 +17,8 @@ export interface ServiceUpdateProductRequestBody
 	slug?: string;
 	unitOfSale?: string;
 	price?: number;
+}
+
+export interface ServiceProduceProductRequestBody extends ServiceRequestBody {
+	unitsCount: number;
 }
