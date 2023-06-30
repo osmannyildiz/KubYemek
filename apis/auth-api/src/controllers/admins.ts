@@ -24,9 +24,9 @@ export const registerAdmin: ApiRequestHandler<
 	ApiRegisterAdminRequestBody,
 	ApiRegisterAdminResponseBody
 > = async (req, res) => {
-	const { email, password } = req.body;
+	const { username, email, password } = req.body;
 
-	if (!email || !password) {
+	if (!username || !email || !password) {
 		return sendHttpResp(
 			res,
 			new HttpBadRequestResponse(
@@ -47,7 +47,7 @@ export const registerAdmin: ApiRequestHandler<
 	const hashedPassword = await hashPassword(password);
 
 	try {
-		await AdminServiceClient.addAdmin({ email, hashedPassword });
+		await AdminServiceClient.addAdmin({ username, email, hashedPassword });
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(

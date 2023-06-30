@@ -7,8 +7,13 @@ export class DbAdminsRepository extends DbTableRepositoryBase<Admin_Private> {
 		super("admins", getDbconn);
 	}
 
-	async insert(email: string, hashedPassword: string): Promise<number> {
-		return await this._insert("email,hashed_password", "?,?", [
+	async insert(
+		username: string,
+		email: string,
+		hashedPassword: string
+	): Promise<number> {
+		return await this._insert("username,email,hashed_password", "?,?,?", [
+			username,
 			email,
 			hashedPassword,
 		]);

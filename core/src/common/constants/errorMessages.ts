@@ -33,4 +33,8 @@ export const errorMessages: ErrorMessages = {
 		en: "Please fill all required fields.",
 		tr: "Lütfen tüm zorunlu alanları doldurun.",
 	},
+	[ErrorType.usernameAlreadyExists]: {
+		en: "A user with this username already exists. Please enter a different username.",
+		tr: "Bu kullanıcı adına sahip bir kullanıcı halihazırda mevcut. Lütfen farklı bir kullanıcı adı girin.",
+	},
 };

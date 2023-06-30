@@ -5,6 +5,7 @@ export class AdminAdapter {
 	static privateToPublic(privAdmin: Admin_Private): Admin {
 		return {
 			id: privAdmin.id,
+			username: privAdmin.username,
 			email: privAdmin.email,
 		};
 	}

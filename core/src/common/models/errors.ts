@@ -9,6 +9,7 @@ export enum ErrorType {
 	passwordShouldSatisfyMinimumLength = "passwordShouldSatisfyMinimumLength",
 	passwordsDoNotMatch = "passwordsDoNotMatch",
 	requiredFieldEmpty = "requiredFieldEmpty",
+	usernameAlreadyExists = "usernameAlreadyExists",
 }
 
 export type ErrorMessages = Record<ErrorType, LocalizedErrorMessageGroup>;

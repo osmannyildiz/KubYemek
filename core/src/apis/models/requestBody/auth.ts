@@ -1,6 +1,7 @@
 import { ApiAddEntityRequestBody } from "./base";
 
 export interface ApiRegisterAdminRequestBody extends ApiAddEntityRequestBody {
+	username: string;
 	email: string;
 	password: string;
 }

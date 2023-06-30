@@ -45,10 +45,10 @@ export const addAdmin: ServiceRequestHandler<
 	ServiceAddAdminRequestBody,
 	ServiceAddAdminResponseBody
 > = async (req, res) => {
-	const { email, hashedPassword } = req.body;
+	const { username, email, hashedPassword } = req.body;
 	const adminsRepo = db.admins();
 
-	if (!email || !hashedPassword) {
+	if (!username || !email || !hashedPassword) {
 		return sendHttpResp(
 			res,
 			new HttpBadRequestResponse(
@@ -57,18 +57,32 @@ export const addAdmin: ServiceRequestHandler<
 		);
 	}
 
-	const existingAdmin = await adminsRepo.getOne("email = ?", [email]);
-	if (existingAdmin) {
-		return sendHttpResp(
-			res,
-			new HttpBadRequestResponse(
-				new ServiceErrorResponseBody(ErrorType.emailAlreadyExists)
-			)
-		);
+	{
+		const existingAdmin = await adminsRepo.getOne("username = ?", [username]);
+		if (existingAdmin) {
+			return sendHttpResp(
+				res,
+				new HttpBadRequestResponse(
+					new ServiceErrorResponseBody(ErrorType.usernameAlreadyExists)
+				)
+			);
+		}
+	}
+
+	{
+		const existingAdmin = await adminsRepo.getOne("email = ?", [email]);
+		if (existingAdmin) {
+			return sendHttpResp(
+				res,
+				new HttpBadRequestResponse(
+					new ServiceErrorResponseBody(ErrorType.emailAlreadyExists)
+				)
+			);
+		}
 	}
 
 	try {
-		await adminsRepo.insert(email, hashedPassword);
+		await adminsRepo.insert(username, email, hashedPassword);
 	} catch (error) {
 		console.error(error);
 		return sendHttpResp(
@@ -146,8 +160,24 @@ export const updateAdmin: ServiceRequestHandlerWithParams<
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();
 
+	if (req.body.username) {
+		const existingAdmin = await adminsRepo.getOne("id != ? AND username = ?", [
+			adminId,
+			req.body.username,
+		]);
+		if (existingAdmin) {
+			return sendHttpResp(
+				res,
+				new HttpBadRequestResponse(
+					new ServiceErrorResponseBody(ErrorType.usernameAlreadyExists)
+				)
+			);
+		}
+	}
+
 	if (req.body.email) {
-		const existingAdmin = await adminsRepo.getOne("email = ?", [
+		const existingAdmin = await adminsRepo.getOne("id != ? AND email = ?", [
+			adminId,
 			req.body.email,
 		]);
 		if (existingAdmin) {

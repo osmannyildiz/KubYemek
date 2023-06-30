@@ -35,11 +35,12 @@ export default function AdminsPage() {
 		event: React.FormEvent<HTMLFormElement>
 	) => {
 		const formData = new FormData(event.target as HTMLFormElement);
+		const username = formData.get("username");
 		const email = formData.get("email");
 		const password = formData.get("password");
 		const passwordRepeat = formData.get("passwordRepeat");
 
-		if (!email || !password || !passwordRepeat) {
+		if (!username || !email || !password || !passwordRepeat) {
 			setAdminAddFormError(getErrMsg(ErrorType.requiredFieldEmpty));
 			return;
 		}
@@ -59,6 +60,7 @@ export default function AdminsPage() {
 		try {
 			await registerAdminMutation.mutateAsync({
 				data: {
+					username: username.toString(),
 					email: email.toString(),
 					password: password.toString(),
 				},
@@ -79,12 +81,14 @@ export default function AdminsPage() {
 		if (!adminToEdit) return;
 
 		const formData = new FormData(event.target as HTMLFormElement);
+		const username = formData.get("username");
 		const email = formData.get("email");
 
 		try {
 			await updateAdminMutation.mutateAsync({
 				id: +adminToEdit.id,
 				data: {
+					username: username?.toString(),
 					email: email?.toString(),
 				},
 			});
@@ -142,6 +146,7 @@ export default function AdminsPage() {
 			<table className="table table-striped table-hover">
 				<thead>
 					<tr>
+						<th scope="col">Kullanıcı Adı</th>
 						<th scope="col">E-posta</th>
 						<th scope="col">Şifre</th>
 						<th scope="col" style={{ width: "200px" }}>
@@ -151,8 +156,9 @@ export default function AdminsPage() {
 				</thead>
 				<tbody className="table-group-divider">
 					{adminsQuery.isSuccess && adminsQuery.data
-						? adminsQuery.data.map((admin: any) => (
+						? adminsQuery.data.map((admin) => (
 								<tr key={admin.id}>
+									<td>{admin.username}</td>
 									<td>{admin.email}</td>
 									<td>******</td>
 									<td>
@@ -185,6 +191,13 @@ export default function AdminsPage() {
 				onSubmit={handleAdminAddFormSubmit}
 				onCancel={closeAdminAddForm}
 			>
+				<Form.Group controlId="username">
+					<Form.Label>
+						Kullanıcı adı <FormFieldRequiredIndicator />
+					</Form.Label>
+					<Form.Control type="text" name="username" required />
+				</Form.Group>
+
 				<Form.Group controlId="email">
 					<Form.Label>
 						E-posta adresi <FormFieldRequiredIndicator />
@@ -240,6 +253,16 @@ export default function AdminsPage() {
 				onSubmit={handleAdminEditFormSubmit}
 				onCancel={closeAdminEditForm}
 			>
+				<Form.Group controlId="username">
+					<Form.Label>Kullanıcı adı</Form.Label>
+					<Form.Control
+						type="text"
+						name="username"
+						defaultValue={adminToEdit?.username}
+						required
+					/>
+				</Form.Group>
+
 				<Form.Group controlId="email">
 					<Form.Label>E-posta adresi</Form.Label>
 					<Form.Control
@@ -276,7 +299,7 @@ export default function AdminsPage() {
 				onConfirm={handleAdminDeleteModalConfirm}
 				onCancel={closeAdminDeleteModal}
 			>
-				<em>{adminToDelete?.email}</em> e-posta adresine sahip olan yöneticiyi
+				<em>{adminToDelete?.username}</em> kullanıcı adına sahip olan yöneticiyi
 				silmek istediğinize emin misiniz?
 			</EntityDeleteModal>
 		</AppPage>

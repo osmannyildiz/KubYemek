@@ -1,3 +1,9 @@
 USE kubyemek;
+START TRANSACTION;
 
-ALTER TABLE admins RENAME COLUMN password TO hashed_password;
+TRUNCATE TABLE admins;
+ALTER TABLE admins ADD COLUMN username VARCHAR(255) NOT NULL UNIQUE AFTER id;
+
+ALTER TABLE products MODIFY COLUMN image_url TEXT NOT NULL;
+
+COMMIT;
