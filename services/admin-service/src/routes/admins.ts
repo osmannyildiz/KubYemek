@@ -4,6 +4,7 @@ import express from "express";
 export const adminsRouter = express.Router();
 
 adminsRouter.route("/").get(controller.getAdmins).post(controller.addAdmin);
+adminsRouter.route("/byEmail").get(controller.getAdminByEmail);
 adminsRouter
 	.route("/:adminId")
 	.get(controller.getAdmin)

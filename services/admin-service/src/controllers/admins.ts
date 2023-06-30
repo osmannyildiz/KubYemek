@@ -15,6 +15,7 @@ import {
 import {
 	ServiceRequestHandler,
 	ServiceRequestHandlerWithParams,
+	ServiceRequestHandlerWithQuery,
 } from "@core/services/models/requestHandlers";
 import {
 	ServiceAddAdminResponseBody,
@@ -93,6 +94,37 @@ export const getAdmin: ServiceRequestHandlerWithParams<
 	const adminsRepo = db.admins();
 
 	const admin = await adminsRepo.getById(+adminId);
+	if (!admin) {
+		return sendHttpResp(
+			res,
+			new HttpNotFoundResponse(new ServiceErrorResponseBody(ErrorType.notFound))
+		);
+	}
+
+	return sendHttpResp(
+		res,
+		new HttpOkResponse(new ServiceSuccessResponseBody(admin))
+	);
+};
+
+export const getAdminByEmail: ServiceRequestHandlerWithQuery<
+	null,
+	ServiceGetAdminResponseBody,
+	{ email: string }
+> = async (req, res) => {
+	const { email } = req.query;
+	const adminsRepo = db.admins();
+
+	if (!email) {
+		return sendHttpResp(
+			res,
+			new HttpBadRequestResponse(
+				new ServiceErrorResponseBody(ErrorType.requiredFieldEmpty)
+			)
+		);
+	}
+
+	const admin = await adminsRepo.getOne("email = ?", [email]);
 	if (!admin) {
 		return sendHttpResp(
 			res,

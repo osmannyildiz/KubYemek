@@ -13,6 +13,10 @@ export const errorMessages: ErrorMessages = {
 		en: "This field's value must be 1 or bigger.",
 		tr: "Bu alanın değeri 1 veya daha büyük olmalıdır.",
 	},
+	[ErrorType.loginIsInvalid]: {
+		en: "Login credentials are invalid.",
+		tr: "Giriş bilgileri yanlış.",
+	},
 	[ErrorType.notFound]: {
 		en: "Data not found.",
 		tr: "Veri bulunamadı.",

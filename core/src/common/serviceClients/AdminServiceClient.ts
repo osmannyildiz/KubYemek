@@ -55,6 +55,21 @@ export class AdminServiceClient {
 		return respBody.data;
 	}
 
+	static async getAdminByEmail(email: string): Promise<Admin_Private> {
+		const resp = await fetch(
+			`${
+				CONFIG.ADMIN_SERVICE_ADDRESS
+			}/admins/byEmail?email=${encodeURIComponent(email)}`
+		);
+		const respBody: ServiceGetAdminResponseBody = await resp.json();
+
+		if (serviceRespBodyIsNotOk(respBody)) {
+			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+		}
+
+		return respBody.data;
+	}
+
 	static async updateAdmin(
 		adminId: number,
 		data: ServiceUpdateAdminRequestBody

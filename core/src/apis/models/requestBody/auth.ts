@@ -5,7 +5,7 @@ export interface ApiRegisterAdminRequestBody extends ApiAddEntityRequestBody {
 	password: string;
 }
 
-// export interface ApiLoginAdminRequestBody extends ApiAddEntityRequestBody {
-// 	email: string;
-// 	password: string;
-// }
+export interface ApiLoginAdminRequestBody extends ApiAddEntityRequestBody {
+	email: string;
+	password: string;
+}

@@ -4,3 +4,4 @@ export { HttpInternalServerErrorResponse } from "./HttpInternalServerErrorRespon
 export { HttpNotFoundResponse } from "./HttpNotFoundResponse";
 export { HttpOkResponse } from "./HttpOkResponse";
 export { HttpResponse } from "./HttpResponse";
+export { HttpUnauthorizedResponse } from "./HttpUnauthorizedResponse";
