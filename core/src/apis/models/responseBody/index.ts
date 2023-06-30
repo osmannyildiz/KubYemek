@@ -5,6 +5,7 @@ export {
 	ApiGetAdminsResponseBody,
 	ApiUpdateAdminResponseBody,
 } from "./admins";
+export { ApiRegisterAdminResponseBody } from "./auth";
 export {
 	ApiAddEntityResponseBody,
 	ApiDeleteEntityResponseBody,

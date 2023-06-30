@@ -1,11 +1,5 @@
-import { ApiAddEntityRequestBody, ApiUpdateEntityRequestBody } from "./base";
-
-export interface ApiAddAdminRequestBody extends ApiAddEntityRequestBody {
-	email: string;
-	password: string;
-}
+import { ApiUpdateEntityRequestBody } from "./base";
 
 export interface ApiUpdateAdminRequestBody extends ApiUpdateEntityRequestBody {
 	email?: string;
-	password?: string;
 }

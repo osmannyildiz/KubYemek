@@ -1,3 +1,3 @@
 USE kubyemek;
 
-ALTER TABLE products MODIFY COLUMN image_url VARCHAR(255) NOT NULL;
+ALTER TABLE admins RENAME COLUMN password TO hashed_password;

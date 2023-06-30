@@ -5,7 +5,8 @@ import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import AppPage from "@/components/layout/AppPage";
 import { getAdmins } from "@/query/fetchers/admins";
-import { addAdmin, deleteAdmin, updateAdmin } from "@/query/mutations/admins";
+import { deleteAdmin, updateAdmin } from "@/query/mutations/admins";
+import { registerAdmin } from "@/query/mutations/auth";
 import { Admin } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
 import { getErrMsg } from "@core/frontends/utils";
@@ -18,7 +19,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 export default function AdminsPage() {
 	const queryClient = useQueryClient();
 	const adminsQuery = useQuery("admins", getAdmins);
-	const addAdminMutation = useMutation("addAdmin", addAdmin);
+	const registerAdminMutation = useMutation("registerAdmin", registerAdmin);
 	const updateAdminMutation = useMutation("updateAdmin", updateAdmin);
 	const deleteAdminMutation = useMutation("deleteAdmin", deleteAdmin);
 
@@ -56,7 +57,7 @@ export default function AdminsPage() {
 		}
 
 		try {
-			await addAdminMutation.mutateAsync({
+			await registerAdminMutation.mutateAsync({
 				data: {
 					email: email.toString(),
 					password: password.toString(),
@@ -79,27 +80,12 @@ export default function AdminsPage() {
 
 		const formData = new FormData(event.target as HTMLFormElement);
 		const email = formData.get("email");
-		const password = formData.get("password");
-		const passwordRepeat = formData.get("passwordRepeat");
-
-		if (password && password.length < 6) {
-			setAdminEditFormError(
-				getErrMsg(ErrorType.passwordShouldSatisfyMinimumLength)
-			);
-			return;
-		}
-
-		if (password && password !== passwordRepeat) {
-			setAdminEditFormError(getErrMsg(ErrorType.passwordsDoNotMatch));
-			return;
-		}
 
 		try {
 			await updateAdminMutation.mutateAsync({
 				id: +adminToEdit.id,
 				data: {
 					email: email?.toString(),
-					password: password?.toString(),
 				},
 			});
 		} catch (error: any) {
@@ -238,9 +224,9 @@ export default function AdminsPage() {
 					<Button
 						variant="primary"
 						type="submit"
-						disabled={addAdminMutation.isLoading}
+						disabled={registerAdminMutation.isLoading}
 					>
-						{addAdminMutation.isLoading ? (
+						{registerAdminMutation.isLoading ? (
 							<Icon path={mdiLoading} size={0.8} spin className="me-2" />
 						) : undefined}
 						Ekle
@@ -262,16 +248,6 @@ export default function AdminsPage() {
 						defaultValue={adminToEdit?.email}
 						required
 					/>
-				</Form.Group>
-
-				<Form.Group controlId="password">
-					<Form.Label>Şifre</Form.Label>
-					<Form.Control type="password" name="password" minLength={6} />
-				</Form.Group>
-
-				<Form.Group controlId="passwordRepeat">
-					<Form.Label>Şifre (tekrar)</Form.Label>
-					<Form.Control type="password" name="passwordRepeat" minLength={6} />
 				</Form.Group>
 
 				{adminEditFormError ? (

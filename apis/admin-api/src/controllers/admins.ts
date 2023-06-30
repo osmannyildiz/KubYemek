@@ -1,14 +1,10 @@
 import { AdminAdapter } from "@/adapters/AdminAdapter";
-import {
-	ApiAddAdminRequestBody,
-	ApiUpdateAdminRequestBody,
-} from "@core/apis/models/requestBody";
+import { ApiUpdateAdminRequestBody } from "@core/apis/models/requestBody";
 import {
 	ApiRequestHandler,
 	ApiRequestHandlerWithParams,
 } from "@core/apis/models/requestHandlers";
 import {
-	ApiAddAdminResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiErrorResponseBody,
 	ApiGetAdminsResponseBody,
@@ -17,8 +13,6 @@ import {
 } from "@core/apis/models/responseBody";
 import { ErrorType } from "@core/common/models/errors";
 import {
-	HttpBadRequestResponse,
-	HttpCreatedResponse,
 	HttpInternalServerErrorResponse,
 	HttpOkResponse,
 } from "@core/common/models/httpResponse";
@@ -47,39 +41,6 @@ export const getAdmins: ApiRequestHandler<
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ApiSuccessResponseBody(admins))
-	);
-};
-
-export const addAdmin: ApiRequestHandler<
-	ApiAddAdminRequestBody,
-	ApiAddAdminResponseBody
-> = async (req, res) => {
-	const { email, password } = req.body;
-
-	if (!email || !password) {
-		return sendHttpResp(
-			res,
-			new HttpBadRequestResponse(
-				new ApiErrorResponseBody(ErrorType.requiredFieldEmpty)
-			)
-		);
-	}
-
-	try {
-		await AdminServiceClient.addAdmin({ email, password });
-	} catch (error: any) {
-		console.error(error);
-		return sendHttpResp(
-			res,
-			new HttpInternalServerErrorResponse(
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
-			)
-		);
-	}
-
-	return sendHttpResp(
-		res,
-		new HttpCreatedResponse(new ApiSuccessResponseBody(undefined))
 	);
 };
 

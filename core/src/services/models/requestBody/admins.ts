@@ -6,11 +6,11 @@ import {
 export interface ServiceAddAdminRequestBody
 	extends ServiceAddEntityRequestBody {
 	email: string;
-	password: string;
+	hashedPassword: string;
 }
 
 export interface ServiceUpdateAdminRequestBody
 	extends ServiceUpdateEntityRequestBody {
 	email?: string;
-	password?: string;
+	hashedPassword?: string;
 }

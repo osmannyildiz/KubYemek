@@ -44,10 +44,10 @@ export const addAdmin: ServiceRequestHandler<
 	ServiceAddAdminRequestBody,
 	ServiceAddAdminResponseBody
 > = async (req, res) => {
-	const { email, password } = req.body;
+	const { email, hashedPassword } = req.body;
 	const adminsRepo = db.admins();
 
-	if (!email || !password) {
+	if (!email || !hashedPassword) {
 		return sendHttpResp(
 			res,
 			new HttpBadRequestResponse(
@@ -56,18 +56,7 @@ export const addAdmin: ServiceRequestHandler<
 		);
 	}
 
-	if (password.length < 6) {
-		return sendHttpResp(
-			res,
-			new HttpBadRequestResponse(
-				new ServiceErrorResponseBody(
-					ErrorType.passwordShouldSatisfyMinimumLength
-				)
-			)
-		);
-	}
-
-	const existingAdmin = await adminsRepo.getOne("email=?", [email]);
+	const existingAdmin = await adminsRepo.getOne("email = ?", [email]);
 	if (existingAdmin) {
 		return sendHttpResp(
 			res,
@@ -78,7 +67,7 @@ export const addAdmin: ServiceRequestHandler<
 	}
 
 	try {
-		await adminsRepo.insert(email, password);
+		await adminsRepo.insert(email, hashedPassword);
 	} catch (error) {
 		console.error(error);
 		return sendHttpResp(
@@ -124,6 +113,20 @@ export const updateAdmin: ServiceRequestHandlerWithParams<
 > = async (req, res) => {
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();
+
+	if (req.body.email) {
+		const existingAdmin = await adminsRepo.getOne("email = ?", [
+			req.body.email,
+		]);
+		if (existingAdmin) {
+			return sendHttpResp(
+				res,
+				new HttpBadRequestResponse(
+					new ServiceErrorResponseBody(ErrorType.emailAlreadyExists)
+				)
+			);
+		}
+	}
 
 	await adminsRepo.update(
 		...generateSetClauseAndValuesForDbUpdate(req.body),

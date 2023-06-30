@@ -1,4 +1,5 @@
-export { ApiAddAdminRequestBody, ApiUpdateAdminRequestBody } from "./admins";
+export { ApiUpdateAdminRequestBody } from "./admins";
+export { ApiRegisterAdminRequestBody } from "./auth";
 export {
 	ApiAddEntityRequestBody,
 	ApiRequestBody,

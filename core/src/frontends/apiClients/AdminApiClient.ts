@@ -1,10 +1,8 @@
 import {
-	ApiAddAdminRequestBody,
 	ApiProduceProductRequestBody,
 	ApiUpdateAdminRequestBody,
 } from "@core/apis/models/requestBody";
 import {
-	ApiAddAdminResponseBody,
 	ApiAddProductResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiDeleteProductResponseBody,
@@ -29,21 +27,6 @@ export class AdminApiClient {
 		}
 
 		return respBody.data;
-	}
-
-	static async addAdmin(data: ApiAddAdminRequestBody) {
-		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		});
-		const respBody: ApiAddAdminResponseBody = await resp.json();
-
-		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
-		}
 	}
 
 	// static async getAdmin(adminId: number): Promise<Admin> {
