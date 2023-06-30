@@ -1,4 +1,9 @@
-import { checkPasswordWithHash, hashPassword } from "@/utils";
+import {
+	checkPasswordWithHash,
+	createTokenForAdmin,
+	hashPassword,
+} from "@/utils";
+import { AdminAdapter } from "@core/apis/adapters/AdminAdapter";
 import {
 	ApiLoginAdminRequestBody,
 	ApiRegisterAdminRequestBody,
@@ -7,6 +12,7 @@ import { ApiRequestHandler } from "@core/apis/models/requestHandlers";
 import {
 	ApiErrorResponseBody,
 	ApiLoginAdminResponseBody,
+	ApiLoginAdminSuccessResponseBody,
 	ApiRegisterAdminResponseBody,
 	ApiSuccessResponseBody,
 } from "@core/apis/models/responseBody";
@@ -105,8 +111,11 @@ export const loginAdmin: ApiRequestHandler<
 		);
 	}
 
+	const pubAdmin = AdminAdapter.privateToPublic(admin);
+	const token = createTokenForAdmin(pubAdmin);
+
 	return sendHttpResp(
 		res,
-		new HttpOkResponse(new ApiSuccessResponseBody(undefined))
+		new HttpOkResponse(new ApiLoginAdminSuccessResponseBody(token))
 	);
 };

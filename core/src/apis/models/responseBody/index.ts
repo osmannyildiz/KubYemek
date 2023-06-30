@@ -7,6 +7,7 @@ export {
 } from "./admins";
 export {
 	ApiLoginAdminResponseBody,
+	ApiLoginAdminSuccessResponseBody,
 	ApiRegisterAdminResponseBody,
 } from "./auth";
 export {

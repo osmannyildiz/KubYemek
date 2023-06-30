@@ -1,4 +1,4 @@
-import { AdminAdapter } from "@/adapters/AdminAdapter";
+import { AdminAdapter } from "@core/apis/adapters/AdminAdapter";
 import { ApiUpdateAdminRequestBody } from "@core/apis/models/requestBody";
 import {
 	ApiRequestHandler,
