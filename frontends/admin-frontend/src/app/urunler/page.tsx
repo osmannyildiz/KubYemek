@@ -1,6 +1,5 @@
 "use client";
 
-import EntityDeleteModal from "@/components/form/EntityDeleteModal";
 import EntityFormModal from "@/components/form/EntityFormModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
@@ -375,17 +374,21 @@ export default function ProductsPage() {
 				</Stack>
 			</EntityFormOffcanvas>
 
-			<EntityDeleteModal
+			<EntityFormModal
 				show={!!productToDelete}
 				title="Ürünü Sil"
 				error={productDeleteModalError}
 				mutation={deleteProductMutation}
-				onConfirm={handleProductDeleteModalConfirm}
+				confirmButtonVariant="danger"
+				confirmButtonText="Sil"
+				onSubmit={handleProductDeleteModalConfirm}
 				onCancel={closeProductDeleteModal}
 			>
-				<em>{productToDelete?.name}</em> adlı ürünü silmek istediğinize emin
-				misiniz?
-			</EntityDeleteModal>
+				<p>
+					<em>{productToDelete?.name}</em> adlı ürünü silmek istediğinize emin
+					misiniz?
+				</p>
+			</EntityFormModal>
 
 			<EntityFormModal
 				show={!!productToProduce}

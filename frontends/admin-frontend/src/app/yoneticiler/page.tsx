@@ -1,6 +1,6 @@
 "use client";
 
-import EntityDeleteModal from "@/components/form/EntityDeleteModal";
+import EntityFormModal from "@/components/form/EntityFormModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import AppPage from "@/components/layout/AppPage";
@@ -291,17 +291,19 @@ export default function AdminsPage() {
 				</Stack>
 			</EntityFormOffcanvas>
 
-			<EntityDeleteModal
+			<EntityFormModal
 				show={!!adminToDelete}
 				title="Yöneticiyi Sil"
 				error={adminDeleteModalError}
 				mutation={deleteAdminMutation}
-				onConfirm={handleAdminDeleteModalConfirm}
+				confirmButtonVariant="danger"
+				confirmButtonText="Sil"
+				onSubmit={handleAdminDeleteModalConfirm}
 				onCancel={closeAdminDeleteModal}
 			>
 				<em>{adminToDelete?.username}</em> kullanıcı adına sahip olan yöneticiyi
 				silmek istediğinize emin misiniz?
-			</EntityDeleteModal>
+			</EntityFormModal>
 		</AppPage>
 	);
 }
