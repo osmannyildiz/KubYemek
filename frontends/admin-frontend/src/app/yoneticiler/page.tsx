@@ -10,8 +10,6 @@ import { registerAdmin } from "@/query/mutations/auth";
 import { Admin } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
 import { getErrMsg } from "@core/frontends/utils";
-import { mdiLoading } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -188,6 +186,10 @@ export default function AdminsPage() {
 			<EntityFormOffcanvas
 				show={showAdminAddForm}
 				title="Yönetici Ekle"
+				error={adminAddFormError}
+				mutation={registerAdminMutation}
+				confirmButtonVariant="primary"
+				confirmButtonText="Ekle"
 				onSubmit={handleAdminAddFormSubmit}
 				onCancel={closeAdminAddForm}
 			>
@@ -228,28 +230,15 @@ export default function AdminsPage() {
 						minLength={6}
 					/>
 				</Form.Group>
-
-				{adminAddFormError ? (
-					<div className="text-danger">{adminAddFormError}</div>
-				) : undefined}
-
-				<Stack direction="horizontal" gap={2}>
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={registerAdminMutation.isLoading}
-					>
-						{registerAdminMutation.isLoading ? (
-							<Icon path={mdiLoading} size={0.8} spin className="me-2" />
-						) : undefined}
-						Ekle
-					</Button>
-				</Stack>
 			</EntityFormOffcanvas>
 
 			<EntityFormOffcanvas
 				show={!!adminToEdit}
 				title="Yöneticiyi Düzenle"
+				error={adminEditFormError}
+				mutation={updateAdminMutation}
+				confirmButtonVariant="primary"
+				confirmButtonText="Kaydet"
 				onSubmit={handleAdminEditFormSubmit}
 				onCancel={closeAdminEditForm}
 			>
@@ -272,23 +261,6 @@ export default function AdminsPage() {
 						required
 					/>
 				</Form.Group>
-
-				{adminEditFormError ? (
-					<div className="text-danger">{adminEditFormError}</div>
-				) : undefined}
-
-				<Stack direction="horizontal" gap={2}>
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={updateAdminMutation.isLoading}
-					>
-						{updateAdminMutation.isLoading ? (
-							<Icon path={mdiLoading} size={0.8} spin className="me-2" />
-						) : undefined}
-						Kaydet
-					</Button>
-				</Stack>
 			</EntityFormOffcanvas>
 
 			<EntityFormModal
@@ -301,8 +273,10 @@ export default function AdminsPage() {
 				onSubmit={handleAdminDeleteModalConfirm}
 				onCancel={closeAdminDeleteModal}
 			>
-				<em>{adminToDelete?.username}</em> kullanıcı adına sahip olan yöneticiyi
-				silmek istediğinize emin misiniz?
+				<p>
+					<em>{adminToDelete?.username}</em> kullanıcı adına sahip olan
+					yöneticiyi silmek istediğinize emin misiniz?
+				</p>
 			</EntityFormModal>
 		</AppPage>
 	);

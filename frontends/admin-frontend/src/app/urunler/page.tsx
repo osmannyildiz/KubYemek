@@ -15,8 +15,6 @@ import {
 import { Product } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
 import { formatPriceForDisplay, getErrMsg } from "@core/frontends/utils";
-import { mdiLoading } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -255,6 +253,10 @@ export default function ProductsPage() {
 			<EntityFormOffcanvas
 				show={showProductAddForm}
 				title="Ürün Ekle"
+				error={productAddFormError}
+				mutation={addProductMutation}
+				confirmButtonVariant="primary"
+				confirmButtonText="Ekle"
 				onSubmit={handleProductAddFormSubmit}
 				onCancel={closeProductAddForm}
 			>
@@ -285,28 +287,15 @@ export default function ProductsPage() {
 					</Form.Label>
 					<ImagePicker name="image" />
 				</Form.Group>
-
-				{productAddFormError ? (
-					<div className="text-danger">{productAddFormError}</div>
-				) : undefined}
-
-				<Stack direction="horizontal" gap={2}>
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={addProductMutation.isLoading}
-					>
-						{addProductMutation.isLoading ? (
-							<Icon path={mdiLoading} size={0.8} spin className="me-2" />
-						) : undefined}
-						Ekle
-					</Button>
-				</Stack>
 			</EntityFormOffcanvas>
 
 			<EntityFormOffcanvas
 				show={!!productToEdit}
 				title="Ürünü Düzenle"
+				error={productEditFormError}
+				mutation={updateProductMutation}
+				confirmButtonVariant="primary"
+				confirmButtonText="Kaydet"
 				onSubmit={handleProductEditFormSubmit}
 				onCancel={closeProductEditForm}
 			>
@@ -355,23 +344,6 @@ export default function ProductsPage() {
 					<Form.Label>Ürün Resmi</Form.Label>
 					<ImagePicker name="image" defaultImageUrl={productToEdit?.imageUrl} />
 				</Form.Group>
-
-				{productEditFormError ? (
-					<div className="text-danger">{productEditFormError}</div>
-				) : undefined}
-
-				<Stack direction="horizontal" gap={2}>
-					<Button
-						variant="primary"
-						type="submit"
-						disabled={updateProductMutation.isLoading}
-					>
-						{updateProductMutation.isLoading ? (
-							<Icon path={mdiLoading} size={0.8} spin className="me-2" />
-						) : undefined}
-						Kaydet
-					</Button>
-				</Stack>
 			</EntityFormOffcanvas>
 
 			<EntityFormModal
@@ -404,6 +376,7 @@ export default function ProductsPage() {
 					<em>{productToProduce?.name}</em> adlı üründen kaç birim üretmek
 					istersiniz?
 				</p>
+
 				<Form.Group controlId="unitsCount">
 					<Form.Control
 						type="number"

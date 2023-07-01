@@ -44,6 +44,7 @@ export default function EntityFormModal({
 					{error ? (
 						<div className="text-danger me-auto">{error}</div>
 					) : undefined}
+
 					<Button type="button" variant="secondary" onClick={onCancel}>
 						İptal
 					</Button>
