@@ -130,11 +130,21 @@ export const updateProduct: ServiceRequestHandlerWithParams<
 		updates.imageUrl = file.location;
 	}
 
-	await productsRepo.update(
-		...generateSetClauseAndValuesForDbUpdate(updates),
-		"id = ?",
-		[productId]
-	);
+	try {
+		await productsRepo.update(
+			...generateSetClauseAndValuesForDbUpdate(updates),
+			"id = ?",
+			[productId]
+		);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
 
 	return sendHttpResp(
 		res,

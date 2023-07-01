@@ -190,11 +190,22 @@ export const updateAdmin: ServiceRequestHandlerWithParams<
 		}
 	}
 
-	await adminsRepo.update(
-		...generateSetClauseAndValuesForDbUpdate(req.body),
-		"id = ?",
-		[adminId]
-	);
+	try {
+		await adminsRepo.update(
+			...generateSetClauseAndValuesForDbUpdate(req.body),
+			"id = ?",
+			[adminId]
+		);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))
