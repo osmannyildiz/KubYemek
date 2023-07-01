@@ -1,4 +1,5 @@
 import { db } from "@/db";
+import { increaseSlug } from "@/utils";
 import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
@@ -84,7 +85,34 @@ export const addProduct: ServiceRequestHandler<
 		);
 	}
 
-	const productSlug = slug(name);
+	let productSlug = slug(name);
+	let loopCounter = 0;
+	while (true) {
+		let existingProduct;
+		try {
+			existingProduct = await productsRepo.getOne("slug = ?", [productSlug]);
+		} catch (error) {
+			console.error(error);
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ServiceErrorResponseBody(ErrorType.default)
+				)
+			);
+		}
+
+		if (existingProduct) {
+			productSlug = increaseSlug(productSlug);
+		} else {
+			// Found an unused slug
+			break;
+		}
+
+		loopCounter++;
+		if (loopCounter > 1000) {
+			throw new Error("Slug increment loop couldn't exit in 1000 iterations.");
+		}
+	}
 
 	try {
 		await productsRepo.insert(name, productSlug, unitOfSale, price, imageUrl);
