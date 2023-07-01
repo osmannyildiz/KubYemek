@@ -34,7 +34,19 @@ export const getAdmins: ServiceRequestHandler<
 > = async (req, res) => {
 	const adminsRepo = db.admins();
 
-	const admins = await adminsRepo.getAll();
+	let admins;
+	try {
+		admins = await adminsRepo.getAll();
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(admins))
@@ -58,7 +70,18 @@ export const addAdmin: ServiceRequestHandler<
 	}
 
 	{
-		const existingAdmin = await adminsRepo.getOne("username = ?", [username]);
+		let existingAdmin;
+		try {
+			existingAdmin = await adminsRepo.getOne("username = ?", [username]);
+		} catch (error) {
+			console.error(error);
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ServiceErrorResponseBody(ErrorType.default)
+				)
+			);
+		}
 		if (existingAdmin) {
 			return sendHttpResp(
 				res,
@@ -70,7 +93,18 @@ export const addAdmin: ServiceRequestHandler<
 	}
 
 	{
-		const existingAdmin = await adminsRepo.getOne("email = ?", [email]);
+		let existingAdmin;
+		try {
+			existingAdmin = await adminsRepo.getOne("email = ?", [email]);
+		} catch (error) {
+			console.error(error);
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ServiceErrorResponseBody(ErrorType.default)
+				)
+			);
+		}
 		if (existingAdmin) {
 			return sendHttpResp(
 				res,
@@ -107,7 +141,18 @@ export const getAdmin: ServiceRequestHandlerWithParams<
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();
 
-	const admin = await adminsRepo.getById(+adminId);
+	let admin;
+	try {
+		admin = await adminsRepo.getById(+adminId);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
 	if (!admin) {
 		return sendHttpResp(
 			res,
@@ -138,7 +183,18 @@ export const getAdminByEmail: ServiceRequestHandlerWithQuery<
 		);
 	}
 
-	const admin = await adminsRepo.getOne("email = ?", [email]);
+	let admin;
+	try {
+		admin = await adminsRepo.getOne("email = ?", [email]);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
 	if (!admin) {
 		return sendHttpResp(
 			res,
@@ -161,10 +217,21 @@ export const updateAdmin: ServiceRequestHandlerWithParams<
 	const adminsRepo = db.admins();
 
 	if (req.body.username) {
-		const existingAdmin = await adminsRepo.getOne("id != ? AND username = ?", [
-			adminId,
-			req.body.username,
-		]);
+		let existingAdmin;
+		try {
+			existingAdmin = await adminsRepo.getOne("id != ? AND username = ?", [
+				adminId,
+				req.body.username,
+			]);
+		} catch (error) {
+			console.error(error);
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ServiceErrorResponseBody(ErrorType.default)
+				)
+			);
+		}
 		if (existingAdmin) {
 			return sendHttpResp(
 				res,
@@ -176,10 +243,21 @@ export const updateAdmin: ServiceRequestHandlerWithParams<
 	}
 
 	if (req.body.email) {
-		const existingAdmin = await adminsRepo.getOne("id != ? AND email = ?", [
-			adminId,
-			req.body.email,
-		]);
+		let existingAdmin;
+		try {
+			existingAdmin = await adminsRepo.getOne("id != ? AND email = ?", [
+				adminId,
+				req.body.email,
+			]);
+		} catch (error) {
+			console.error(error);
+			return sendHttpResp(
+				res,
+				new HttpInternalServerErrorResponse(
+					new ServiceErrorResponseBody(ErrorType.default)
+				)
+			);
+		}
 		if (existingAdmin) {
 			return sendHttpResp(
 				res,
@@ -220,7 +298,18 @@ export const deleteAdmin: ServiceRequestHandlerWithParams<
 	const { adminId } = req.params;
 	const adminsRepo = db.admins();
 
-	await adminsRepo.deleteById(+adminId);
+	try {
+		await adminsRepo.deleteById(+adminId);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))

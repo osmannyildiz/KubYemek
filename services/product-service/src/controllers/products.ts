@@ -36,7 +36,19 @@ export const getProducts: ServiceRequestHandler<
 > = async (req, res) => {
 	const productsRepo = db.products();
 
-	const products = await productsRepo.getAll();
+	let products;
+	try {
+		products = await productsRepo.getAll();
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(products))
@@ -100,7 +112,18 @@ export const getProduct: ServiceRequestHandlerWithParams<
 	const { productId } = req.params;
 	const productsRepo = db.products();
 
-	const product = await productsRepo.getById(+productId);
+	let product;
+	try {
+		product = await productsRepo.getById(+productId);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
 	if (!product) {
 		return sendHttpResp(
 			res,
@@ -160,7 +183,18 @@ export const deleteProduct: ServiceRequestHandlerWithParams<
 	const { productId } = req.params;
 	const productsRepo = db.products();
 
-	await productsRepo.deleteById(+productId);
+	try {
+		await productsRepo.deleteById(+productId);
+	} catch (error) {
+		console.error(error);
+		return sendHttpResp(
+			res,
+			new HttpInternalServerErrorResponse(
+				new ServiceErrorResponseBody(ErrorType.default)
+			)
+		);
+	}
+
 	return sendHttpResp(
 		res,
 		new HttpOkResponse(new ServiceSuccessResponseBody(undefined))
