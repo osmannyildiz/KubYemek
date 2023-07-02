@@ -1,4 +1,5 @@
 import { CONFIG } from "@/config";
+import { AdminTokenPayload } from "@core/common/models/auth";
 import { Admin } from "@core/common/models/entity/frontend";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -15,7 +16,8 @@ export const checkPasswordWithHash = async (
 };
 
 export const createTokenForAdmin = (admin: Admin) => {
-	return jwt.sign(admin, CONFIG.JWT_SECRET, {
+	const payload = new AdminTokenPayload(admin).toPlainObject();
+	return jwt.sign(payload, CONFIG.JWT_SECRET, {
 		expiresIn: "16h",
 	});
 };
