@@ -60,7 +60,9 @@ export const registerAdmin: ApiRequestHandler<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}

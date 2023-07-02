@@ -29,7 +29,9 @@ export const getAdmins: ApiRequestHandler<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
@@ -58,7 +60,9 @@ export const getAdmins: ApiRequestHandler<
 // 			res,
 // 			new HttpResponse(
 // 				error?.resp?.status || 500,
-// 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+// 				new ApiErrorResponseBody(
+// 					error?.respBody?.errorType || ErrorType.default
+// 				)
 // 			)
 // 		);
 // 	}
@@ -86,7 +90,9 @@ export const updateAdmin: ApiRequestHandlerWithParams<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
@@ -112,7 +118,9 @@ export const deleteAdmin: ApiRequestHandlerWithParams<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}

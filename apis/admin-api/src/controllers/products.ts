@@ -42,7 +42,9 @@ export const getProducts: ApiRequestHandler<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
@@ -94,7 +96,9 @@ export const addProduct: ApiRequestHandler<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
@@ -121,7 +125,7 @@ export const addProduct: ApiRequestHandler<
 // 			res,
 // 			new HttpResponse(
 // 				error?.resp?.status || 500,
-// 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+// 				new ApiErrorResponseBody(error?.respBody?.errorType || ErrorType.default)
 // 			)
 // 		);
 // 	}
@@ -165,7 +169,9 @@ export const updateProduct: ApiRequestHandlerWithParams<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
@@ -191,7 +197,9 @@ export const deleteProduct: ApiRequestHandlerWithParams<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
@@ -217,7 +225,9 @@ export const produceProduct: ApiRequestHandlerWithParams<
 			res,
 			new HttpResponse(
 				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+				new ApiErrorResponseBody(
+					error?.respBody?.errorType || ErrorType.default
+				)
 			)
 		);
 	}
