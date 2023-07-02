@@ -17,6 +17,14 @@ export const errorMessages: ErrorMessages = {
 		en: "Login credentials are invalid.",
 		tr: "Giriş bilgileri yanlış.",
 	},
+	[ErrorType.loginRequired]: {
+		en: "You should be logged in to perform this operation.",
+		tr: "Bu işlemi gerçekleştirebilmek için giriş yapmanız gerekmektedir.",
+	},
+	[ErrorType.notAllowedForUser]: {
+		en: "You don't have permission to perform this operation.",
+		tr: "Bu işlemi gerçekleştirmeye izniniz bulunmamaktadır.",
+	},
 	[ErrorType.notFound]: {
 		en: "Data not found.",
 		tr: "Veri bulunamadı.",

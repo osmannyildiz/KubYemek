@@ -12,13 +12,13 @@ export interface IAdminTokenPayload {
 }
 
 export abstract class UserTokenPayload {
-	constructor(protected userType: UserType) {}
+	constructor(public userType: UserType) {}
 }
 
 export class AdminTokenPayload extends UserTokenPayload {
-	protected adminId: number;
-	protected adminUsername: string;
-	protected adminEmail: string;
+	public adminId: number;
+	public adminUsername: string;
+	public adminEmail: string;
 
 	constructor(admin: Admin) {
 		super(UserType.admin);

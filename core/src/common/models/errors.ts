@@ -5,6 +5,8 @@ export enum ErrorType {
 	emailAlreadyExists = "emailAlreadyExists",
 	fieldMustBeOneOrBigger = "fieldMustBeOneOrBigger",
 	loginIsInvalid = "loginIsInvalid",
+	loginRequired = "loginRequired",
+	notAllowedForUser = "notAllowedForUser",
 	notFound = "notFound",
 	passwordShouldSatisfyMinimumLength = "passwordShouldSatisfyMinimumLength",
 	passwordsDoNotMatch = "passwordsDoNotMatch",
