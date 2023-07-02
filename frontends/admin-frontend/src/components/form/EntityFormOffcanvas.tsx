@@ -6,6 +6,18 @@ import { Button, Form, Offcanvas, Stack } from "react-bootstrap";
 import type { ButtonVariant } from "react-bootstrap/esm/types";
 import { UseMutationResult } from "react-query";
 
+interface Props {
+	children: React.ReactNode;
+	show: boolean;
+	title: string;
+	error: string | undefined;
+	mutation: UseMutationResult<any, any, any, any>;
+	confirmButtonVariant: ButtonVariant;
+	confirmButtonText: string;
+	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+	onCancel: () => void;
+}
+
 export default function EntityFormOffcanvas({
 	children,
 	show,
@@ -16,17 +28,7 @@ export default function EntityFormOffcanvas({
 	confirmButtonText,
 	onSubmit,
 	onCancel,
-}: {
-	children: React.ReactNode;
-	show: boolean;
-	title: string;
-	error: string | undefined;
-	mutation: UseMutationResult<any, any, any, any>;
-	confirmButtonVariant: ButtonVariant;
-	confirmButtonText: string;
-	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-	onCancel: () => void;
-}) {
+}: Props) {
 	return (
 		<Offcanvas
 			placement="end"
@@ -39,7 +41,6 @@ export default function EntityFormOffcanvas({
 			</Offcanvas.Header>
 			<Offcanvas.Body>
 				<Form
-					autoComplete="off"
 					onSubmit={(event) => {
 						event.preventDefault();
 						onSubmit(event);

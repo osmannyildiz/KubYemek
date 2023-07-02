@@ -2,15 +2,13 @@
 
 import { Stack } from "react-bootstrap";
 
-export default function AppPage({
-	title,
-	titleBar,
-	children,
-}: {
+interface Props {
 	title: string;
 	titleBar?: React.ReactNode;
 	children: React.ReactNode;
-}) {
+}
+
+export default function AppPage({ title, titleBar, children }: Props) {
 	return (
 		<>
 			<Stack direction="horizontal" gap={2}>

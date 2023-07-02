@@ -1,4 +1,4 @@
-export const increaseSlug = (slug: string) => {
+export const incrementSlug = (slug: string) => {
 	const splitted = slug.split("-");
 	const suffix = splitted.pop();
 	if (!suffix) return slug + "-2";

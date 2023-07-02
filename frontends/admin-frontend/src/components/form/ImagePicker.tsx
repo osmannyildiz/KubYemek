@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Stack } from "react-bootstrap";
 
-export default function ImagePicker({
-	name,
-	defaultImageUrl,
-}: {
+interface Props {
 	name: string;
 	defaultImageUrl?: string;
-}) {
+}
+
+export default function ImagePicker({ name, defaultImageUrl }: Props) {
 	const [imageFile, setImageFile] = useState<Blob | undefined>();
 	const [previewUrl, setPreviewUrl] = useState<string | undefined>(
 		defaultImageUrl

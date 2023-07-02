@@ -6,6 +6,18 @@ import { Button, Form, Modal } from "react-bootstrap";
 import type { ButtonVariant } from "react-bootstrap/esm/types";
 import { UseMutationResult } from "react-query";
 
+interface Props {
+	children: React.ReactNode;
+	show: boolean;
+	title: string;
+	error: string | undefined;
+	mutation: UseMutationResult<any, any, any, any>;
+	confirmButtonVariant: ButtonVariant;
+	confirmButtonText: string;
+	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+	onCancel: () => void;
+}
+
 export default function EntityFormModal({
 	children,
 	show,
@@ -16,24 +28,13 @@ export default function EntityFormModal({
 	confirmButtonText,
 	onSubmit,
 	onCancel,
-}: {
-	children: React.ReactNode;
-	show: boolean;
-	title: string;
-	error: string | undefined;
-	mutation: UseMutationResult<any, any, any, any>;
-	confirmButtonVariant: ButtonVariant;
-	confirmButtonText: string;
-	onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-	onCancel: () => void;
-}) {
+}: Props) {
 	return (
 		<Modal centered show={show} onHide={onCancel}>
 			<Modal.Header closeButton>
 				<Modal.Title>{title}</Modal.Title>
 			</Modal.Header>
 			<Form
-				autoComplete="off"
 				onSubmit={(event) => {
 					event.preventDefault();
 					onSubmit(event);

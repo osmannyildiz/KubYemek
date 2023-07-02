@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { increaseSlug } from "@/utils";
+import { incrementSlug } from "@/utils";
 import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
@@ -102,7 +102,7 @@ export const addProduct: ServiceRequestHandler<
 		}
 
 		if (existingProduct) {
-			productSlug = increaseSlug(productSlug);
+			productSlug = incrementSlug(productSlug);
 		} else {
 			// Found an unused slug
 			break;

@@ -91,11 +91,11 @@ export const loginAdmin: ApiRequestHandler<
 		admin = await AdminServiceClient.getAdminByEmail(email);
 	} catch (error: any) {
 		console.error(error);
+		// Return 401 even when admin not found (TODO: What if NetworkError happens?)
 		return sendHttpResp(
 			res,
-			new HttpResponse(
-				error?.resp?.status || 500,
-				new ApiErrorResponseBody(error.errorType || ErrorType.default)
+			new HttpUnauthorizedResponse(
+				new ApiErrorResponseBody(ErrorType.loginIsInvalid)
 			)
 		);
 	}
