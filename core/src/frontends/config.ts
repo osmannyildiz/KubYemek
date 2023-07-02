@@ -1,5 +1,5 @@
-import { CoreFrontendsConfig } from "@core/common/models/configs";
 import { LangId } from "@core/common/models/localization";
+import { CoreFrontendsConfig } from "@core/frontends/models/configs";
 
 export const CONFIG: CoreFrontendsConfig = {
 	LANG_ID: LangId.tr,

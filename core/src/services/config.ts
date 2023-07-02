@@ -1,4 +1,4 @@
-import { CoreServicesConfig } from "@core/common/models/configs";
+import { CoreServicesConfig } from "@core/services/models/configs";
 import { SECRETS } from "./secrets";
 
 export const CONFIG: CoreServicesConfig = {

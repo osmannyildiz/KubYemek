@@ -1,7 +1,9 @@
-import { CoreApisConfig } from "@core/common/models/configs";
+import { CoreApisConfig } from "@core/apis/models/configs";
+import { SECRETS } from "@core/apis/secrets";
 import { LangId } from "@core/common/models/localization";
 
 export const CONFIG: CoreApisConfig = {
+	...SECRETS,
 	LANG_ID: LangId.tr,
 	ADMIN_SERVICE_ADDRESS:
 		process.env.ADMIN_SERVICE_ADDRESS || "http://localhost:8001",
