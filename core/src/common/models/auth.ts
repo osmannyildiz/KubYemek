@@ -2,6 +2,7 @@ import { Admin } from "@core/common/models/entity/frontend";
 
 export enum UserType {
 	admin = "admin",
+	customer = "customer",
 }
 
 export interface IAdminTokenPayload {
@@ -29,7 +30,7 @@ export class AdminTokenPayload extends UserTokenPayload {
 
 	toPlainObject(): IAdminTokenPayload {
 		return {
-			userType: this.userType,
+			userType: this.userType as UserType.admin,
 			adminId: this.adminId,
 			adminUsername: this.adminUsername,
 			adminEmail: this.adminEmail,
