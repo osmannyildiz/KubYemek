@@ -3,6 +3,7 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { loginAdmin } from "@/query/mutations/auth";
 import { ErrorType } from "@core/common/models/errors";
+import { AuthApiClient } from "@core/frontends/apiClients";
 import { getErrMsg } from "@core/frontends/utils";
 import { mdiLoading } from "@mdi/js";
 import Icon from "@mdi/react";
@@ -11,7 +12,8 @@ import { Button, Card, Form, Stack } from "react-bootstrap";
 import { useMutation } from "react-query";
 
 export default function LoginPage() {
-	const { login } = useAuthContext();
+	const { token, login } = useAuthContext();
+	const authApiClient = new AuthApiClient(token);
 	const loginAdminMutation = useMutation("loginAdmin", loginAdmin);
 
 	const [loginFormError, setLoginFormError] = useState<string>();
@@ -31,6 +33,7 @@ export default function LoginPage() {
 		let token;
 		try {
 			token = await loginAdminMutation.mutateAsync({
+				authApiClient,
 				data: {
 					email: email.toString(),
 					password: password.toString(),

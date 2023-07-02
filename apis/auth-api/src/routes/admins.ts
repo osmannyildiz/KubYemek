@@ -8,5 +8,7 @@ export const adminsRouter = express.Router();
 adminsRouter
 	.route("/register")
 	.post(authAllowOnly(UserType.admin), controller.registerAdmin);
+
 adminsRouter.route("/login").post(controller.loginAdmin);
+
 // adminsRouter.route(authAllowOnly(UserType.admin), "/:adminId/password").put(controller.changeAdminPassword);

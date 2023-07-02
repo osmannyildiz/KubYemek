@@ -8,21 +8,23 @@ export const productsRouter = express.Router();
 
 productsRouter
 	.route("/")
-	.get(controller.getProducts)
+	.get(controller.getProducts) // Allow without login
 	.post(
 		authAllowOnly(UserType.admin),
 		uploadProductImageToS3.single("image"),
 		controller.addProduct
 	);
+
 productsRouter
 	.route("/:productId")
-	.get(controller.getProduct)
+	.get(controller.getProduct) // Allow without login
 	.patch(
 		authAllowOnly(UserType.admin),
 		uploadProductImageToS3.single("image"),
 		controller.updateProduct
 	)
 	.delete(authAllowOnly(UserType.admin), controller.deleteProduct);
+
 productsRouter
 	.route("/:productId/produce")
 	.post(authAllowOnly(UserType.admin), controller.produceProduct);

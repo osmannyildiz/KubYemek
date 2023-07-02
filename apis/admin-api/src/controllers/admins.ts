@@ -20,9 +20,11 @@ export const getAdmins: ApiRequestHandler<
 	null,
 	ApiGetAdminsResponseBody
 > = async (req, res) => {
+	const adminServiceClient = new AdminServiceClient(req.token);
+
 	let admins;
 	try {
-		admins = await AdminServiceClient.getAdmins();
+		admins = await adminServiceClient.getAdmins();
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -50,10 +52,11 @@ export const getAdmins: ApiRequestHandler<
 // 	"adminId"
 // > = async (req, res) => {
 // 	const { adminId } = req.params;
+// 	const adminServiceClient = new AdminServiceClient(req.token);
 
 // 	let admin;
 // 	try {
-// 		admin = await AdminServiceClient.getAdmin(+adminId);
+// 		admin = await adminServiceClient.getAdmin(+adminId);
 // 	} catch (error: any) {
 // 		console.error(error);
 // 		return sendHttpResp(
@@ -81,9 +84,10 @@ export const updateAdmin: ApiRequestHandlerWithParams<
 	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
+	const adminServiceClient = new AdminServiceClient(req.token);
 
 	try {
-		await AdminServiceClient.updateAdmin(+adminId, req.body);
+		await adminServiceClient.updateAdmin(+adminId, req.body);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -109,9 +113,10 @@ export const deleteAdmin: ApiRequestHandlerWithParams<
 	"adminId"
 > = async (req, res) => {
 	const { adminId } = req.params;
+	const adminServiceClient = new AdminServiceClient(req.token);
 
 	try {
-		await AdminServiceClient.deleteAdmin(+adminId);
+		await adminServiceClient.deleteAdmin(+adminId);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(

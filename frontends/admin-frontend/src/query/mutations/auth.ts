@@ -14,7 +14,7 @@ export const registerAdmin: MutationFunction<
 
 export const loginAdmin: MutationFunction<
 	string,
-	{ data: ApiLoginAdminRequestBody }
-> = async ({ data }) => {
-	return await AuthApiClient.loginAdmin(data);
+	{ authApiClient: AuthApiClient; data: ApiLoginAdminRequestBody }
+> = async ({ authApiClient, data }) => {
+	return await authApiClient.loginAdmin(data);
 };

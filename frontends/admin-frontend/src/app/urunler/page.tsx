@@ -23,7 +23,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ProductsPage() {
 	const { token } = useAuthContext();
-	const adminApiClient = new AdminApiClient(token || "");
+	const adminApiClient = new AdminApiClient(token);
 	const queryClient = useQueryClient();
 	const productsQuery = useQuery("products", () => getProducts(adminApiClient));
 	const addProductMutation = useMutation("addProduct", addProduct);

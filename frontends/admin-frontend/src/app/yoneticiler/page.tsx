@@ -18,8 +18,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function AdminsPage() {
 	const { token } = useAuthContext();
-	const authApiClient = new AuthApiClient(token || "");
-	const adminApiClient = new AdminApiClient(token || "");
+	const authApiClient = new AuthApiClient(token);
+	const adminApiClient = new AdminApiClient(token);
 	const queryClient = useQueryClient();
 	const adminsQuery = useQuery("admins", () => getAdmins(adminApiClient));
 	const registerAdminMutation = useMutation("registerAdmin", registerAdmin);

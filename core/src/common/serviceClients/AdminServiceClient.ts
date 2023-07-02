@@ -16,8 +16,14 @@ import {
 import fetch from "node-fetch";
 
 export class AdminServiceClient {
-	static async getAdmins(): Promise<Admin_Private[]> {
-		const resp = await fetch(`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins`);
+	constructor(private token?: string) {}
+
+	async getAdmins(): Promise<Admin_Private[]> {
+		const resp = await fetch(`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins`, {
+			headers: {
+				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+			},
+		});
 		const respBody: ServiceGetAdminsResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
@@ -27,10 +33,11 @@ export class AdminServiceClient {
 		return respBody.data;
 	}
 
-	static async addAdmin(data: ServiceAddAdminRequestBody) {
+	async addAdmin(data: ServiceAddAdminRequestBody) {
 		const resp = await fetch(`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins`, {
 			method: "POST",
 			headers: {
+				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
@@ -42,9 +49,14 @@ export class AdminServiceClient {
 		}
 	}
 
-	static async getAdmin(adminId: number): Promise<Admin_Private> {
+	async getAdmin(adminId: number): Promise<Admin_Private> {
 		const resp = await fetch(
-			`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins/${adminId}`
+			`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins/${adminId}`,
+			{
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
 		);
 		const respBody: ServiceGetAdminResponseBody = await resp.json();
 
@@ -55,11 +67,16 @@ export class AdminServiceClient {
 		return respBody.data;
 	}
 
-	static async getAdminByEmail(email: string): Promise<Admin_Private> {
+	async getAdminByEmail(email: string): Promise<Admin_Private> {
 		const resp = await fetch(
 			`${
 				CONFIG.ADMIN_SERVICE_ADDRESS
-			}/admins/byEmail?email=${encodeURIComponent(email)}`
+			}/admins/byEmail?email=${encodeURIComponent(email)}`,
+			{
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
 		);
 		const respBody: ServiceGetAdminResponseBody = await resp.json();
 
@@ -70,15 +87,13 @@ export class AdminServiceClient {
 		return respBody.data;
 	}
 
-	static async updateAdmin(
-		adminId: number,
-		data: ServiceUpdateAdminRequestBody
-	) {
+	async updateAdmin(adminId: number, data: ServiceUpdateAdminRequestBody) {
 		const resp = await fetch(
 			`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins/${adminId}`,
 			{
 				method: "PATCH",
 				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(data),
@@ -91,11 +106,14 @@ export class AdminServiceClient {
 		}
 	}
 
-	static async deleteAdmin(adminId: number) {
+	async deleteAdmin(adminId: number) {
 		const resp = await fetch(
 			`${CONFIG.ADMIN_SERVICE_ADDRESS}/admins/${adminId}`,
 			{
 				method: "DELETE",
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
 			}
 		);
 		const respBody: ServiceDeleteAdminResponseBody = await resp.json();

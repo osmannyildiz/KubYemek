@@ -38,7 +38,12 @@ export default function RouteGuard({ children }: Props) {
 			{isAutoLoginAttempted ? (
 				children
 			) : (
-				<Icon path={mdiLoading} size={8} spin className="d-block mx-auto" />
+				<Icon
+					path={mdiLoading}
+					size={8}
+					spin
+					className="d-block mx-auto mt-5"
+				/>
 			)}
 		</>
 	);

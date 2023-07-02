@@ -8,9 +8,11 @@ productsRouter
 	.route("/")
 	.get(controller.getProducts)
 	.post(uploadInMemory.single("image"), controller.addProduct);
+
 productsRouter
 	.route("/:productId")
 	// .get(controller.getProduct)
 	.patch(uploadInMemory.single("image"), controller.updateProduct)
 	.delete(controller.deleteProduct);
+
 productsRouter.route("/:productId/produce").post(controller.produceProduct);

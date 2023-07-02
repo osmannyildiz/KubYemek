@@ -33,9 +33,11 @@ export const getProducts: ApiRequestHandler<
 	null,
 	ApiGetProductsResponseBody
 > = async (req, res) => {
+	const productServiceClient = new ProductServiceClient(req.token);
+
 	let products;
 	try {
-		products = await ProductServiceClient.getProducts();
+		products = await productServiceClient.getProducts();
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -62,6 +64,7 @@ export const addProduct: ApiRequestHandler<
 	ApiAddProductResponseBody
 > = async (req, res) => {
 	const { name, unitOfSale, price } = req.body;
+	const productServiceClient = new ProductServiceClient(req.token);
 
 	if (!name || !unitOfSale || !price) {
 		return sendHttpResp(
@@ -89,7 +92,7 @@ export const addProduct: ApiRequestHandler<
 	}
 
 	try {
-		await ProductServiceClient.addProduct(formData);
+		await productServiceClient.addProduct(formData);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -115,17 +118,20 @@ export const addProduct: ApiRequestHandler<
 // 	"productId"
 // > = async (req, res) => {
 // 	const { productId } = req.params;
+// 	const productServiceClient = new ProductServiceClient(req.token);
 
 // 	let product;
 // 	try {
-// 		product = await ProductServiceClient.getProduct(+productId);
+// 		product = await productServiceClient.getProduct(+productId);
 // 	} catch (error: any) {
 // 		console.error(error);
 // 		return sendHttpResp(
 // 			res,
 // 			new HttpResponse(
 // 				error?.resp?.status || 500,
-// 				new ApiErrorResponseBody(error?.respBody?.errorType || ErrorType.default)
+// 				new ApiErrorResponseBody(
+// 					error?.respBody?.errorType || ErrorType.default
+// 				)
 // 			)
 // 		);
 // 	}
@@ -144,6 +150,7 @@ export const updateProduct: ApiRequestHandlerWithParams<
 	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
+	const productServiceClient = new ProductServiceClient(req.token);
 
 	const updates = req.body;
 
@@ -165,7 +172,7 @@ export const updateProduct: ApiRequestHandlerWithParams<
 	}
 
 	try {
-		await ProductServiceClient.updateProduct(+productId, formData);
+		await productServiceClient.updateProduct(+productId, formData);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -191,9 +198,10 @@ export const deleteProduct: ApiRequestHandlerWithParams<
 	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
+	const productServiceClient = new ProductServiceClient(req.token);
 
 	try {
-		await ProductServiceClient.deleteProduct(+productId);
+		await productServiceClient.deleteProduct(+productId);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -219,9 +227,10 @@ export const produceProduct: ApiRequestHandlerWithParams<
 	"productId"
 > = async (req, res) => {
 	const { productId } = req.params;
+	const productServiceClient = new ProductServiceClient(req.token);
 
 	try {
-		await ProductServiceClient.produceProduct(+productId, req.body);
+		await productServiceClient.produceProduct(+productId, req.body);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(

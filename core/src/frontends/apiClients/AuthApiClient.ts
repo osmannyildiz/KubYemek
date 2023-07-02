@@ -11,13 +11,13 @@ import { ApiRespBodyIsNotOkError } from "@core/frontends/models/ApiRespBodyIsNot
 import { apiRespBodyIsNotOk } from "@core/frontends/utils";
 
 export class AuthApiClient {
-	constructor(private token: string) {}
+	constructor(private token?: string) {}
 
 	async registerAdmin(data: ApiRegisterAdminRequestBody) {
 		const resp = await fetch(`${CONFIG.AUTH_API_ADDRESS}/admins/register`, {
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${this.token}`,
+				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
@@ -29,10 +29,11 @@ export class AuthApiClient {
 		}
 	}
 
-	static async loginAdmin(data: ApiLoginAdminRequestBody) {
+	async loginAdmin(data: ApiLoginAdminRequestBody) {
 		const resp = await fetch(`${CONFIG.AUTH_API_ADDRESS}/admins/login`, {
 			method: "POST",
 			headers: {
+				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),

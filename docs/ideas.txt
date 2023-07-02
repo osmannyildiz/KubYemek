@@ -1,0 +1,55 @@
+misc:
+
+docs:
+- projede içime sinmeyenler
+
+feat:
+- admin frontend: product price decimal input
+- pagination
+- input validation
+- show unseen notification count
+- visually differentiate unseen notifications
+- parameterized error messages
+- frontend error alert (like swal)
+- multiple product images (GET/POST /products/:id/images, GET/PATCH/DELETE /products/:id/images/:id)
+- multiple customer addresses
+- services & apis: single filter endpoint (via query string)
+- multi-restaurant
+
+fix:
+- react query proper handling
+- export const router = express.Router(); ts error
+- use axios or fix node-fetch@3
+- updates: ignore if absent/undefined, update if present, clear if null, rollback if invalid
+- handle clear/update image (delete from s3, imagepicker clear button, imagepicker reset button)
+- express global error handler
+
+refactor:
+- model all config files
+- services: dont call repo if basic validation fails
+- construct formdata for type (for req bodies)
+- use next/image
+- dbsvc insert automate with snakeToCamel
+- better way to send query strings with fetch
+- multer + multer-s3 -> multer + s3-client -> from frontend
+- jwt -> passport
+- task queues (order service)
+- use next/auth
+- store token expiry time in config
+- use zustand instead of context
+- clients singleton
+- use prisma instead of dbpkg
+
+learn:
+- package.json version identifier syntax
+- ts try/catch typing (differentiate NetworkError from *RespBodyIsNotOkError)
+- services: mysql too many connections error
+
+consider:
+- should we check validations in api as well?
+- db entities (separate from priv entities)
+- hide db id from frontend (incl. jwt)
+- html image input required attr
+- show a flash message if we had to increment slug
+- convert core deps to devDeps
+

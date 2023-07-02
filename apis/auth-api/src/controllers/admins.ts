@@ -31,6 +31,7 @@ export const registerAdmin: ApiRequestHandler<
 	ApiRegisterAdminResponseBody
 > = async (req, res) => {
 	const { username, email, password } = req.body;
+	const adminServiceClient = new AdminServiceClient(req.token);
 
 	if (!username || !email || !password) {
 		return sendHttpResp(
@@ -53,7 +54,7 @@ export const registerAdmin: ApiRequestHandler<
 	const hashedPassword = await hashPassword(password);
 
 	try {
-		await AdminServiceClient.addAdmin({ username, email, hashedPassword });
+		await adminServiceClient.addAdmin({ username, email, hashedPassword });
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -78,6 +79,7 @@ export const loginAdmin: ApiRequestHandler<
 	ApiLoginAdminResponseBody
 > = async (req, res) => {
 	const { email, password } = req.body;
+	const adminServiceClient = new AdminServiceClient(req.token);
 
 	if (!email || !password) {
 		return sendHttpResp(
@@ -90,7 +92,7 @@ export const loginAdmin: ApiRequestHandler<
 
 	let admin;
 	try {
-		admin = await AdminServiceClient.getAdminByEmail(email);
+		admin = await adminServiceClient.getAdminByEmail(email);
 	} catch (error: any) {
 		console.error(error);
 		// Return 401 even when admin not found (TODO: What if NetworkError happens?)

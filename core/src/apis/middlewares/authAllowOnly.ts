@@ -1,15 +1,14 @@
-import { CONFIG } from "@core/apis/config";
 import { ApiErrorResponseBody } from "@core/apis/models/responseBody";
-import { UserTokenPayload, UserType } from "@core/common/models/auth";
+import { ParseJwtRequestExtension } from "@core/common/middlewares/parseJwt";
+import { UserType } from "@core/common/models/auth";
 import { ErrorType } from "@core/common/models/errors";
 import { HttpUnauthorizedResponse } from "@core/common/models/httpResponse";
 import { sendHttpResp } from "@core/common/utils";
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
 
 export const authAllowOnly = (...allowedUserTypes: UserType[]) => {
 	return (
-		req: Request & { token?: string; tokenPayload?: UserTokenPayload },
+		req: Request & ParseJwtRequestExtension,
 		res: Response,
 		next: NextFunction
 	) => {
@@ -17,8 +16,7 @@ export const authAllowOnly = (...allowedUserTypes: UserType[]) => {
 			return next();
 		}
 
-		const token = req.headers["authorization"]?.split(" ")[1];
-		if (!token) {
+		if (!req.token || !req.tokenPayload) {
 			return sendHttpResp(
 				res,
 				new HttpUnauthorizedResponse(
@@ -26,22 +24,8 @@ export const authAllowOnly = (...allowedUserTypes: UserType[]) => {
 				)
 			);
 		}
-		req.token = token;
 
-		let payload;
-		try {
-			payload = jwt.verify(token, CONFIG.JWT_SECRET) as UserTokenPayload;
-		} catch (err) {
-			return sendHttpResp(
-				res,
-				new HttpUnauthorizedResponse(
-					new ApiErrorResponseBody(ErrorType.loginRequired)
-				)
-			);
-		}
-		req.tokenPayload = payload;
-
-		if (!allowedUserTypes.includes(payload.userType)) {
+		if (!allowedUserTypes.includes(req.tokenPayload.userType)) {
 			return sendHttpResp(
 				res,
 				new HttpUnauthorizedResponse(
