@@ -21,8 +21,8 @@ import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
 	HttpCreatedResponse,
-	HttpInternalServerErrorResponse,
 	HttpOkResponse,
+	HttpResponse,
 } from "@core/common/models/httpResponse";
 import { ProductServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
@@ -40,7 +40,8 @@ export const getProducts: ApiRequestHandler<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -91,7 +92,8 @@ export const addProduct: ApiRequestHandler<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -117,7 +119,8 @@ export const addProduct: ApiRequestHandler<
 // 		console.error(error);
 // 		return sendHttpResp(
 // 			res,
-// 			new HttpInternalServerErrorResponse(
+// 			new HttpResponse(
+// 				error?.resp?.status || 500,
 // 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 // 			)
 // 		);
@@ -160,7 +163,8 @@ export const updateProduct: ApiRequestHandlerWithParams<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -185,7 +189,8 @@ export const deleteProduct: ApiRequestHandlerWithParams<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -210,7 +215,8 @@ export const produceProduct: ApiRequestHandlerWithParams<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);

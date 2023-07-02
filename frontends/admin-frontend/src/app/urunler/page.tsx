@@ -65,7 +65,9 @@ export default function ProductsPage() {
 			});
 		} catch (error: any) {
 			console.error(error);
-			setProductAddFormError(error?.message || getErrMsg(ErrorType.default));
+			setProductAddFormError(
+				error?.respBody?.message || getErrMsg(ErrorType.default)
+			);
 			return;
 		}
 
@@ -87,7 +89,9 @@ export default function ProductsPage() {
 			});
 		} catch (error: any) {
 			console.error(error);
-			setProductEditFormError(error?.message || getErrMsg(ErrorType.default));
+			setProductEditFormError(
+				error?.respBody?.message || getErrMsg(ErrorType.default)
+			);
 			return;
 		}
 
@@ -105,7 +109,7 @@ export default function ProductsPage() {
 		} catch (error: any) {
 			console.error(error);
 			setProductDeleteModalError(
-				error?.message || getErrMsg(ErrorType.default)
+				error?.respBody?.message || getErrMsg(ErrorType.default)
 			);
 			return;
 		}
@@ -142,7 +146,7 @@ export default function ProductsPage() {
 		} catch (error: any) {
 			console.error(error);
 			setProductProduceModalError(
-				error?.message || getErrMsg(ErrorType.default)
+				error?.respBody?.message || getErrMsg(ErrorType.default)
 			);
 			return;
 		}

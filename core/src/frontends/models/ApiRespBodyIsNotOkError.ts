@@ -1,7 +1,7 @@
-import { ErrorType } from "@core/common/models/errors";
+import { ApiErrorResponseBody } from "@core/apis/models/responseBody";
 
 export class ApiRespBodyIsNotOkError extends Error {
-	constructor(public errorType: ErrorType) {
+	constructor(public resp: Response, public respBody: ApiErrorResponseBody) {
 		super();
 	}
 }

@@ -12,10 +12,7 @@ import {
 	ApiUpdateAdminResponseBody,
 } from "@core/apis/models/responseBody";
 import { ErrorType } from "@core/common/models/errors";
-import {
-	HttpInternalServerErrorResponse,
-	HttpOkResponse,
-} from "@core/common/models/httpResponse";
+import { HttpOkResponse, HttpResponse } from "@core/common/models/httpResponse";
 import { AdminServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
 
@@ -30,7 +27,8 @@ export const getAdmins: ApiRequestHandler<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -58,7 +56,8 @@ export const getAdmins: ApiRequestHandler<
 // 		console.error(error);
 // 		return sendHttpResp(
 // 			res,
-// 			new HttpInternalServerErrorResponse(
+// 			new HttpResponse(
+// 				error?.resp?.status || 500,
 // 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 // 			)
 // 		);
@@ -85,7 +84,8 @@ export const updateAdmin: ApiRequestHandlerWithParams<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -110,7 +110,8 @@ export const deleteAdmin: ApiRequestHandlerWithParams<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);

@@ -19,8 +19,8 @@ import {
 import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
-	HttpInternalServerErrorResponse,
 	HttpOkResponse,
+	HttpResponse,
 	HttpUnauthorizedResponse,
 } from "@core/common/models/httpResponse";
 import { AdminServiceClient } from "@core/common/serviceClients";
@@ -58,7 +58,8 @@ export const registerAdmin: ApiRequestHandler<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);
@@ -92,7 +93,8 @@ export const loginAdmin: ApiRequestHandler<
 		console.error(error);
 		return sendHttpResp(
 			res,
-			new HttpInternalServerErrorResponse(
+			new HttpResponse(
+				error?.resp?.status || 500,
 				new ApiErrorResponseBody(error.errorType || ErrorType.default)
 			)
 		);

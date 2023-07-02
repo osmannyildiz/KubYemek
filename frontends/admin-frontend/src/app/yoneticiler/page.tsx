@@ -65,7 +65,9 @@ export default function AdminsPage() {
 			});
 		} catch (error: any) {
 			console.error(error);
-			setAdminAddFormError(error?.message || getErrMsg(ErrorType.default));
+			setAdminAddFormError(
+				error?.respBody?.message || getErrMsg(ErrorType.default)
+			);
 			return;
 		}
 
@@ -92,7 +94,9 @@ export default function AdminsPage() {
 			});
 		} catch (error: any) {
 			console.error(error);
-			setAdminEditFormError(error?.message || getErrMsg(ErrorType.default));
+			setAdminEditFormError(
+				error?.respBody?.message || getErrMsg(ErrorType.default)
+			);
 			return;
 		}
 
@@ -109,7 +113,9 @@ export default function AdminsPage() {
 			});
 		} catch (error: any) {
 			console.error(error);
-			setAdminDeleteModalError(error?.message || getErrMsg(ErrorType.default));
+			setAdminDeleteModalError(
+				error?.respBody?.message || getErrMsg(ErrorType.default)
+			);
 			return;
 		}
 

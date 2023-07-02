@@ -21,7 +21,7 @@ export class AdminServiceClient {
 		const respBody: ServiceGetAdminsResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -38,7 +38,7 @@ export class AdminServiceClient {
 		const respBody: ServiceAddAdminResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -49,7 +49,7 @@ export class AdminServiceClient {
 		const respBody: ServiceGetAdminResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -64,7 +64,7 @@ export class AdminServiceClient {
 		const respBody: ServiceGetAdminResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -87,7 +87,7 @@ export class AdminServiceClient {
 		const respBody: ServiceUpdateAdminResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -101,7 +101,7 @@ export class AdminServiceClient {
 		const respBody: ServiceDeleteAdminResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 }

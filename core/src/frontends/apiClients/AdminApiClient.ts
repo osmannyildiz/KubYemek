@@ -23,7 +23,7 @@ export class AdminApiClient {
 		const respBody: ApiGetAdminsResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -34,7 +34,7 @@ export class AdminApiClient {
 	// 	const respBody: ApiGetAdminResponseBody = await resp.json();
 
 	// 	if (apiRespBodyIsNotOk(respBody)) {
-	// 		throw new ApiRespBodyIsNotOkError(respBody.errorType);
+	// 		throw new ApiRespBodyIsNotOkError(resp, respBody);
 	// 	}
 
 	// 	return respBody.data;
@@ -51,7 +51,7 @@ export class AdminApiClient {
 		const respBody: ApiUpdateAdminResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -62,7 +62,7 @@ export class AdminApiClient {
 		const respBody: ApiDeleteAdminResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -71,7 +71,7 @@ export class AdminApiClient {
 		const respBody: ApiGetProductsResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -85,7 +85,7 @@ export class AdminApiClient {
 		const respBody: ApiAddProductResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -96,7 +96,7 @@ export class AdminApiClient {
 	// 	const respBody: ApiGetProductResponseBody = await resp.json();
 
 	// 	if (apiRespBodyIsNotOk(respBody)) {
-	// 		throw new ApiRespBodyIsNotOkError(respBody.errorType);
+	// 		throw new ApiRespBodyIsNotOkError(resp, respBody);
 	// 	}
 
 	// 	return respBody.data;
@@ -113,7 +113,7 @@ export class AdminApiClient {
 		const respBody: ApiUpdateProductResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -127,7 +127,7 @@ export class AdminApiClient {
 		const respBody: ApiDeleteProductResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -148,7 +148,7 @@ export class AdminApiClient {
 		const respBody: ApiProduceProductResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 }

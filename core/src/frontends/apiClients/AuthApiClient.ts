@@ -16,7 +16,7 @@ export class AuthApiClient {
 		const respBody: ApiRegisterAdminResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
-			throw new ApiRespBodyIsNotOkError(respBody.errorType);
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 }

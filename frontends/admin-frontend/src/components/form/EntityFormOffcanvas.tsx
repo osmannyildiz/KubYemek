@@ -47,9 +47,9 @@ export default function EntityFormOffcanvas({
 				>
 					<Stack gap={3}>{children}</Stack>
 
-					{error ? <div className="text-danger">{error}</div> : undefined}
+					{error ? <div className="text-danger mt-3">{error}</div> : undefined}
 
-					<Stack direction="horizontal" gap={2} className="mt-4">
+					<Stack direction="horizontal" gap={2} className="mt-3">
 						<Button
 							type="submit"
 							variant={confirmButtonVariant}

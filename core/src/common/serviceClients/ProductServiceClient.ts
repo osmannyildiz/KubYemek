@@ -20,7 +20,7 @@ export class ProductServiceClient {
 		const respBody: ServiceGetProductsResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -37,7 +37,7 @@ export class ProductServiceClient {
 		const respBody: ServiceAddProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -48,7 +48,7 @@ export class ProductServiceClient {
 		const respBody: ServiceGetProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 
 		return respBody.data;
@@ -68,7 +68,7 @@ export class ProductServiceClient {
 		const respBody: ServiceUpdateProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -82,7 +82,7 @@ export class ProductServiceClient {
 		const respBody: ServiceDeleteProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 
@@ -103,7 +103,7 @@ export class ProductServiceClient {
 		const respBody: ServiceProduceProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
-			throw new ServiceRespBodyIsNotOkError(respBody.errorType);
+			throw new ServiceRespBodyIsNotOkError(resp, respBody);
 		}
 	}
 }
