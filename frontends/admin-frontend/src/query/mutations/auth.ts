@@ -7,14 +7,14 @@ import { MutationFunction } from "react-query";
 
 export const registerAdmin: MutationFunction<
 	void,
-	{ data: ApiRegisterAdminRequestBody }
-> = async (payload) => {
-	await AuthApiClient.registerAdmin(payload.data);
+	{ authApiClient: AuthApiClient; data: ApiRegisterAdminRequestBody }
+> = async ({ authApiClient, data }) => {
+	await authApiClient.registerAdmin(data);
 };
 
 export const loginAdmin: MutationFunction<
 	string,
 	{ data: ApiLoginAdminRequestBody }
-> = async (payload) => {
-	return await AuthApiClient.loginAdmin(payload.data);
+> = async ({ data }) => {
+	return await AuthApiClient.loginAdmin(data);
 };

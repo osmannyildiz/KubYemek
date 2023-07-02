@@ -151,6 +151,9 @@ export const updateProduct: ApiRequestHandlerWithParams<
 	if (updates.name) {
 		formData.append("name", updates.name);
 	}
+	if (updates.slug) {
+		formData.append("slug", updates.slug);
+	}
 	if (updates.unitOfSale) {
 		formData.append("unitOfSale", updates.unitOfSale);
 	}

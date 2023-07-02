@@ -4,13 +4,18 @@ import { MutationFunction } from "react-query";
 
 export const updateAdmin: MutationFunction<
 	void,
-	{ id: number; data: ApiUpdateAdminRequestBody }
-> = async (payload) => {
-	await AdminApiClient.updateAdmin(payload.id, payload.data);
+	{
+		adminApiClient: AdminApiClient;
+		id: number;
+		data: ApiUpdateAdminRequestBody;
+	}
+> = async ({ adminApiClient, id, data }) => {
+	await adminApiClient.updateAdmin(id, data);
 };
 
-export const deleteAdmin: MutationFunction<void, { id: number }> = async (
-	payload
-) => {
-	await AdminApiClient.deleteAdmin(payload.id);
+export const deleteAdmin: MutationFunction<
+	void,
+	{ adminApiClient: AdminApiClient; id: number }
+> = async ({ adminApiClient, id }) => {
+	await adminApiClient.deleteAdmin(id);
 };

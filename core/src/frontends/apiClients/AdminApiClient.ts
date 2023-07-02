@@ -18,8 +18,14 @@ import { ApiRespBodyIsNotOkError } from "@core/frontends/models/ApiRespBodyIsNot
 import { apiRespBodyIsNotOk } from "@core/frontends/utils";
 
 export class AdminApiClient {
-	static async getAdmins(): Promise<Admin[]> {
-		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins`);
+	constructor(private token: string) {}
+
+	async getAdmins(): Promise<Admin[]> {
+		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins`, {
+			headers: {
+				Authorization: `Bearer ${this.token}`,
+			},
+		});
 		const respBody: ApiGetAdminsResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
@@ -29,8 +35,12 @@ export class AdminApiClient {
 		return respBody.data;
 	}
 
-	// static async getAdmin(adminId: number): Promise<Admin> {
-	// 	const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`);
+	// async getAdmin(adminId: number): Promise<Admin> {
+	// 	const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`, {
+	// 		headers: {
+	// 			Authorization: `Bearer ${this.token}`,
+	// 		},
+	// 	});
 	// 	const respBody: ApiGetAdminResponseBody = await resp.json();
 
 	// 	if (apiRespBodyIsNotOk(respBody)) {
@@ -40,10 +50,11 @@ export class AdminApiClient {
 	// 	return respBody.data;
 	// }
 
-	static async updateAdmin(adminId: number, data: ApiUpdateAdminRequestBody) {
+	async updateAdmin(adminId: number, data: ApiUpdateAdminRequestBody) {
 		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`, {
 			method: "PATCH",
 			headers: {
+				Authorization: `Bearer ${this.token}`,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
@@ -55,9 +66,12 @@ export class AdminApiClient {
 		}
 	}
 
-	static async deleteAdmin(adminId: number) {
+	async deleteAdmin(adminId: number) {
 		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`, {
 			method: "DELETE",
+			headers: {
+				Authorization: `Bearer ${this.token}`,
+			},
 		});
 		const respBody: ApiDeleteAdminResponseBody = await resp.json();
 
@@ -66,8 +80,12 @@ export class AdminApiClient {
 		}
 	}
 
-	static async getProducts(): Promise<Product[]> {
-		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/products`);
+	async getProducts(): Promise<Product[]> {
+		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/products`, {
+			headers: {
+				Authorization: `Bearer ${this.token}`,
+			},
+		});
 		const respBody: ApiGetProductsResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
@@ -77,9 +95,12 @@ export class AdminApiClient {
 		return respBody.data;
 	}
 
-	static async addProduct(formData: FormData) {
+	async addProduct(formData: FormData) {
 		const resp = await fetch(`${CONFIG.ADMIN_API_ADDRESS}/products`, {
 			method: "POST",
+			headers: {
+				Authorization: `Bearer ${this.token}`,
+			},
 			body: formData,
 		});
 		const respBody: ApiAddProductResponseBody = await resp.json();
@@ -89,9 +110,14 @@ export class AdminApiClient {
 		}
 	}
 
-	// static async getProduct(productId: number): Promise<Product> {
+	// async getProduct(productId: number): Promise<Product> {
 	// 	const resp = await fetch(
-	// 		`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`
+	// 		`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`,
+	// 		{
+	// 			headers: {
+	// 				Authorization: `Bearer ${this.token}`,
+	// 			},
+	// 		}
 	// 	);
 	// 	const respBody: ApiGetProductResponseBody = await resp.json();
 
@@ -102,11 +128,14 @@ export class AdminApiClient {
 	// 	return respBody.data;
 	// }
 
-	static async updateProduct(productId: number, formData: FormData) {
+	async updateProduct(productId: number, formData: FormData) {
 		const resp = await fetch(
 			`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`,
 			{
 				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${this.token}`,
+				},
 				body: formData,
 			}
 		);
@@ -117,11 +146,14 @@ export class AdminApiClient {
 		}
 	}
 
-	static async deleteProduct(productId: number) {
+	async deleteProduct(productId: number) {
 		const resp = await fetch(
 			`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}`,
 			{
 				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${this.token}`,
+				},
 			}
 		);
 		const respBody: ApiDeleteProductResponseBody = await resp.json();
@@ -131,15 +163,13 @@ export class AdminApiClient {
 		}
 	}
 
-	static async produceProduct(
-		productId: number,
-		data: ApiProduceProductRequestBody
-	) {
+	async produceProduct(productId: number, data: ApiProduceProductRequestBody) {
 		const resp = await fetch(
 			`${CONFIG.ADMIN_API_ADDRESS}/products/${productId}/produce`,
 			{
 				method: "POST",
 				headers: {
+					Authorization: `Bearer ${this.token}`,
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(data),

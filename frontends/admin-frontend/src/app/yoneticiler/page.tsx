@@ -4,19 +4,24 @@ import EntityFormModal from "@/components/form/EntityFormModal";
 import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import AppPage from "@/components/layout/AppPage";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { getAdmins } from "@/query/fetchers/admins";
 import { deleteAdmin, updateAdmin } from "@/query/mutations/admins";
 import { registerAdmin } from "@/query/mutations/auth";
 import { Admin } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
+import { AdminApiClient, AuthApiClient } from "@core/frontends/apiClients";
 import { getErrMsg } from "@core/frontends/utils";
 import { useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function AdminsPage() {
+	const { token } = useAuthContext();
+	const authApiClient = new AuthApiClient(token || "");
+	const adminApiClient = new AdminApiClient(token || "");
 	const queryClient = useQueryClient();
-	const adminsQuery = useQuery("admins", getAdmins);
+	const adminsQuery = useQuery("admins", () => getAdmins(adminApiClient));
 	const registerAdminMutation = useMutation("registerAdmin", registerAdmin);
 	const updateAdminMutation = useMutation("updateAdmin", updateAdmin);
 	const deleteAdminMutation = useMutation("deleteAdmin", deleteAdmin);
@@ -57,6 +62,7 @@ export default function AdminsPage() {
 
 		try {
 			await registerAdminMutation.mutateAsync({
+				authApiClient,
 				data: {
 					username: username.toString(),
 					email: email.toString(),
@@ -86,6 +92,7 @@ export default function AdminsPage() {
 
 		try {
 			await updateAdminMutation.mutateAsync({
+				adminApiClient,
 				id: +adminToEdit.id,
 				data: {
 					username: username?.toString(),
@@ -109,6 +116,7 @@ export default function AdminsPage() {
 
 		try {
 			await deleteAdminMutation.mutateAsync({
+				adminApiClient,
 				id: +adminToDelete.id,
 			});
 		} catch (error: any) {

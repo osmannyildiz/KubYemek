@@ -5,6 +5,7 @@ import EntityFormOffcanvas from "@/components/form/EntityFormOffcanvas";
 import FormFieldRequiredIndicator from "@/components/form/FormFieldRequiredIndicator";
 import ImagePicker from "@/components/form/ImagePicker";
 import AppPage from "@/components/layout/AppPage";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { getProducts } from "@/query/fetchers/products";
 import {
 	addProduct,
@@ -14,14 +15,17 @@ import {
 } from "@/query/mutations/products";
 import { Product } from "@core/common/models/entity/frontend";
 import { ErrorType } from "@core/common/models/errors";
+import { AdminApiClient } from "@core/frontends/apiClients";
 import { formatPriceForDisplay, getErrMsg } from "@core/frontends/utils";
 import { useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export default function ProductsPage() {
+	const { token } = useAuthContext();
+	const adminApiClient = new AdminApiClient(token || "");
 	const queryClient = useQueryClient();
-	const productsQuery = useQuery("products", getProducts);
+	const productsQuery = useQuery("products", () => getProducts(adminApiClient));
 	const addProductMutation = useMutation("addProduct", addProduct);
 	const updateProductMutation = useMutation("updateProduct", updateProduct);
 	const deleteProductMutation = useMutation("deleteProduct", deleteProduct);
@@ -61,6 +65,7 @@ export default function ProductsPage() {
 
 		try {
 			await addProductMutation.mutateAsync({
+				adminApiClient,
 				data: formData,
 			});
 		} catch (error: any) {
@@ -84,6 +89,7 @@ export default function ProductsPage() {
 
 		try {
 			await updateProductMutation.mutateAsync({
+				adminApiClient,
 				id: +productToEdit.id,
 				data: formData,
 			});
@@ -104,6 +110,7 @@ export default function ProductsPage() {
 
 		try {
 			await deleteProductMutation.mutateAsync({
+				adminApiClient,
 				id: +productToDelete.id,
 			});
 		} catch (error: any) {
@@ -138,6 +145,7 @@ export default function ProductsPage() {
 
 		try {
 			await produceProductMutation.mutateAsync({
+				adminApiClient,
 				id: +productToProduce.id,
 				data: {
 					unitsCount: +unitsCount.toString(),
