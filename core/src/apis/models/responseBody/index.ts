@@ -6,6 +6,7 @@ export {
 	ApiUpdateAdminResponseBody,
 } from "./admins";
 export {
+	ApiChangeAdminPasswordResponseBody,
 	ApiLoginAdminResponseBody,
 	ApiLoginAdminSuccessResponseBody,
 	ApiRegisterAdminResponseBody,

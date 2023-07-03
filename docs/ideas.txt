@@ -23,8 +23,11 @@ fix:
 - updates: ignore if absent/undefined, update if present, clear if null, rollback if invalid
 - handle clear/update image (delete from s3, imagepicker clear button, imagepicker reset button)
 - express global error handler
+- frontend: handle token expiry
 
 refactor:
+- prefix reqbody and resbody names with service/api name
+- export * from bucket files
 - model all config files
 - services: dont call repo if basic validation fails
 - construct formdata for type (for req bodies)
@@ -39,11 +42,13 @@ refactor:
 - use zustand instead of context
 - clients singleton
 - use prisma instead of dbpkg
+- refactor all fetch calls
 
 learn:
 - package.json version identifier syntax
 - ts try/catch typing (differentiate NetworkError from *RespBodyIsNotOkError)
 - services: mysql too many connections error
+- ts namespaces for resp body etc.
 
 consider:
 - should we check validations in api as well?
@@ -52,4 +57,6 @@ consider:
 - html image input required attr
 - show a flash message if we had to increment slug
 - convert core deps to devDeps
+- admin frontend: make navitems' active status consistent
+- frontend: make MutationButton component (button with spinner)
 

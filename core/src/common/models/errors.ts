@@ -2,6 +2,7 @@ import { LangId } from "./localization";
 
 export enum ErrorType {
 	default = "default",
+	currentPasswordIsIncorrect = "currentPasswordIsIncorrect",
 	emailAlreadyExists = "emailAlreadyExists",
 	fieldMustBeOneOrBigger = "fieldMustBeOneOrBigger",
 	loginIsInvalid = "loginIsInvalid",

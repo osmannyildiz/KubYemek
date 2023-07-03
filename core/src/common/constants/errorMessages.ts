@@ -5,6 +5,10 @@ export const errorMessages: ErrorMessages = {
 		en: "An error occurred.",
 		tr: "Bir hata oluştu.",
 	},
+	[ErrorType.currentPasswordIsIncorrect]: {
+		en: "Current password is incorrect. Please check again.",
+		tr: "Mevcut şifre yanlış. Lütfen tekrar kontrol edin.",
+	},
 	[ErrorType.emailAlreadyExists]: {
 		en: "A user with this e-mail address already exists. Please enter a different e-mail address.",
 		tr: "Bu e-posta adresine sahip bir kullanıcı halihazırda mevcut. Lütfen farklı bir e-posta adresi girin.",

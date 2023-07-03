@@ -11,4 +11,6 @@ adminsRouter
 
 adminsRouter.route("/login").post(controller.loginAdmin);
 
-// adminsRouter.route(authAllowOnly(UserType.admin), "/:adminId/password").put(controller.changeAdminPassword);
+adminsRouter
+	.route("/me/password")
+	.put(authAllowOnly(UserType.admin), controller.changeAdminPassword);

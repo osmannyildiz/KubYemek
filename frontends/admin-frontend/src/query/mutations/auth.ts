@@ -1,4 +1,5 @@
 import {
+	ApiChangeAdminPasswordRequestBody,
 	ApiLoginAdminRequestBody,
 	ApiRegisterAdminRequestBody,
 } from "@core/apis/models/requestBody";
@@ -17,4 +18,11 @@ export const loginAdmin: MutationFunction<
 	{ authApiClient: AuthApiClient; data: ApiLoginAdminRequestBody }
 > = async ({ authApiClient, data }) => {
 	return await authApiClient.loginAdmin(data);
+};
+
+export const changePassword: MutationFunction<
+	void,
+	{ authApiClient: AuthApiClient; data: ApiChangeAdminPasswordRequestBody }
+> = async ({ authApiClient, data }) => {
+	await authApiClient.changeAdminPassword(data);
 };

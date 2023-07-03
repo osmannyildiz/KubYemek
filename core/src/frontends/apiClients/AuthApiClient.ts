@@ -1,8 +1,10 @@
 import {
+	ApiChangeAdminPasswordRequestBody,
 	ApiLoginAdminRequestBody,
 	ApiRegisterAdminRequestBody,
 } from "@core/apis/models/requestBody";
 import {
+	ApiChangeAdminPasswordResponseBody,
 	ApiLoginAdminResponseBody,
 	ApiRegisterAdminResponseBody,
 } from "@core/apis/models/responseBody";
@@ -45,5 +47,21 @@ export class AuthApiClient {
 		}
 
 		return respBody.token;
+	}
+
+	async changeAdminPassword(data: ApiChangeAdminPasswordRequestBody) {
+		const resp = await fetch(`${CONFIG.AUTH_API_ADDRESS}/admins/me/password`, {
+			method: "PUT",
+			headers: {
+				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		});
+		const respBody: ApiChangeAdminPasswordResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
+		}
 	}
 }

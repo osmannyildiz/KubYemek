@@ -10,3 +10,9 @@ export interface ApiLoginAdminRequestBody extends ApiAddEntityRequestBody {
 	email: string;
 	password: string;
 }
+
+export interface ApiChangeAdminPasswordRequestBody
+	extends ApiAddEntityRequestBody {
+	currentPassword: string;
+	newPassword: string;
+}

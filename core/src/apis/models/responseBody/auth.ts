@@ -13,3 +13,7 @@ export type ApiRegisterAdminResponseBody =
 export type ApiLoginAdminResponseBody =
 	| ApiLoginAdminSuccessResponseBody
 	| ApiErrorResponseBody;
+
+export type ApiChangeAdminPasswordResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;
