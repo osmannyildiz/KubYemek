@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/services/admin-service-dev.dockerfile
-    # ports:
-    #   - 8001:80
+    ports:
+      - 8001:80
     volumes:
       - ./core:/app/core
       - /app/core/node_modules
@@ -14,13 +14,27 @@ services:
       - /app/services/admin-service/node_modules
     environment:
       KUBYEMEK_ENV: dev-compose
+  
+  customer-service:
+    build:
+      context: .
+      dockerfile: dockerfiles/services/customer-service-dev.dockerfile
+    ports:
+      - 8002:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./services/customer-service:/app/services/customer-service
+      - /app/services/customer-service/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
 
   product-service:
     build:
       context: .
       dockerfile: dockerfiles/services/product-service-dev.dockerfile
-    # ports:
-    #   - 8007:80
+    ports:
+      - 8007:80
     volumes:
       - ./core:/app/core
       - /app/core/node_modules
