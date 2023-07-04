@@ -3,7 +3,7 @@ admin service:
 
 customer service:
 + crud customers
-- inc/dec customer points
++ inc/dec customer points
 
 notification service:
 - get notifications (admin/customer)

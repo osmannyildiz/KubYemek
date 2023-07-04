@@ -59,4 +59,5 @@ consider:
 - convert core deps to devDeps
 - admin frontend: make navitems' active status consistent
 - frontend: make MutationButton component (button with spinner)
+- use Date objects instead of strings && dbsvc: add Date to Value
 

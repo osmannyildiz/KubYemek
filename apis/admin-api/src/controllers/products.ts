@@ -1,4 +1,4 @@
-import { ProductAdapter } from "@/adapters/ProductAdapter";
+import { ProductAdapter } from "@core/apis/adapters/ProductAdapter";
 import {
 	ApiAddProductRequestBody,
 	ApiProduceProductRequestBody,

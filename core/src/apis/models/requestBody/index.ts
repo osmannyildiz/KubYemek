@@ -9,6 +9,7 @@ export {
 	ApiRequestBody,
 	ApiUpdateEntityRequestBody,
 } from "./base";
+export { ApiAddToCustomerPointsRequestBody } from "./customers";
 export {
 	ApiAddProductRequestBody,
 	ApiProduceProductRequestBody,

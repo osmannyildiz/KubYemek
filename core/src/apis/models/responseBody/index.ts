@@ -22,6 +22,10 @@ export {
 	ApiUpdateEntityResponseBody,
 } from "./base";
 export {
+	ApiAddToCustomerPointsResponseBody,
+	ApiGetCustomersResponseBody,
+} from "./customers";
+export {
 	ApiAddProductResponseBody,
 	ApiDeleteProductResponseBody,
 	// ApiGetProductResponseBody,
