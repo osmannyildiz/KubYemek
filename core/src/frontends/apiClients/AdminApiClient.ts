@@ -1,18 +1,21 @@
 import {
+	ApiAddToCustomerPointsRequestBody,
 	ApiProduceProductRequestBody,
 	ApiUpdateAdminRequestBody,
 } from "@core/apis/models/requestBody";
 import {
 	ApiAddProductResponseBody,
+	ApiAddToCustomerPointsResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiDeleteProductResponseBody,
 	ApiGetAdminsResponseBody,
+	ApiGetCustomersResponseBody,
 	ApiGetProductsResponseBody,
 	ApiProduceProductResponseBody,
 	ApiUpdateAdminResponseBody,
 	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
-import { Admin, Product } from "@core/common/models/entity/frontend";
+import { Admin, Customer, Product } from "@core/common/models/entity/frontend";
 import { CORE_FRONTENDS_CONFIG } from "@core/frontends/config";
 import { ApiRespBodyIsNotOkError } from "@core/frontends/models/ApiRespBodyIsNotOkError";
 import { apiRespBodyIsNotOk } from "@core/frontends/utils";
@@ -83,6 +86,46 @@ export class AdminApiClient {
 			}
 		);
 		const respBody: ApiDeleteAdminResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
+		}
+	}
+
+	async getCustomers(): Promise<Customer[]> {
+		const resp = await fetch(
+			`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/customers`,
+			{
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
+		);
+		const respBody: ApiGetCustomersResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
+		}
+
+		return respBody.data;
+	}
+
+	async addToCustomerPoints(
+		customerId: number,
+		data: ApiAddToCustomerPointsRequestBody
+	) {
+		const resp = await fetch(
+			`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/customers/${customerId}/points`,
+			{
+				method: "POST",
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			}
+		);
+		const respBody: ApiAddToCustomerPointsResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
 			throw new ApiRespBodyIsNotOkError(resp, respBody);
