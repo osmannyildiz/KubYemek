@@ -1,0 +1,81 @@
+version: "3"
+services:
+
+  admin-service:
+    build:
+      context: .
+      dockerfile: dockerfiles/services/admin-service-dev.dockerfile
+    # ports:
+    #   - 8001:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./services/admin-service:/app/services/admin-service
+      - /app/services/admin-service/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
+
+  product-service:
+    build:
+      context: .
+      dockerfile: dockerfiles/services/product-service-dev.dockerfile
+    # ports:
+    #   - 8007:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./services/product-service:/app/services/product-service
+      - /app/services/product-service/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
+
+  auth-api:
+    build:
+      context: .
+      dockerfile: dockerfiles/apis/auth-api-dev.dockerfile
+    ports:
+      - 8081:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./apis/auth-api:/app/apis/auth-api
+      - /app/apis/auth-api/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
+    depends_on:
+    - admin-service
+    # - customer-service
+  
+  admin-api:
+    build:
+      context: .
+      dockerfile: dockerfiles/apis/admin-api-dev.dockerfile
+    ports:
+      - 8082:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./apis/admin-api:/app/apis/admin-api
+      - /app/apis/admin-api/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
+    depends_on:
+    - admin-service
+
+  admin-frontend:
+    build:
+      context: .
+      dockerfile: dockerfiles/frontends/admin-frontend-dev.dockerfile
+    ports:
+      - 3001:3000
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./frontends/admin-frontend:/app/frontends/admin-frontend
+      - /app/frontends/admin-frontend/node_modules
+      - /app/frontends/admin-frontend/.next
+    environment:
+      KUBYEMEK_ENV: dev-compose
+    depends_on:
+    - auth-api
+    - admin-api

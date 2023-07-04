@@ -1,10 +1,12 @@
 import { HttpResponse } from "@core/common/models/httpResponse";
 import { Response } from "express";
 
-type Env = "dev-localhost" | "dev-compose";
+type Env = "dev-localhost" | "dev-compose" /*| "prod-compose" | "prod-k8s"*/;
 
 const isValidEnv = (env?: string): env is Env =>
-	["dev-localhost", "dev-compose"].includes(env || "");
+	["dev-localhost", "dev-compose" /*, "prod-compose", "prod-k8s"*/].includes(
+		env || ""
+	);
 
 export const getEnv = (): Env =>
 	isValidEnv(process.env.KUBYEMEK_ENV)

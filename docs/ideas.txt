@@ -17,7 +17,7 @@ feat:
 - multi-restaurant
 
 fix:
-- react query proper handling
+- react query proper handling (loading, error, etc.)
 - export const router = express.Router(); ts error
 - use axios or fix node-fetch@3
 - updates: ignore if absent/undefined, update if present, clear if null, rollback if invalid
