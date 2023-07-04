@@ -1,6 +1,12 @@
-import { CONFIG as CORE_APIS_CONFIG } from "@core/apis/config";
+import { CORE_APIS_CONFIG } from "@core/apis/config";
+import { getEnv } from "@core/common/utils";
+
+const env = getEnv();
 
 export const CONFIG = {
 	...CORE_APIS_CONFIG,
-	PORT: process.env.PORT || 8081,
+	PORT: {
+		"dev-localhost": 8081,
+		"dev-compose": 80,
+	}[env],
 };

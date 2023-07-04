@@ -1,4 +1,4 @@
-import { CONFIG } from "@core/apis/config";
+import { CORE_APIS_CONFIG } from "@core/apis/config";
 import { errorMessages } from "@core/common/constants/errorMessages";
 import { ErrorType } from "@core/common/models/errors";
 import {
@@ -13,5 +13,5 @@ export function serviceRespBodyIsNotOk(
 }
 
 export function getErrMsg(errorType: ErrorType) {
-	return errorMessages[errorType][CONFIG.LANG_ID];
+	return errorMessages[errorType][CORE_APIS_CONFIG.LANG_ID];
 }

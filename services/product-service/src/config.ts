@@ -1,6 +1,12 @@
-import { CONFIG as CORE_SERVICES_CONFIG } from "@core/services/config";
+import { getEnv } from "@core/common/utils";
+import { CORE_SERVICES_CONFIG } from "@core/services/config";
+
+const env = getEnv();
 
 export const CONFIG = {
 	...CORE_SERVICES_CONFIG,
-	PORT: process.env.PORT || 8007,
+	PORT: {
+		"dev-localhost": 8007,
+		"dev-compose": 80,
+	}[env],
 };

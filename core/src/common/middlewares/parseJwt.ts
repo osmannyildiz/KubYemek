@@ -1,5 +1,5 @@
 import { UserTokenPayload } from "@core/common/models/auth";
-import { CONFIG } from "@core/services/config";
+import { CORE_SERVICES_CONFIG } from "@core/services/config";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -23,7 +23,10 @@ export const parseJwt = (
 
 	let payload;
 	try {
-		payload = jwt.verify(token, CONFIG.JWT_SECRET) as UserTokenPayload;
+		payload = jwt.verify(
+			token,
+			CORE_SERVICES_CONFIG.JWT_SECRET
+		) as UserTokenPayload;
 	} catch (err) {
 		return next();
 	}

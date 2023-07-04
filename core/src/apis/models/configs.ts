@@ -1,10 +1,10 @@
 import { LangId } from "@core/common/models/localization";
 
-export interface CoreApisSecrets {
+export interface ICoreApisSecrets {
 	JWT_SECRET: string;
 }
 
-export interface CoreApisConfig extends CoreApisSecrets {
+export interface ICoreApisConfig extends ICoreApisSecrets {
 	LANG_ID: LangId;
 	ADMIN_SERVICE_ADDRESS: string;
 	CUSTOMER_SERVICE_ADDRESS: string;

@@ -4,7 +4,7 @@ import {
 } from "@core/apis/models/responseBody";
 import { errorMessages } from "@core/common/constants/errorMessages";
 import { ErrorType } from "@core/common/models/errors";
-import { CONFIG } from "@core/frontends/config";
+import { CORE_FRONTENDS_CONFIG } from "@core/frontends/config";
 import { createContext, useContext } from "react";
 
 const moneyFormatter = new Intl.NumberFormat("tr", {
@@ -19,7 +19,7 @@ export function apiRespBodyIsNotOk(
 }
 
 export function getErrMsg(errorType: ErrorType) {
-	return errorMessages[errorType][CONFIG.LANG_ID];
+	return errorMessages[errorType][CORE_FRONTENDS_CONFIG.LANG_ID];
 }
 
 export function formatPriceForDisplay(priceRaw: number | string) {

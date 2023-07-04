@@ -1,4 +1,4 @@
-import { CONFIG } from "@core/apis/config";
+import { CORE_APIS_CONFIG } from "@core/apis/config";
 import { serviceRespBodyIsNotOk } from "@core/apis/utils";
 import { ServiceRespBodyIsNotOkError } from "@core/common/models/ServiceRespBodyIsNotOkError";
 import { Product_Private } from "@core/common/models/entity/backend";
@@ -18,11 +18,14 @@ export class ProductServiceClient {
 	constructor(private token?: string) {}
 
 	async getProducts(): Promise<Product_Private[]> {
-		const resp = await fetch(`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products`, {
-			headers: {
-				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
-			},
-		});
+		const resp = await fetch(
+			`${CORE_APIS_CONFIG.PRODUCT_SERVICE_ADDRESS}/products`,
+			{
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
+		);
 		const respBody: ServiceGetProductsResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
@@ -33,14 +36,17 @@ export class ProductServiceClient {
 	}
 
 	async addProduct(formData: FormData) {
-		const resp = await fetch(`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products`, {
-			method: "POST",
-			headers: {
-				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
-				...formData.getHeaders(),
-			},
-			body: formData,
-		});
+		const resp = await fetch(
+			`${CORE_APIS_CONFIG.PRODUCT_SERVICE_ADDRESS}/products`,
+			{
+				method: "POST",
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+					...formData.getHeaders(),
+				},
+				body: formData,
+			}
+		);
 		const respBody: ServiceAddProductResponseBody = await resp.json();
 
 		if (serviceRespBodyIsNotOk(respBody)) {
@@ -50,7 +56,7 @@ export class ProductServiceClient {
 
 	async getProduct(productId: number): Promise<Product_Private> {
 		const resp = await fetch(
-			`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
+			`${CORE_APIS_CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
 			{
 				headers: {
 					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
@@ -68,7 +74,7 @@ export class ProductServiceClient {
 
 	async updateProduct(productId: number, formData: FormData) {
 		const resp = await fetch(
-			`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
+			`${CORE_APIS_CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
 			{
 				method: "PATCH",
 				headers: {
@@ -87,7 +93,7 @@ export class ProductServiceClient {
 
 	async deleteProduct(productId: number) {
 		const resp = await fetch(
-			`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
+			`${CORE_APIS_CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}`,
 			{
 				method: "DELETE",
 				headers: {
@@ -107,7 +113,7 @@ export class ProductServiceClient {
 		data: ServiceProduceProductRequestBody
 	) {
 		const resp = await fetch(
-			`${CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}/produce`,
+			`${CORE_APIS_CONFIG.PRODUCT_SERVICE_ADDRESS}/products/${productId}/produce`,
 			{
 				method: "POST",
 				headers: {

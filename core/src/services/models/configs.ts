@@ -1,4 +1,4 @@
-export interface CoreServicesSecrets {
+export interface ICoreServicesSecrets {
 	JWT_SECRET: string;
 	DB_HOST: string;
 	DB_PORT: number;
@@ -8,7 +8,7 @@ export interface CoreServicesSecrets {
 	AWS_SECRET_ACCESS_KEY: string;
 }
 
-export interface CoreServicesConfig extends CoreServicesSecrets {
+export interface ICoreServicesConfig extends ICoreServicesSecrets {
 	DB_NAME: string;
 	AWS_REGION: string;
 }
