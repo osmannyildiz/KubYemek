@@ -16,6 +16,14 @@ export {
 	ServiceUpdateEntityResponseBody,
 } from "./base";
 export {
+	ServiceAddCustomerResponseBody,
+	ServiceAddToCustomerPointsResponseBody,
+	ServiceDeleteCustomerResponseBody,
+	ServiceGetCustomerResponseBody,
+	ServiceGetCustomersResponseBody,
+	ServiceUpdateCustomerResponseBody,
+} from "./customers";
+export {
 	ServiceAddProductResponseBody,
 	ServiceDeleteProductResponseBody,
 	ServiceGetProductResponseBody,

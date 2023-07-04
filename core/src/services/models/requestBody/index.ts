@@ -8,6 +8,11 @@ export {
 	ServiceUpdateEntityRequestBody,
 } from "./base";
 export {
+	ServiceAddCustomerRequestBody,
+	ServiceAddToCustomerPointsRequestBody,
+	ServiceUpdateCustomerRequestBody,
+} from "./customers";
+export {
 	ServiceAddProductRequestBody,
 	ServiceProduceProductRequestBody,
 	ServiceUpdateProductRequestBody,
