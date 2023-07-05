@@ -28,6 +28,20 @@ services:
       - /app/services/customer-service/node_modules
     environment:
       KUBYEMEK_ENV: dev-compose
+  
+  order-service:
+    build:
+      context: .
+      dockerfile: dockerfiles/services/order-service-dev.dockerfile
+    ports:
+      - 8005:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./services/order-service:/app/services/order-service
+      - /app/services/order-service/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
 
   product-service:
     build:

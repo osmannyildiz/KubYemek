@@ -5,10 +5,10 @@ COPY core/package.json .
 RUN npm install
 # COPY core/. .
 
-WORKDIR /app/apis/auth-api
-COPY apis/auth-api/package.json .
+WORKDIR /app/services/order-service
+COPY services/order-service/package.json .
 RUN npm install
-# COPY apis/auth-api/. .
+# COPY services/order-service/. .
 
 EXPOSE 80
 
