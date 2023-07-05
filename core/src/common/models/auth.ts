@@ -1,4 +1,4 @@
-import { Admin } from "@core/common/models/entity/frontend";
+import { Admin, Customer } from "@core/common/models/entity/frontend";
 
 export enum UserType {
 	admin = "admin",
@@ -10,6 +10,14 @@ export interface IAdminTokenPayload {
 	adminId: number;
 	adminUsername: string;
 	adminEmail: string;
+}
+
+export interface ICustomerTokenPayload {
+	userType: UserType.customer;
+	customerId: number;
+	customerEmail: string;
+	customerName: string;
+	customerSurname: string;
 }
 
 export abstract class UserTokenPayload {
@@ -34,6 +42,31 @@ export class AdminTokenPayload extends UserTokenPayload {
 			adminId: this.adminId,
 			adminUsername: this.adminUsername,
 			adminEmail: this.adminEmail,
+		};
+	}
+}
+
+export class CustomerTokenPayload extends UserTokenPayload {
+	public customerId: number;
+	public customerEmail: string;
+	public customerName: string;
+	public customerSurname: string;
+
+	constructor(customer: Customer) {
+		super(UserType.customer);
+		this.customerId = customer.id;
+		this.customerEmail = customer.email;
+		this.customerName = customer.name;
+		this.customerSurname = customer.surname;
+	}
+
+	toPlainObject(): ICustomerTokenPayload {
+		return {
+			userType: this.userType as UserType.customer,
+			customerId: this.customerId,
+			customerEmail: this.customerEmail,
+			customerName: this.customerName,
+			customerSurname: this.customerSurname,
 		};
 	}
 }

@@ -1,8 +1,11 @@
 export { ApiUpdateAdminRequestBody } from "./admins";
 export {
 	ApiChangeAdminPasswordRequestBody,
+	ApiChangeCustomerPasswordRequestBody,
 	ApiLoginAdminRequestBody,
+	ApiLoginCustomerRequestBody,
 	ApiRegisterAdminRequestBody,
+	ApiRegisterCustomerRequestBody,
 } from "./auth";
 export {
 	ApiAddEntityRequestBody,

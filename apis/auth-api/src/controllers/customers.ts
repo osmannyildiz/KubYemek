@@ -1,24 +1,24 @@
 import {
 	checkPasswordWithHash,
-	createTokenForAdmin,
+	createTokenForCustomer,
 	hashPassword,
 } from "@/utils";
-import { AdminAdapter } from "@core/apis/adapters/AdminAdapter";
+import { CustomerAdapter } from "@core/apis/adapters/CustomerAdapter";
 import {
-	ApiChangeAdminPasswordRequestBody,
-	ApiLoginAdminRequestBody,
-	ApiRegisterAdminRequestBody,
+	ApiChangeCustomerPasswordRequestBody,
+	ApiLoginCustomerRequestBody,
+	ApiRegisterCustomerRequestBody,
 } from "@core/apis/models/requestBody";
 import { ApiRequestHandler } from "@core/apis/models/requestHandlers";
 import {
-	ApiChangeAdminPasswordResponseBody,
+	ApiChangeCustomerPasswordResponseBody,
 	ApiErrorResponseBody,
-	ApiLoginAdminResponseBody,
-	ApiLoginAdminSuccessResponseBody,
-	ApiRegisterAdminResponseBody,
+	ApiLoginCustomerResponseBody,
+	ApiLoginCustomerSuccessResponseBody,
+	ApiRegisterCustomerResponseBody,
 	ApiSuccessResponseBody,
 } from "@core/apis/models/responseBody";
-import { AdminTokenPayload } from "@core/common/models/auth";
+import { CustomerTokenPayload } from "@core/common/models/auth";
 import { ErrorType } from "@core/common/models/errors";
 import {
 	HttpBadRequestResponse,
@@ -27,17 +27,25 @@ import {
 	HttpResponse,
 	HttpUnauthorizedResponse,
 } from "@core/common/models/httpResponse";
-import { AdminServiceClient } from "@core/common/serviceClients";
+import { CustomerServiceClient } from "@core/common/serviceClients";
 import { sendHttpResp } from "@core/common/utils";
 
-export const registerAdmin: ApiRequestHandler<
-	ApiRegisterAdminRequestBody,
-	ApiRegisterAdminResponseBody
+export const registerCustomer: ApiRequestHandler<
+	ApiRegisterCustomerRequestBody,
+	ApiRegisterCustomerResponseBody
 > = async (req, res) => {
-	const { username, email, password } = req.body;
-	const adminServiceClient = new AdminServiceClient(req.token);
+	const { email, password, name, surname, deliveryAddress, birthDate } =
+		req.body;
+	const customerServiceClient = new CustomerServiceClient(req.token);
 
-	if (!username || !email || !password) {
+	if (
+		!email ||
+		!password ||
+		!name ||
+		!surname ||
+		!deliveryAddress ||
+		!birthDate
+	) {
 		return sendHttpResp(
 			res,
 			new HttpBadRequestResponse(
@@ -58,7 +66,14 @@ export const registerAdmin: ApiRequestHandler<
 	const hashedPassword = await hashPassword(password);
 
 	try {
-		await adminServiceClient.addAdmin({ username, email, hashedPassword });
+		await customerServiceClient.addCustomer({
+			email,
+			hashedPassword,
+			name,
+			surname,
+			deliveryAddress,
+			birthDate,
+		});
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -78,12 +93,12 @@ export const registerAdmin: ApiRequestHandler<
 	);
 };
 
-export const loginAdmin: ApiRequestHandler<
-	ApiLoginAdminRequestBody,
-	ApiLoginAdminResponseBody
+export const loginCustomer: ApiRequestHandler<
+	ApiLoginCustomerRequestBody,
+	ApiLoginCustomerResponseBody
 > = async (req, res) => {
 	const { email, password } = req.body;
-	const adminServiceClient = new AdminServiceClient(req.token);
+	const customerServiceClient = new CustomerServiceClient(req.token);
 
 	if (!email || !password) {
 		return sendHttpResp(
@@ -94,12 +109,12 @@ export const loginAdmin: ApiRequestHandler<
 		);
 	}
 
-	let admin;
+	let customer;
 	try {
-		admin = await adminServiceClient.getAdminByEmail(email);
+		customer = await customerServiceClient.getCustomerByEmail(email);
 	} catch (error: any) {
 		console.error(error);
-		// Return 401 even when admin not found (TODO: What if NetworkError happens?)
+		// Return 401 even when customer not found (TODO: What if NetworkError happens?)
 		return sendHttpResp(
 			res,
 			new HttpUnauthorizedResponse(
@@ -110,7 +125,7 @@ export const loginAdmin: ApiRequestHandler<
 
 	const loginIsValid = await checkPasswordWithHash(
 		password,
-		admin.hashed_password
+		customer.hashed_password
 	);
 	if (!loginIsValid) {
 		return sendHttpResp(
@@ -121,22 +136,22 @@ export const loginAdmin: ApiRequestHandler<
 		);
 	}
 
-	const pubAdmin = AdminAdapter.privateToPublic(admin);
-	const token = createTokenForAdmin(pubAdmin);
+	const pubCustomer = CustomerAdapter.privateToPublic(customer);
+	const token = createTokenForCustomer(pubCustomer);
 
 	return sendHttpResp(
 		res,
-		new HttpOkResponse(new ApiLoginAdminSuccessResponseBody(token))
+		new HttpOkResponse(new ApiLoginCustomerSuccessResponseBody(token))
 	);
 };
 
-export const changeAdminPassword: ApiRequestHandler<
-	ApiChangeAdminPasswordRequestBody,
-	ApiChangeAdminPasswordResponseBody
+export const changeCustomerPassword: ApiRequestHandler<
+	ApiChangeCustomerPasswordRequestBody,
+	ApiChangeCustomerPasswordResponseBody
 > = async (req, res) => {
 	const { currentPassword, newPassword } = req.body;
-	const adminServiceClient = new AdminServiceClient(req.token);
-	const { adminId } = req.tokenPayload as AdminTokenPayload;
+	const { customerId } = req.tokenPayload as CustomerTokenPayload;
+	const customerServiceClient = new CustomerServiceClient(req.token);
 
 	if (!currentPassword || !newPassword) {
 		return sendHttpResp(
@@ -156,9 +171,9 @@ export const changeAdminPassword: ApiRequestHandler<
 		);
 	}
 
-	let admin;
+	let customer;
 	try {
-		admin = await adminServiceClient.getAdmin(adminId);
+		customer = await customerServiceClient.getCustomer(customerId);
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(
@@ -171,7 +186,7 @@ export const changeAdminPassword: ApiRequestHandler<
 			)
 		);
 	}
-	if (!admin) {
+	if (!customer) {
 		return sendHttpResp(
 			res,
 			new HttpNotFoundResponse(new ApiErrorResponseBody(ErrorType.notFound))
@@ -180,7 +195,7 @@ export const changeAdminPassword: ApiRequestHandler<
 
 	const currentPasswordIsCorrect = await checkPasswordWithHash(
 		currentPassword,
-		admin.hashed_password
+		customer.hashed_password
 	);
 	if (!currentPasswordIsCorrect) {
 		return sendHttpResp(
@@ -194,7 +209,7 @@ export const changeAdminPassword: ApiRequestHandler<
 	const hashedPassword = await hashPassword(newPassword);
 
 	try {
-		await adminServiceClient.updateAdmin(admin.id, { hashedPassword });
+		await customerServiceClient.updateCustomer(customer.id, { hashedPassword });
 	} catch (error: any) {
 		console.error(error);
 		return sendHttpResp(

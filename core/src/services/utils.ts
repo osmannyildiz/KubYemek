@@ -23,3 +23,13 @@ export const generateSetClauseAndValuesForDbUpdate = (
 
 	return [setClause, setValues];
 };
+
+export const dateForDb = (dateObj: Date) =>
+	`${dateObj.toISOString().slice(0, 10)} ${dateObj
+		.toISOString()
+		.slice(11, 19)}`;
+
+export const datetimeForDb = (dateObj: Date) =>
+	`${dateObj.toISOString().slice(0, 10)} ${dateObj
+		.toISOString()
+		.slice(11, 19)}`;

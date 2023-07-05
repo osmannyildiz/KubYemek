@@ -28,7 +28,10 @@ import {
 	ServiceSuccessResponseBody,
 	ServiceUpdateCustomerResponseBody,
 } from "@core/services/models/responseBody";
-import { generateSetClauseAndValuesForDbUpdate } from "@core/services/utils";
+import {
+	dateForDb,
+	generateSetClauseAndValuesForDbUpdate,
+} from "@core/services/utils";
 
 export const getCustomers: ServiceRequestHandler<
 	null,
@@ -109,7 +112,7 @@ export const addCustomer: ServiceRequestHandler<
 			name,
 			surname,
 			deliveryAddress,
-			birthDate
+			dateForDb(new Date(birthDate))
 		);
 	} catch (error) {
 		console.error(error);

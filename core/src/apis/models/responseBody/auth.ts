@@ -6,6 +6,12 @@ export class ApiLoginAdminSuccessResponseBody extends ApiSuccessResponseBody {
 	}
 }
 
+export class ApiLoginCustomerSuccessResponseBody extends ApiSuccessResponseBody {
+	constructor(public token: string) {
+		super(undefined);
+	}
+}
+
 export type ApiRegisterAdminResponseBody =
 	| ApiSuccessResponseBody
 	| ApiErrorResponseBody;
@@ -15,5 +21,17 @@ export type ApiLoginAdminResponseBody =
 	| ApiErrorResponseBody;
 
 export type ApiChangeAdminPasswordResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;
+
+export type ApiRegisterCustomerResponseBody =
+	| ApiSuccessResponseBody
+	| ApiErrorResponseBody;
+
+export type ApiLoginCustomerResponseBody =
+	| ApiLoginCustomerSuccessResponseBody
+	| ApiErrorResponseBody;
+
+export type ApiChangeCustomerPasswordResponseBody =
 	| ApiSuccessResponseBody
 	| ApiErrorResponseBody;
