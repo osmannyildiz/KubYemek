@@ -1,0 +1,4 @@
+- if an order is canceled, it can't be canceled again
+- a customer can only get/update/delete themselves
+- a customer can only get/cancel their own orders
+- a customer can't register if less than 18 years old

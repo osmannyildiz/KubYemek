@@ -33,6 +33,10 @@ export const errorMessages: ErrorMessages = {
 		en: "Data not found.",
 		tr: "Veri bulunamadı.",
 	},
+	[ErrorType.orderAlreadyCanceled]: {
+		en: "This order has already been canceled.",
+		tr: "Bu sipariş halihazırda iptal edilmiş.",
+	},
 	[ErrorType.passwordShouldSatisfyMinimumLength]: {
 		en: "Password should be at least 6 characters long.",
 		tr: "Şifre en az 6 karakter uzunluğunda olmalıdır.",

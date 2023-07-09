@@ -12,6 +12,7 @@
 		"form-data": "^4.0.0",
 		"jsonwebtoken": "^9.0.0",
 		"mysql2": "^3.4.1",
+		"nanoid": "^3.1.22",
 		"node-fetch": "^2.6.11"
 	},
 	"devDependencies": {

@@ -1,5 +1,6 @@
 import { Value } from "@core/services/lib/dbpkg/types";
 import { ServiceUpdateEntityRequestBody } from "@core/services/models/requestBody";
+import { customAlphabet } from "nanoid";
 
 export const snakeToCamel = (str: string) =>
 	str.replace(/([_][a-z])/g, (group) => group.replace("_", "").toUpperCase());
@@ -33,3 +34,10 @@ export const datetimeForDb = (dateObj: Date) =>
 	`${dateObj.toISOString().slice(0, 10)} ${dateObj
 		.toISOString()
 		.slice(11, 19)}`;
+
+export const generateCode = () => {
+	const random = customAlphabet("123456789abcdefghijkmnopqrstuvwxyz", 12)();
+	return [random.slice(0, 4), random.slice(4, 8), random.slice(8, 12)].join(
+		"-"
+	);
+};

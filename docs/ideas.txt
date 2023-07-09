@@ -15,6 +15,9 @@ feat:
 - multiple customer addresses
 - services & apis: single filter endpoint (via query string)
 - multi-restaurant
+- db/orders.notes
+- db/customers.is_deleted
+- update order (if before inDelivery)
 
 fix:
 - react query proper handling (loading, error, etc.)
@@ -32,7 +35,7 @@ refactor:
 - services: dont call repo if basic validation fails
 - construct formdata for type (for req bodies)
 - use next/image
-- dbsvc insert automate with snakeToCamel
+- dbsvc: automate insert (also using snakeToCamel)
 - better way to send query strings with fetch
 - multer + multer-s3 -> multer + s3-client -> from frontend
 - jwt -> passport
@@ -43,12 +46,12 @@ refactor:
 - clients singleton
 - use prisma instead of dbpkg
 - refactor all fetch calls
+- services & apis: make controllers shorter (by aop, middlewares, etc.)
 
 learn:
 - package.json version identifier syntax
 - ts try/catch typing (differentiate NetworkError from *RespBodyIsNotOkError)
 - services: mysql too many connections error
-- ts namespaces for resp body etc.
 
 consider:
 - should we check validations in api as well?
@@ -60,4 +63,7 @@ consider:
 - admin frontend: make navitems' active status consistent
 - frontend: make MutationButton component (button with spinner)
 - use Date objects instead of strings && dbsvc: add Date to Value
+- (my)sql enum
+- ts use Pick<> and Omit<> (for request bodies etc.)
+- add tests
 

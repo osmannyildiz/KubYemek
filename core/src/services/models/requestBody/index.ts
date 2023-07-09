@@ -12,6 +12,7 @@ export {
 	ServiceAddToCustomerPointsRequestBody,
 	ServiceUpdateCustomerRequestBody,
 } from "./customers";
+export { ServiceAddOrderRequestBody } from "./orders";
 export {
 	ServiceAddProductRequestBody,
 	ServiceProduceProductRequestBody,

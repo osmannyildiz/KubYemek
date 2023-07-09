@@ -9,6 +9,7 @@ export enum ErrorType {
 	loginRequired = "loginRequired",
 	notAllowedForUser = "notAllowedForUser",
 	notFound = "notFound",
+	orderAlreadyCanceled = "orderAlreadyCanceled",
 	passwordShouldSatisfyMinimumLength = "passwordShouldSatisfyMinimumLength",
 	passwordsDoNotMatch = "passwordsDoNotMatch",
 	requiredFieldEmpty = "requiredFieldEmpty",
