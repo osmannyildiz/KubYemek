@@ -27,6 +27,7 @@ fix:
 - handle clear/update image (delete from s3, imagepicker clear button, imagepicker reset button)
 - express global error handler
 - frontend: handle token expiry
+- ts: inside api controllers's get methods, serviceClient's returned data doesn't have type
 
 refactor:
 - prefix reqbody and resbody names with service/api name
@@ -47,6 +48,7 @@ refactor:
 - use prisma instead of dbpkg
 - refactor all fetch calls
 - services & apis: make controllers shorter (by aop, middlewares, etc.)
+- OrderDto => OrderDtoBuilder, IOrderDto => OrderDto
 
 learn:
 - package.json version identifier syntax
@@ -64,6 +66,6 @@ consider:
 - frontend: make MutationButton component (button with spinner)
 - use Date objects instead of strings && dbsvc: add Date to Value
 - (my)sql enum
-- ts use Pick<> and Omit<> (for request bodies etc.)
+- ts: use Pick<> and Omit<> (for request bodies etc.)
 - add tests
 

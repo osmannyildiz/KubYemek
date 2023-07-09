@@ -29,6 +29,7 @@ export {
 	ApiAddToCustomerPointsResponseBody,
 	ApiGetCustomersResponseBody,
 } from "./customers";
+export { ApiCancelOrderResponseBody, ApiGetOrdersResponseBody } from "./orders";
 export {
 	ApiAddProductResponseBody,
 	ApiDeleteProductResponseBody,

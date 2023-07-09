@@ -36,8 +36,11 @@ export const datetimeForDb = (dateObj: Date) =>
 		.slice(11, 19)}`;
 
 export const generateCode = () => {
-	const random = customAlphabet("123456789abcdefghijkmnopqrstuvwxyz", 12)();
-	return [random.slice(0, 4), random.slice(4, 8), random.slice(8, 12)].join(
-		"-"
-	);
+	const random = customAlphabet("123456789abcdefghijkmnoprstuvyz", 16)();
+	return [
+		random.slice(0, 4),
+		random.slice(4, 8),
+		random.slice(8, 12),
+		random.slice(12, 16),
+	].join("-");
 };
