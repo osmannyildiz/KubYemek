@@ -1,10 +1,12 @@
 import {
+	Customer_Private,
 	Order_Private,
 	OrderProduct_Private,
 	Product_Private,
 } from "../backend";
 
 export interface IOrderDto_Private extends Order_Private {
+	customer: Customer_Private;
 	products: {
 		product: Product_Private;
 		unit_count: number;
@@ -14,6 +16,7 @@ export interface IOrderDto_Private extends Order_Private {
 export class OrderDto_Private {
 	constructor(
 		protected order: Order_Private,
+		protected customer: Customer_Private,
 		protected orderProducts: OrderProduct_Private[],
 		protected products: Product_Private[]
 	) {}
@@ -21,6 +24,7 @@ export class OrderDto_Private {
 	toObject() {
 		const orderDto: IOrderDto_Private = {
 			...this.order,
+			customer: this.customer,
 			products: [],
 		};
 

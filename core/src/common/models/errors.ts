@@ -1,5 +1,3 @@
-import { LangId } from "./localization";
-
 export enum ErrorType {
 	default = "default",
 	currentPasswordIsIncorrect = "currentPasswordIsIncorrect",
@@ -15,7 +13,3 @@ export enum ErrorType {
 	requiredFieldEmpty = "requiredFieldEmpty",
 	usernameAlreadyExists = "usernameAlreadyExists",
 }
-
-export type ErrorMessages = Record<ErrorType, LocalizedErrorMessageGroup>;
-
-type LocalizedErrorMessageGroup = Record<LangId, string>;

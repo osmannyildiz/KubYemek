@@ -6,15 +6,18 @@ import {
 import {
 	ApiAddProductResponseBody,
 	ApiAddToCustomerPointsResponseBody,
+	ApiCancelOrderResponseBody,
 	ApiDeleteAdminResponseBody,
 	ApiDeleteProductResponseBody,
 	ApiGetAdminsResponseBody,
 	ApiGetCustomersResponseBody,
+	ApiGetOrdersResponseBody,
 	ApiGetProductsResponseBody,
 	ApiProduceProductResponseBody,
 	ApiUpdateAdminResponseBody,
 	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
+import { IOrderDto } from "@core/common/models/entity/dto/OrderDto";
 import { Admin, Customer, Product } from "@core/common/models/entity/frontend";
 import { CORE_FRONTENDS_CONFIG } from "@core/frontends/config";
 import { ApiRespBodyIsNotOkError } from "@core/frontends/models/ApiRespBodyIsNotOkError";
@@ -126,6 +129,41 @@ export class AdminApiClient {
 			}
 		);
 		const respBody: ApiAddToCustomerPointsResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
+		}
+	}
+
+	async getOrders(): Promise<IOrderDto[]> {
+		const resp = await fetch(
+			`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/orders`,
+			{
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
+		);
+		const respBody: ApiGetOrdersResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
+		}
+
+		return respBody.data;
+	}
+
+	async cancelOrder(orderId: number) {
+		const resp = await fetch(
+			`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/orders/${orderId}`,
+			{
+				method: "DELETE",
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
+		);
+		const respBody: ApiCancelOrderResponseBody = await resp.json();
 
 		if (apiRespBodyIsNotOk(respBody)) {
 			throw new ApiRespBodyIsNotOkError(resp, respBody);

@@ -18,6 +18,7 @@ feat:
 - db/orders.notes
 - db/customers.is_deleted
 - update order (if before inDelivery)
+- allow cancel order only if before inPreparation (customer only)
 
 fix:
 - react query proper handling (loading, error, etc.)
@@ -68,4 +69,5 @@ consider:
 - (my)sql enum
 - ts: use Pick<> and Omit<> (for request bodies etc.)
 - add tests
+- OrderStatus.fulfilled => .delivered
 

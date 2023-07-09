@@ -1,5 +1,6 @@
 import { CONFIG } from "@/config";
 import { MysqlDbconnFactory } from "@core/services/lib/dbpkg/databases/mysql";
+import { DbCustomersRepository } from "@core/services/repositories/DbCustomersRepository";
 import { DbProductsRepository } from "@core/services/repositories/DbProductsRepository";
 import { DbOrderProductsRepository } from "./DbOrderProductsRepository";
 import { DbOrdersRepository } from "./DbOrdersRepository";
@@ -14,6 +15,8 @@ export const dbconnFactory = new MysqlDbconnFactory({
 
 export const db = {
 	orders: () => new DbOrdersRepository(dbconnFactory.createDbconnGetter()),
+	customers: () =>
+		new DbCustomersRepository(dbconnFactory.createDbconnGetter()),
 	orderProducts: () =>
 		new DbOrderProductsRepository(dbconnFactory.createDbconnGetter()),
 	products: () => new DbProductsRepository(dbconnFactory.createDbconnGetter()),

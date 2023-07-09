@@ -1,6 +1,6 @@
 import { CONFIG } from "@/config";
 import { MysqlDbconnFactory } from "@core/services/lib/dbpkg/databases/mysql";
-import { DbCustomersRepository } from "./DbCustomersRepository";
+import { DbCustomersRepository } from "@core/services/repositories/DbCustomersRepository";
 
 export const dbconnFactory = new MysqlDbconnFactory({
 	host: CONFIG.DB_HOST,

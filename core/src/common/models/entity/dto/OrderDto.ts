@@ -1,6 +1,7 @@
-import { Order, OrderProduct, Product } from "../frontend";
+import { Customer, Order, OrderProduct, Product } from "../frontend";
 
 export interface IOrderDto extends Order {
+	customer: Customer;
 	products: {
 		product: Product;
 		unitCount: number;
@@ -10,6 +11,7 @@ export interface IOrderDto extends Order {
 export class OrderDto {
 	constructor(
 		protected order: Order,
+		protected customer: Customer,
 		protected orderProducts: OrderProduct[],
 		protected products: Product[]
 	) {}
@@ -17,6 +19,7 @@ export class OrderDto {
 	toObject() {
 		const orderDto: IOrderDto = {
 			...this.order,
+			customer: this.customer,
 			products: [],
 		};
 

@@ -1,6 +1,7 @@
-import { ErrorMessages, ErrorType } from "@core/common/models/errors";
+import { LocalizedStringGroup } from "@core/common/models/constants";
+import { ErrorType } from "@core/common/models/errors";
 
-export const errorMessages: ErrorMessages = {
+export const errorMessages: Record<ErrorType, LocalizedStringGroup> = {
 	[ErrorType.default]: {
 		en: "An error occurred.",
 		tr: "Bir hata oluştu.",

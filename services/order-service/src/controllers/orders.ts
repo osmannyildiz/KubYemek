@@ -206,7 +206,7 @@ export const cancelOrder: ServiceRequestHandlerWithParams<
 	}
 
 	if (
-		[OrderStatus.canceledByAdmin, OrderStatus.canceledByCustomer].includes(
+		[OrderStatus.canceledByCustomer, OrderStatus.canceledByAdmin].includes(
 			order.status
 		)
 	) {
@@ -253,6 +253,7 @@ export const getOrderDtos: ServiceRequestHandler<
 		| AdminTokenPayload
 		| CustomerTokenPayload;
 	const ordersRepo = db.orders();
+	const customersRepo = db.customers();
 	const orderProductsRepo = db.orderProducts();
 	const productsRepo = db.products();
 
@@ -267,6 +268,8 @@ export const getOrderDtos: ServiceRequestHandler<
 		const orders = await ordersRepo.getAll(whereClause, whereValues);
 
 		for (const order of orders) {
+			const customer = await customersRepo.getById(order.customer_id);
+
 			const orderProducts = await orderProductsRepo.getAll("order_id = ?", [
 				order.id,
 			]);
@@ -277,7 +280,12 @@ export const getOrderDtos: ServiceRequestHandler<
 				products.push(product!);
 			}
 
-			const orderDto = new OrderDto_Private(order, orderProducts, products);
+			const orderDto = new OrderDto_Private(
+				order,
+				customer!,
+				orderProducts,
+				products
+			);
 			orderDtos.push(orderDto);
 		}
 	} catch (error) {
@@ -308,6 +316,7 @@ export const getOrderDto: ServiceRequestHandlerWithParams<
 		| AdminTokenPayload
 		| CustomerTokenPayload;
 	const ordersRepo = db.orders();
+	const customersRepo = db.customers();
 	const orderProductsRepo = db.orderProducts();
 	const productsRepo = db.products();
 
@@ -330,6 +339,8 @@ export const getOrderDto: ServiceRequestHandlerWithParams<
 			);
 		}
 
+		const customer = await customersRepo.getById(order.customer_id);
+
 		const orderProducts = await orderProductsRepo.getAll("order_id = ?", [
 			order.id,
 		]);
@@ -340,7 +351,7 @@ export const getOrderDto: ServiceRequestHandlerWithParams<
 			products.push(product!);
 		}
 
-		orderDto = new OrderDto_Private(order!, orderProducts, products);
+		orderDto = new OrderDto_Private(order, customer!, orderProducts, products);
 	} catch (error) {
 		console.error(error);
 		return sendHttpResp(
