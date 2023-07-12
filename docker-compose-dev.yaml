@@ -29,6 +29,20 @@ services:
     environment:
       KUBYEMEK_ENV: dev-compose
   
+  notification-service:
+    build:
+      context: .
+      dockerfile: dockerfiles/services/notification-service-dev.dockerfile
+    ports:
+      - 8004:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./services/notification-service:/app/services/notification-service
+      - /app/services/notification-service/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
+  
   order-service:
     build:
       context: .

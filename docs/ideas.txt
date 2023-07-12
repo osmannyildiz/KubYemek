@@ -23,7 +23,7 @@ feat:
 fix:
 - react query proper handling (loading, error, etc.)
 - export const router = express.Router(); ts error
-- use axios or fix node-fetch@3
+- use axios or fix node-fetch@3 (also nanoid)
 - updates: ignore if absent/undefined, update if present, clear if null, rollback if invalid
 - handle clear/update image (delete from s3, imagepicker clear button, imagepicker reset button)
 - express global error handler
@@ -70,4 +70,5 @@ consider:
 - ts: use Pick<> and Omit<> (for request bodies etc.)
 - add tests
 - OrderStatus.fulfilled => .delivered
+- delete notification
 
