@@ -1,4 +1,5 @@
 misc:
+- check secrets leak in bundle
 
 docs:
 - projede içime sinmeyenler
@@ -6,7 +7,7 @@ docs:
 feat:
 - admin frontend: product price decimal input
 - pagination
-- input validation
+- input validation (params/query/body, form)
 - show unseen notification count
 - visually differentiate unseen notifications
 - parameterized error messages
@@ -15,10 +16,19 @@ feat:
 - multiple customer addresses
 - services & apis: single filter endpoint (via query string)
 - multi-restaurant
+- link products from admin-frontend to customer-frontend
 - db/orders.notes
-- db/customers.is_deleted
+- change customer delete (db/customers.is_deleted)
 - update order (if before inDelivery)
 - allow cancel order only if before inPreparation (customer only)
+- send notification to customer ("we gifted you 500 points" etc.)
+- dbpkg: transaction (order-service/controllers/orders)
+- customers: don't allow points to go negative
+- customers: register age restriction
+- caching (redis)
+- page html titles
+- admin svc & customer svc & auth api: GET /me
+- dbpkg: get many by ids array
 
 fix:
 - react query proper handling (loading, error, etc.)
@@ -28,6 +38,7 @@ fix:
 - handle clear/update image (delete from s3, imagepicker clear button, imagepicker reset button)
 - express global error handler
 - frontend: handle token expiry
+- admin-frontend: handle empty table/list (data == [])
 - ts: inside api controllers's get methods, serviceClient's returned data doesn't have type
 
 refactor:
@@ -37,7 +48,7 @@ refactor:
 - services: dont call repo if basic validation fails
 - construct formdata for type (for req bodies)
 - use next/image
-- dbsvc: automate insert (also using snakeToCamel)
+- dbpkg: automate insert (also using snakeToCamel)
 - better way to send query strings with fetch
 - multer + multer-s3 -> multer + s3-client -> from frontend
 - jwt -> passport
@@ -50,6 +61,10 @@ refactor:
 - refactor all fetch calls
 - services & apis: make controllers shorter (by aop, middlewares, etc.)
 - OrderDto => OrderDtoBuilder, IOrderDto => OrderDto
+- rename OrderDto (the naming is not descriptive and sustainable)
+- dbpkg: getAll => getMany
+- order-service/controllers/orders error handling (exclamation marks)
+- if (!resp.ok) don't call resp.json
 
 learn:
 - package.json version identifier syntax
@@ -65,10 +80,15 @@ consider:
 - convert core deps to devDeps
 - admin frontend: make navitems' active status consistent
 - frontend: make MutationButton component (button with spinner)
-- use Date objects instead of strings && dbsvc: add Date to Value
+- use Date objects instead of strings && dbpkg: add Date to Value
 - (my)sql enum
+- dbpkg: improve where clause query building logic
 - ts: use Pick<> and Omit<> (for request bodies etc.)
 - add tests
 - OrderStatus.fulfilled => .delivered
 - delete notification
-
+- create jwt tokens for services
+- orders and order_products and products join
+- authAllowOnlyIfCustomerSelf middleware
+- { count, next, prev, results }
+- dbpkg: db.createAdminNotificationsRepo()

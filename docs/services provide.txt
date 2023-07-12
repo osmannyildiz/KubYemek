@@ -6,8 +6,8 @@ customer service:
 + inc/dec customer points
 
 notification service:
-- get notifications (admin/customer)
-- add notification (admin/customer)
++ get notifications (admin/customer)
++ add notification (admin/customer)
 
 product service:
 + crud products
@@ -15,10 +15,10 @@ product service:
 - take product
 
 order service:
-- get all orders
-- get customer's orders
-- add order
-- cancel order
++ get all orders
++ get customer's orders
++ add order
++ cancel order
 - update order status
 
 payment service:

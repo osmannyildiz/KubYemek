@@ -11,6 +11,7 @@ import {
 	ApiDeleteProductResponseBody,
 	ApiGetAdminsResponseBody,
 	ApiGetCustomersResponseBody,
+	ApiGetNotificationsResponseBody,
 	ApiGetOrdersResponseBody,
 	ApiGetProductsResponseBody,
 	ApiProduceProductResponseBody,
@@ -18,13 +19,20 @@ import {
 	ApiUpdateProductResponseBody,
 } from "@core/apis/models/responseBody";
 import { IOrderDto } from "@core/common/models/entity/dto/OrderDto";
-import { Admin, Customer, Product } from "@core/common/models/entity/frontend";
+import {
+	Admin,
+	AdminNotification,
+	Customer,
+	Product,
+} from "@core/common/models/entity/frontend";
 import { CORE_FRONTENDS_CONFIG } from "@core/frontends/config";
 import { ApiRespBodyIsNotOkError } from "@core/frontends/models/ApiRespBodyIsNotOkError";
 import { apiRespBodyIsNotOk } from "@core/frontends/utils";
 
 export class AdminApiClient {
 	constructor(private token?: string) {}
+
+	// ===== ADMINS =====
 
 	async getAdmins(): Promise<Admin[]> {
 		const resp = await fetch(
@@ -43,21 +51,6 @@ export class AdminApiClient {
 
 		return respBody.data;
 	}
-
-	// async getAdmin(adminId: number): Promise<Admin> {
-	// 	const resp = await fetch(`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/admins/${adminId}`, {
-	// 		headers: {
-	// 			...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
-	// 		},
-	// 	});
-	// 	const respBody: ApiGetAdminResponseBody = await resp.json();
-
-	// 	if (apiRespBodyIsNotOk(respBody)) {
-	// 		throw new ApiRespBodyIsNotOkError(resp, respBody);
-	// 	}
-
-	// 	return respBody.data;
-	// }
 
 	async updateAdmin(adminId: number, data: ApiUpdateAdminRequestBody) {
 		const resp = await fetch(
@@ -94,6 +87,8 @@ export class AdminApiClient {
 			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
+
+	// ===== CUSTOMERS =====
 
 	async getCustomers(): Promise<Customer[]> {
 		const resp = await fetch(
@@ -135,6 +130,28 @@ export class AdminApiClient {
 		}
 	}
 
+	// ===== NOTIFICATIONS =====
+
+	async getNotifications(): Promise<AdminNotification[]> {
+		const resp = await fetch(
+			`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/notifications`,
+			{
+				headers: {
+					...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+				},
+			}
+		);
+		const respBody: ApiGetNotificationsResponseBody = await resp.json();
+
+		if (apiRespBodyIsNotOk(respBody)) {
+			throw new ApiRespBodyIsNotOkError(resp, respBody);
+		}
+
+		return respBody.data;
+	}
+
+	// ===== ORDERS =====
+
 	async getOrders(): Promise<IOrderDto[]> {
 		const resp = await fetch(
 			`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/orders`,
@@ -169,6 +186,8 @@ export class AdminApiClient {
 			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
+
+	// ===== PRODUCTS =====
 
 	async getProducts(): Promise<Product[]> {
 		const resp = await fetch(
@@ -205,24 +224,6 @@ export class AdminApiClient {
 			throw new ApiRespBodyIsNotOkError(resp, respBody);
 		}
 	}
-
-	// async getProduct(productId: number): Promise<Product> {
-	// 	const resp = await fetch(
-	// 		`${CORE_FRONTENDS_CONFIG.ADMIN_API_ADDRESS}/products/${productId}`,
-	// 		{
-	// 			headers: {
-	// 				...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
-	// 			},
-	// 		}
-	// 	);
-	// 	const respBody: ApiGetProductResponseBody = await resp.json();
-
-	// 	if (apiRespBodyIsNotOk(respBody)) {
-	// 		throw new ApiRespBodyIsNotOkError(resp, respBody);
-	// 	}
-
-	// 	return respBody.data;
-	// }
 
 	async updateProduct(productId: number, formData: FormData) {
 		const resp = await fetch(

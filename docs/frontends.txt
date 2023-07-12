@@ -1,14 +1,14 @@
 admin frontend:
 + manage admins
-- see customers
-- see admin notifications
-- add customer notifications
++ see customers
++ see admin notifications
+# add customer notifications
 + manage products
-- see orders
++ see orders
 
 customer frontend:
 - manage customer
-- manage customer addresses
+# manage customer addresses
 - see customer notifications
 - see products
 - manage orders

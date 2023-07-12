@@ -24,7 +24,7 @@ export const sendHttpResp = (res: Response, httpResp: HttpResponse) => {
 };
 
 export const waitForMs = (ms: number) =>
-	new Promise((resolve, reject) => setTimeout(resolve, ms));
+	new Promise((resolve) => setTimeout(resolve, ms));
 
 export const isAdminTokenPayload = (
 	tokenPayload: UserTokenPayload
