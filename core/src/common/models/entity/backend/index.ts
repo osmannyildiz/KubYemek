@@ -1,8 +1,8 @@
-export { AdminNotification_Private } from "./AdminNotification_Private";
-export { Admin_Private } from "./Admin_Private";
-export { CustomerNotification_Private } from "./CustomerNotification_Private";
-export { Customer_Private } from "./Customer_Private";
-export { OrderProduct_Private } from "./OrderProduct_Private";
-export { Order_Private } from "./Order_Private";
-export { Product_Private } from "./Product_Private";
-export { Entity_Private } from "./base";
+export * from "./AdminNotification_Private";
+export * from "./Admin_Private";
+export * from "./CustomerNotification_Private";
+export * from "./Customer_Private";
+export * from "./OrderProduct_Private";
+export * from "./Order_Private";
+export * from "./Product_Private";
+export * from "./base";

@@ -10,8 +10,6 @@ export type ApiGetAdminsResponseBody = ApiGetEntitiesResponseBody<Admin>;
 
 export type ApiAddAdminResponseBody = ApiAddEntityResponseBody;
 
-// export type ApiGetAdminResponseBody = ApiGetEntityResponseBody<Admin>;
-
 export type ApiUpdateAdminResponseBody = ApiUpdateEntityResponseBody;
 
 export type ApiDeleteAdminResponseBody = ApiDeleteEntityResponseBody;

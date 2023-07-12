@@ -7,6 +7,5 @@ adminsRouter.route("/").get(controller.getAdmins);
 
 adminsRouter
 	.route("/:adminId")
-	// .get(controller.getAdmin)
 	.patch(controller.updateAdmin)
 	.delete(controller.deleteAdmin);

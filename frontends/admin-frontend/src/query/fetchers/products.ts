@@ -6,10 +6,3 @@ export const getProducts = async (
 ): Promise<Product[]> => {
 	return await adminApiClient.getProducts();
 };
-
-// export const getProduct = async (
-// 	adminApiClient: AdminApiClient,
-// 	productId: number
-// ): Promise<Product> => {
-// 	return await adminApiClient.getProduct(productId);
-// };

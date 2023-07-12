@@ -6,10 +6,3 @@ export const getAdmins = async (
 ): Promise<Admin[]> => {
 	return await adminApiClient.getAdmins();
 };
-
-// export const getAdmin = async (
-// 	adminApiClient: AdminApiClient,
-// 	adminId: number
-// ): Promise<Admin> => {
-// 	return await adminApiClient.getAdmin(adminId);
-// };

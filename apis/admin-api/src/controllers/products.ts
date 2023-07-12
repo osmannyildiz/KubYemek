@@ -112,38 +112,6 @@ export const addProduct: ApiRequestHandler<
 	);
 };
 
-// export const getProduct: ApiRequestHandlerWithParams<
-// 	null,
-// 	ApiGetProductResponseBody,
-// 	"productId"
-// > = async (req, res) => {
-// 	const { productId } = req.params;
-// 	const productServiceClient = new ProductServiceClient(req.token);
-
-// 	let product;
-// 	try {
-// 		product = await productServiceClient.getProduct(+productId);
-// 	} catch (error: any) {
-// 		console.error(error);
-// 		return sendHttpResp(
-// 			res,
-// 			new HttpResponse(
-// 				error?.resp?.status || 500,
-// 				new ApiErrorResponseBody(
-// 					error?.respBody?.errorType || ErrorType.default
-// 				)
-// 			)
-// 		);
-// 	}
-
-// 	product = ProductAdapter.privateToPublic(product);
-
-// 	return sendHttpResp(
-// 		res,
-// 		new HttpOkResponse(new ApiSuccessResponseBody(product))
-// 	);
-// };
-
 export const updateProduct: ApiRequestHandlerWithParams<
 	ApiUpdateProductRequestBody,
 	ApiUpdateProductResponseBody,

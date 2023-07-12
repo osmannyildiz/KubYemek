@@ -11,7 +11,6 @@ productsRouter
 
 productsRouter
 	.route("/:productId")
-	// .get(controller.getProduct)
 	.patch(uploadInMemory.single("image"), controller.updateProduct)
 	.delete(controller.deleteProduct);
 

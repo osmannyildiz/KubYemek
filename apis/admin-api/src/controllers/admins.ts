@@ -46,38 +46,6 @@ export const getAdmins: ApiRequestHandler<
 	);
 };
 
-// export const getAdmin: ApiRequestHandlerWithParams<
-// 	null,
-// 	ApiGetAdminResponseBody,
-// 	"adminId"
-// > = async (req, res) => {
-// 	const { adminId } = req.params;
-// 	const adminServiceClient = new AdminServiceClient(req.token);
-
-// 	let admin;
-// 	try {
-// 		admin = await adminServiceClient.getAdmin(+adminId);
-// 	} catch (error: any) {
-// 		console.error(error);
-// 		return sendHttpResp(
-// 			res,
-// 			new HttpResponse(
-// 				error?.resp?.status || 500,
-// 				new ApiErrorResponseBody(
-// 					error?.respBody?.errorType || ErrorType.default
-// 				)
-// 			)
-// 		);
-// 	}
-
-// 	admin = AdminAdapter.privateToPublic(admin);
-
-// 	return sendHttpResp(
-// 		res,
-// 		new HttpOkResponse(new ApiSuccessResponseBody(admin))
-// 	);
-// };
-
 export const updateAdmin: ApiRequestHandlerWithParams<
 	ApiUpdateAdminRequestBody,
 	ApiUpdateAdminResponseBody,

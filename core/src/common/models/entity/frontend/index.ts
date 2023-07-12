@@ -1,8 +1,8 @@
-export { Admin } from "./Admin";
-export { AdminNotification } from "./AdminNotification";
-export { Customer } from "./Customer";
-export { CustomerNotification } from "./CustomerNotification";
-export { Order } from "./Order";
-export { OrderProduct } from "./OrderProduct";
-export { Product } from "./Product";
-export { Entity } from "./base";
+export * from "./Admin";
+export * from "./AdminNotification";
+export * from "./Customer";
+export * from "./CustomerNotification";
+export * from "./Order";
+export * from "./OrderProduct";
+export * from "./Product";
+export * from "./base";
