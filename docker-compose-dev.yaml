@@ -14,7 +14,7 @@ services:
       - /app/services/admin-service/node_modules
     environment:
       KUBYEMEK_ENV: dev-compose
-  
+
   customer-service:
     build:
       context: .
@@ -28,7 +28,7 @@ services:
       - /app/services/customer-service/node_modules
     environment:
       KUBYEMEK_ENV: dev-compose
-  
+
   notification-service:
     build:
       context: .
@@ -42,7 +42,7 @@ services:
       - /app/services/notification-service/node_modules
     environment:
       KUBYEMEK_ENV: dev-compose
-  
+
   order-service:
     build:
       context: .
@@ -86,8 +86,8 @@ services:
       KUBYEMEK_ENV: dev-compose
     depends_on:
     - admin-service
-    # - customer-service
-  
+    - customer-service
+
   admin-api:
     build:
       context: .
@@ -103,6 +103,22 @@ services:
       KUBYEMEK_ENV: dev-compose
     depends_on:
     - admin-service
+
+  customer-api:
+    build:
+      context: .
+      dockerfile: dockerfiles/apis/customer-api-dev.dockerfile
+    ports:
+      - 8083:80
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./apis/customer-api:/app/apis/customer-api
+      - /app/apis/customer-api/node_modules
+    environment:
+      KUBYEMEK_ENV: dev-compose
+    depends_on:
+    - customer-service
 
   admin-frontend:
     build:
