@@ -10,6 +10,15 @@ CREATE TABLE admins (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE admin_notifications (
+	id						INT				NOT NULL AUTO_INCREMENT,
+	created_at				DATETIME		NOT NULL,
+	kind					VARCHAR(255)	NOT NULL,
+	title					VARCHAR(255)	NOT NULL,
+	description				VARCHAR(255)	NOT NULL,
+	PRIMARY KEY (id)
+);
+
 CREATE TABLE customers (
 	id						INT				NOT NULL AUTO_INCREMENT,
 	email					VARCHAR(255)	NOT NULL UNIQUE,
@@ -20,6 +29,17 @@ CREATE TABLE customers (
 	birth_date				DATE			NOT NULL,
 	points					INT				NOT NULL DEFAULT 0,
 	PRIMARY KEY (id)
+);
+
+CREATE TABLE customer_notifications (
+	id						INT				NOT NULL AUTO_INCREMENT,
+	customer_id				INT				NOT NULL,
+	created_at				DATETIME		NOT NULL,
+	kind					VARCHAR(255)	NOT NULL,
+	title					VARCHAR(255)	NOT NULL,
+	description				VARCHAR(255)	NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (customer_id) REFERENCES customers(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE products (

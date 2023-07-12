@@ -12,6 +12,10 @@ export {
 	ServiceAddToCustomerPointsRequestBody,
 	ServiceUpdateCustomerRequestBody,
 } from "./customers";
+export {
+	ServiceAddAdminNotificationRequestBody,
+	ServiceAddCustomerNotificationRequestBody,
+} from "./notifications";
 export { ServiceAddOrderRequestBody } from "./orders";
 export {
 	ServiceAddProductRequestBody,

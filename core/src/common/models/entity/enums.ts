@@ -8,3 +8,9 @@ export enum OrderStatus {
 	deliveryFailed = "deliveryFailed",
 	fulfilled = "fulfilled",
 }
+
+export enum NotificationKind {
+	info = "info",
+	success = "success",
+	warning = "warning",
+}

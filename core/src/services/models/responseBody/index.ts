@@ -24,6 +24,12 @@ export {
 	ServiceUpdateCustomerResponseBody,
 } from "./customers";
 export {
+	ServiceAddAdminNotificationResponseBody,
+	ServiceAddCustomerNotificationResponseBody,
+	ServiceGetAdminNotificationsResponseBody,
+	ServiceGetCustomerNotificationsResponseBody,
+} from "./notifications";
+export {
 	ServiceAddOrderResponseBody,
 	ServiceCancelOrderResponseBody,
 	ServiceGetOrderDtoResponseBody,
