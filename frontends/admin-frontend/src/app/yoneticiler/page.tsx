@@ -38,10 +38,10 @@ export default function AdminsPage() {
 		event: React.FormEvent<HTMLFormElement>
 	) => {
 		const formData = new FormData(event.target as HTMLFormElement);
-		const username = formData.get("username");
-		const email = formData.get("email");
-		const password = formData.get("password");
-		const passwordRepeat = formData.get("passwordRepeat");
+		const username = formData.get("username")?.toString();
+		const email = formData.get("email")?.toString();
+		const password = formData.get("password")?.toString();
+		const passwordRepeat = formData.get("passwordRepeat")?.toString();
 
 		if (!username || !email || !password || !passwordRepeat) {
 			setAdminAddFormError(getErrMsg(ErrorType.requiredFieldEmpty));
@@ -64,9 +64,9 @@ export default function AdminsPage() {
 			await registerAdminMutation.mutateAsync({
 				authApiClient,
 				data: {
-					username: username.toString(),
-					email: email.toString(),
-					password: password.toString(),
+					username,
+					email,
+					password,
 				},
 			});
 		} catch (error: any) {
@@ -87,16 +87,16 @@ export default function AdminsPage() {
 		if (!adminToEdit) return;
 
 		const formData = new FormData(event.target as HTMLFormElement);
-		const username = formData.get("username");
-		const email = formData.get("email");
+		const username = formData.get("username")?.toString();
+		const email = formData.get("email")?.toString();
 
 		try {
 			await updateAdminMutation.mutateAsync({
 				adminApiClient,
 				id: +adminToEdit.id,
 				data: {
-					username: username?.toString(),
-					email: email?.toString(),
+					username,
+					email,
 				},
 			});
 		} catch (error: any) {

@@ -2,7 +2,7 @@
 
 import GlobalContextsProvider from "@/components/GlobalContextsProvider";
 import RouteGuard from "@/components/RouteGuard";
-import AppNavbar from "@/components/layout/AppNavbar";
+import AppHeader from "@/components/layout/AppHeader";
 import { Container, SSRProvider } from "react-bootstrap";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./globals.scss";
@@ -23,9 +23,7 @@ export default function RootLayout({ children }: Props) {
 							<title>KubYemek Yönetim Paneli</title>
 						</head>
 						<body>
-							<header>
-								<AppNavbar />
-							</header>
+							<AppHeader />
 							<main className="pt-4">
 								<Container>
 									<RouteGuard>{children}</RouteGuard>

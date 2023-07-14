@@ -47,9 +47,9 @@ export default function ProductsPage() {
 		event: React.FormEvent<HTMLFormElement>
 	) => {
 		const formData = new FormData(event.target as HTMLFormElement);
-		const name = formData.get("name");
-		const unitOfSale = formData.get("unitOfSale");
-		const price = formData.get("price");
+		const name = formData.get("name")?.toString();
+		const unitOfSale = formData.get("unitOfSale")?.toString();
+		const price = formData.get("price")?.toString();
 		const image = formData.get("image");
 
 		if (
@@ -131,7 +131,7 @@ export default function ProductsPage() {
 		if (!productToProduce) return;
 
 		const formData = new FormData(event.target as HTMLFormElement);
-		const unitsCount = formData.get("unitsCount");
+		const unitsCount = formData.get("unitsCount")?.toString();
 
 		if (!unitsCount) {
 			setProductProduceModalError(getErrMsg(ErrorType.requiredFieldEmpty));
@@ -148,7 +148,7 @@ export default function ProductsPage() {
 				adminApiClient,
 				id: +productToProduce.id,
 				data: {
-					unitsCount: +unitsCount.toString(),
+					unitsCount: +unitsCount,
 				},
 			});
 		} catch (error: any) {

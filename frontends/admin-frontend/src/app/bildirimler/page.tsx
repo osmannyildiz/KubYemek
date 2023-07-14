@@ -41,12 +41,14 @@ export default function NotificationsPage() {
 									size={2}
 									className="me-3"
 								/>
-								<div>
-									<h5 className="mb-1">{notification.title}</h5>
-									<p className="mb-2">{notification.description}</p>
-									<small className="text-muted">
-										{new Date(notification.createdAt).toLocaleString()}
-									</small>
+								<div className="flex-fill">
+									<div className="d-flex justify-content-between">
+										<h5 className="mb-1">{notification.title}</h5>
+										<small className="text-muted">
+											{new Date(notification.createdAt).toLocaleString()}
+										</small>
+									</div>
+									<p className="mb-0">{notification.description}</p>
 								</div>
 							</ListGroup.Item>
 					  ))

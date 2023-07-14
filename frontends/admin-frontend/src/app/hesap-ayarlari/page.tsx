@@ -26,9 +26,9 @@ export default function AccountSettingsPage() {
 	) => {
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
-		const currentPassword = formData.get("currentPassword");
-		const newPassword = formData.get("newPassword");
-		const newPasswordRepeat = formData.get("newPasswordRepeat");
+		const currentPassword = formData.get("currentPassword")?.toString();
+		const newPassword = formData.get("newPassword")?.toString();
+		const newPasswordRepeat = formData.get("newPasswordRepeat")?.toString();
 
 		if (!currentPassword || !newPassword || !newPasswordRepeat) {
 			setChangePasswordFormError(getErrMsg(ErrorType.requiredFieldEmpty));
@@ -51,8 +51,8 @@ export default function AccountSettingsPage() {
 			await changePasswordMutation.mutateAsync({
 				authApiClient,
 				data: {
-					currentPassword: currentPassword.toString(),
-					newPassword: newPassword.toString(),
+					currentPassword,
+					newPassword,
 				},
 			});
 		} catch (error: any) {

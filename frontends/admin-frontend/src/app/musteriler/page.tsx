@@ -35,7 +35,7 @@ export default function CustomersPage() {
 		if (!customerToAddPoints) return;
 
 		const formData = new FormData(event.target as HTMLFormElement);
-		const points = formData.get("points");
+		const points = formData.get("points")?.toString();
 
 		if (!points) {
 			// TODO This also runs when +points === 0

@@ -29,6 +29,10 @@ feat:
 - page html titles
 - admin svc & customer svc & auth api: GET /me
 - dbpkg: get many by ids array
+- product categories
+- register without delivery address
+- flash messages
+- notifications: order by newest first
 
 fix:
 - react query proper handling (loading, error, etc.)
@@ -92,3 +96,4 @@ consider:
 - authAllowOnlyIfCustomerSelf middleware
 - { count, next, prev, results }
 - dbpkg: db.createAdminNotificationsRepo()
+- return token from register

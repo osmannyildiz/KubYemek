@@ -6,7 +6,7 @@ import { useState } from "react";
 interface IAuthContext {
 	token?: string;
 	isLoggedIn: boolean;
-	username?: string;
+	tokenPayload?: IAdminTokenPayload;
 	isAutoLoginAttempted: boolean;
 	login: (token: string) => void;
 	logout: () => void;
@@ -23,7 +23,7 @@ export function buildAuthContextValue(): IAuthContext {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	/* eslint-disable-next-line react-hooks/rules-of-hooks */
-	const [username, setUsername] = useState<string>();
+	const [tokenPayload, setTokenPayload] = useState<IAdminTokenPayload>();
 
 	/* eslint-disable-next-line react-hooks/rules-of-hooks */
 	const [isAutoLoginAttempted, setIsAutoLoginAttempted] = useState(false);
@@ -32,7 +32,7 @@ export function buildAuthContextValue(): IAuthContext {
 		const tokenPayload = jwt_decode<IAdminTokenPayload>(token);
 		setToken(token);
 		setIsLoggedIn(true);
-		setUsername(tokenPayload.adminUsername);
+		setTokenPayload(tokenPayload);
 
 		if (remember) {
 			localStorage.setItem("token", token);
@@ -42,7 +42,7 @@ export function buildAuthContextValue(): IAuthContext {
 	const logout = () => {
 		setToken(undefined);
 		setIsLoggedIn(false);
-		setUsername(undefined);
+		setTokenPayload(undefined);
 
 		localStorage.removeItem("token");
 	};
@@ -59,18 +59,10 @@ export function buildAuthContextValue(): IAuthContext {
 		return false;
 	};
 
-	// /* eslint-disable-next-line react-hooks/rules-of-hooks */
-	// useEffect(() => {
-	// 	const foo = setInterval(() => setIsAutoLoginAttempted((val) => !val), 2000);
-	// 	return () => {
-	// 		clearInterval(foo);
-	// 	};
-	// }, [token]);
-
 	return {
 		token,
 		isLoggedIn,
-		username,
+		tokenPayload,
 		isAutoLoginAttempted,
 		login,
 		logout,

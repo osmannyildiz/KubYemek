@@ -22,8 +22,8 @@ export default function LoginPage() {
 		event: React.FormEvent<HTMLFormElement>
 	) => {
 		const formData = new FormData(event.target as HTMLFormElement);
-		const email = formData.get("email");
-		const password = formData.get("password");
+		const email = formData.get("email")?.toString();
+		const password = formData.get("password")?.toString();
 
 		if (!email || !password) {
 			setLoginFormError(getErrMsg(ErrorType.requiredFieldEmpty));
@@ -35,8 +35,8 @@ export default function LoginPage() {
 			token = await loginAdminMutation.mutateAsync({
 				authApiClient,
 				data: {
-					email: email.toString(),
-					password: password.toString(),
+					email,
+					password,
 				},
 			});
 		} catch (error: any) {
