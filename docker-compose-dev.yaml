@@ -137,3 +137,21 @@ services:
     depends_on:
     - auth-api
     - admin-api
+
+  customer-frontend:
+    build:
+      context: .
+      dockerfile: dockerfiles/frontends/customer-frontend-dev.dockerfile
+    ports:
+      - 3002:3000
+    volumes:
+      - ./core:/app/core
+      - /app/core/node_modules
+      - ./frontends/customer-frontend:/app/frontends/customer-frontend
+      - /app/frontends/customer-frontend/node_modules
+      - /app/frontends/customer-frontend/.next
+    environment:
+      KUBYEMEK_ENV: dev-compose
+    depends_on:
+    - auth-api
+    - customer-api
