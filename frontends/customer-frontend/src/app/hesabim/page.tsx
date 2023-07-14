@@ -1,4 +1,11 @@
+"use client";
+
+import { useAuthContext } from "@/contexts/AuthContext";
+import { Button } from "react-bootstrap";
+
 export default function MyAccountPage() {
+	const { logout } = useAuthContext();
+
 	return (
 		<>
 			<h1>Hesabım</h1>
@@ -8,6 +15,9 @@ export default function MyAccountPage() {
 				quisquam aliquam exercitationem fugit iste. Nihil, quia minima hic est
 				et non.
 			</p>
+			<Button type="button" variant="danger" onClick={() => logout()}>
+				Çıkış Yap
+			</Button>
 		</>
 	);
 }

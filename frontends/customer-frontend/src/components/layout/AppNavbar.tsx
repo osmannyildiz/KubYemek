@@ -30,34 +30,37 @@ const items = [
 export default function AppNavbar() {
 	const { isLoggedIn } = useAuthContext();
 
-	// if (!isLoggedIn) {
-	// 	return <></>;
-	// }
+	if (!isLoggedIn) {
+		return <></>;
+	}
 
 	return (
-		<div className="fixed-bottom d-flex justify-content-center text-center bg-secondary-subtle rounded-top-4">
-			{items.map((i) => (
-				<Link
-					key={i.label}
-					href={i.href}
-					className="px-4 pt-1 pb-2 text-dark text-decoration-none"
-				>
-					<div
-						className="d-flex justify-content-center align-items-end"
-						style={{ height: "36px" }}
+		<>
+			<div style={{ height: "72px" }}></div>
+			<div className="fixed-bottom d-flex justify-content-center text-center bg-secondary-subtle rounded-top-4">
+				{items.map((i) => (
+					<Link
+						key={i.label}
+						href={i.href}
+						className="px-4 pt-1 pb-2 text-dark text-decoration-none"
 					>
-						<Icon
-							path={i.icon}
-							size={i.iconSize}
-							style={{
-								position: "relative",
-								top: i.iconOffsetY,
-							}}
-						/>
-					</div>
-					<small>{i.label}</small>
-				</Link>
-			))}
-		</div>
+						<div
+							className="d-flex justify-content-center align-items-end"
+							style={{ height: "36px" }}
+						>
+							<Icon
+								path={i.icon}
+								size={i.iconSize}
+								style={{
+									position: "relative",
+									top: i.iconOffsetY,
+								}}
+							/>
+						</div>
+						<small>{i.label}</small>
+					</Link>
+				))}
+			</div>
+		</>
 	);
 }

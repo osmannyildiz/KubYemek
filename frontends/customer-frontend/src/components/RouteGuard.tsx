@@ -22,16 +22,17 @@ export default function RouteGuard({ children }: Props) {
 	useEffect(() => {
 		switch (pathname) {
 			case "/giris-yap":
+			case "/kayit-ol":
 				if (isLoggedIn) {
 					router.replace("/");
 				}
 				break;
+
 			case "/":
-				break;
 			case "/urunler":
-				break;
 			case "/sepetim":
 				break;
+
 			default:
 				if (isAutoLoginAttempted && !isLoggedIn) {
 					router.push("/giris-yap");

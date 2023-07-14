@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Props) {
 						</head>
 						<body>
 							<AppHeader />
-							<main className="pt-3">
+							<main className="pt-3 pb-5">
 								<Container>
 									<RouteGuard>{children}</RouteGuard>
 								</Container>
